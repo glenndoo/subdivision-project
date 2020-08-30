@@ -51,6 +51,9 @@ $routes->get('datatable', "Users::datatable", ['filter' => 'auth']);
 $routes->add('searchByMonth', "sales/Sales::searchByMonth", ['filter' => 'auth']);
 $routes->add('showMembers', "sales/Sales::showMembers", ['filter' => 'auth']);
 $routes->add('memberPurchases', "sales/Sales::memberPurchases", ['filter' => 'auth']);
+$routes->add('clerkView', "sales/Sales::index", ['filter' => 'auth']);
+$routes->add('memberCredit', "sales/Sales::showMembers", ['filter' => 'auth']);
+$routes->add('payment', "sales/Sales::makePayment", ['filter' => 'auth']);
 
 /**
  * --------------------------------------------------------------------

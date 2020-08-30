@@ -56,8 +56,11 @@
           <li class="nav-item <?= ($uri->getSegment(1) == 'clerk' ? 'active' : null) ?> ">
             <a class="nav-link"  href="/clerk">Purchase</a>
           </li>
-          <li class="nav-item <?= ($uri->getSegment(1) == 'sales' ? 'active' : null) ?> ">
-            <a class="nav-link" href="/sales">Sales</a>
+          <li class="nav-item <?= ($uri->getSegment(1) == 'clerkView' ? 'active' : null) ?> ">
+            <a class="nav-link" href="/clerkView">Sales</a>
+          </li>
+          <li class="nav-item <?= ($uri->getSegment(1) == 'memberCredit' ? 'active' : null) ?> ">
+            <a class="nav-link" href="/memberCredit">Credits</a>
           </li>
           <ul class="navbar-nav my-2 my-lg-0">
             <li class="nav-item">

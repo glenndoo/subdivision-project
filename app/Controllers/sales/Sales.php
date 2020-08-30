@@ -20,7 +20,12 @@ class Sales extends BaseController{
     
     $data['sales'] = $model->showSearchDate($data);
     
-    return view('sales/viewAll', $data);
+    if(session()->get('access') == 1){
+      return view('sales/viewAll', $data);
+    }else{
+      return view('clerk/clerkView', $data);
+    }
+    
 }
 
 public function jsonSales(){
@@ -53,7 +58,12 @@ public function jsonSales(){
     $model = new CustomModel($db);
     $data['members'] = $model->showMembers();
     
-    return view('sales/members', $data);
+    if(session()->get('access') == 1){
+      return view('sales/members', $data);
+    }else{
+      return view('clerk/memberCredit', $data);
+    }
+    
    }
    
    public function memberPurchases(){
@@ -91,7 +101,21 @@ public function jsonSales(){
    }
    
    
-   public function searchByMonth(){
+   public function makePayment(){
 
+    $data = [
+        'sales_member_id' => $this->request->getVar('id'),
+        'sales_amount_paid' => $this->request->getVar('payment'),
+        'sales_payment_type' => "Cash",
+        'sales_item' => 1213,
+        'sales_quantity' => 1,
+        'sales_by' => session()->get('id'),
+
+    ];
+
+    $db = db_connect();
+    $pay = new CustomModel($db);
+    $res = $pay->makePayment($data);
+    return redirect()->to('/showMembers');
    }
    }

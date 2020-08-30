@@ -127,7 +127,7 @@ class CustomModel{
     $counter = $this->db->table('sales')
                     ->countAllResults();
     
-    $data['sales_id'] = 'WHAI00'.$counter;
+    $data['sales_id'] = 'WHAI00'.($counter+1);
     
     $this->db->table('sales')
              ->insert($data);
@@ -253,7 +253,6 @@ class CustomModel{
                       ->getResult();
       
       return $details;
-      
   }
   
 
@@ -289,5 +288,72 @@ class CustomModel{
                ->set($inventory)
                ->where('item_code =', $inventory['item_code'])
                ->update();
+  }
+
+
+  //MAKE PAYMENT
+  function makePayment($data){
+    $amountPaid = $data['sales_amount_paid'];
+    $counter = $this->db->table('sales')
+                    ->countAllResults();
+      $dt = 0;
+      $rows = 0;
+      $deduct = $this->db->table('sales')
+                      ->select('SUM(sales_credit_amount) AS credit')
+                      ->where('sales_member_id', $data['sales_member_id'])
+                      ->get()
+                      ->getResult();
+
+      foreach($deduct as $dd){
+        $dt = $dd->credit;
+      }
+
+      $count = $this->db->table('sales')
+      ->where('sales_member_id', $data['sales_member_id'])
+      ->where('sales_payment_type', "credit")
+      ->get()
+      ->getResult();
+
+
+
+    foreach($count as $ct){
+      $rows += 1;
+    }
+
+    $check =  $dt - $amountPaid;
+    
+    if($check >= 1){
+
+      $this->db->table("sales")
+      ->set('sales_credit_amount',$check/$rows)
+      ->where('sales_member_id =', $data['sales_member_id'])
+      ->where('sales_payment_type', 'credit')
+      ->update();
+
+      $data['sales_id'] = 'WHAI00'.($counter+1);
+      $this->db->table("sales")
+               ->insert($data);
+    }else if($check == 0){
+      $this->db->table("sales")
+      ->set('sales_credit_amount', 0)
+      ->where('sales_member_id =', $data['sales_member_id'])
+      ->where('sales_payment_type', 'credit')
+      ->update();
+      $data['sales_id'] = 'WHAI00'.($counter+1);
+    $this->db->table("sales")
+               ->insert($data);
+    }else{
+      $this->db->table("sales")
+      ->set('sales_credit_amount', $check/$rows)
+      ->where('sales_member_id =', $data['sales_member_id'])
+      ->where('sales_payment_type', 'credit')
+      ->update();
+      $data['sales_id'] = 'WHAI00'.($counter+1);
+    $this->db->table("sales")
+               ->insert($data);
+    }
+    
+
+    
   }
 }

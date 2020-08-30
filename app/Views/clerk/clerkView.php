@@ -2,21 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-light">
-    <div class="col-1 col-sm-2">
-    <a class="btn btn-primary" href="showMembers">Members</a>
-    <a class="btn btn-primary" href="/sales/sales/showMembers">Non Members</a>
-    </div>
 
-    <div class="form-group col-12 col-sm-2">
-      <form method="get" action="searchByMonth">
-    <input class="form-control" type="month" name="monthSelected" id="example-month-input">
-    <button class="btn btn-primary">Search by Month</button>
-      </form>
-    </div>
-    
-    
-</nav>
 
 
 <table id="sales" class="table" id="memberRecord">
@@ -70,32 +56,18 @@
         "columnDefs" : [{
             "render": function ( data, type, row ) {
                     {
-                    return '<a href="<?=base_url()?>/memberPurchases?id='+row['memberid']+'&name='+row['name']+'">'+data+'</a>';
+                    return data;
                     }
                 },
                 "targets": 1
-        },
-        {
-          "render": function ( data, type, row ) {
-                    {
-                    return 'PHP '+data;
-                    }
-                },
-                "targets": 5
         },
         {
                 "targets": [ 7 ],
                 "visible": false
             }],
  
-        "order" : [[6, "ASC"]],
-        
-        drawCallback: function () {
-        var sum = $('#sales').DataTable().column(4).data().sum();
-        var sumcred = $('#sales').DataTable().column(5).data().sum();
-        $('#salestotal').html("Total Sales in cash: <b>Php "+sum.toFixed(2)+"</b>");
-        $('#credittotal').html("Total Sales in credit: <b>Php "+sumcred.toFixed(2)+"</b>");
-      }	
+        "order" : [[6, "ASC"]]
+      	
         
         
         
