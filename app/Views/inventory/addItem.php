@@ -19,11 +19,13 @@
   <div class="form-group">
     <label for="category">Category</label>
     <select class="form-control" name="category" id="category">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
+      <option value="1">Canned Goods, Detergent, Fabcon</option>
+      <option value="2">LPG</option>
+      <option value="3">Rice</option>
+      <option value="4">Meat, Fish, Chicken</option>
+      <option value="5">Sim Card, Load Card</option>
+      <option value="6">Candy</option>
+      <option value="7">Miscellaneous</option>
     </select>
   </div>
     <div class="form-group">
