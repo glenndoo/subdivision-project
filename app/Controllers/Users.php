@@ -69,7 +69,8 @@ class Users extends BaseController
 					'user_first' => $this->request->getVar('firstname'),
 					'user_last' => $this->request->getVar('lastname'),
 					'user_login' => $this->request->getVar('username'),
-					'password' => $hashPass
+					'password' => $hashPass,
+					'user_access' => $this->request->getVar('access')
 				];
 				$model->save($newData);
 				$session = session();
@@ -88,8 +89,9 @@ class Users extends BaseController
 					'first' => $user['first'],
 					'last' => $user['last'],
 					'login' => $user['login'],
-                                        'id' => $user['id'],
+                    'id' => $user['id'],
 					'isLoggedIn' => true,
+					'access' => $user['access']
 				];
 
 				session()->set($data);

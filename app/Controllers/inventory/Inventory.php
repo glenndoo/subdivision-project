@@ -80,21 +80,46 @@ function jsonData(){
 }
 
     function updateItem(){
+        $price = 0;
+        $current = $this->request->getVar('updatedprice');
+        if($this->request->getVar('category') == 1){
+            $price = intval($current) * 1.15;            
+            echo $price;
+        }else if($this->request->getVar('category') == 2){
+            $price = intval($current)+50;    
+            echo $price;
+        }else if($this->request->getVar('category') == 3){
+            $price = intval($current)+150;    
+            echo $price;
+        }else if($this->request->getVar('category') == 4){
+            $price = intval($current)+30;    
+            echo $price;
+        }else if($this->request->getVar('category') == 5){
+            $price = intval($current) * 1.15;    
+            echo $price;
+        }else if($this->request->getVar('category') == 6){
+            $price = intval($current)+1;    
+            echo $price;
+        }else{
+            $price = intval($current)+1.2;    
+            echo $price;
+        }
         $data = [
             "item_code" => $this->request->getGet('id'),
             "item_prev_count" => $this->request->getVar('quantitycount'),
-            "item_added_qty" => $this->request->getVar('updatedquantity')
+            "item_added_qty" => $this->request->getVar('updatedquantity'),
+            "item_old_price" => $current,
+            "item_marked_up" => $price
         ];
-        
         $updated = [
             "item_code" => $this->request->getGet('id'),
-            "item_quantity" => $this->request->getVar('updatedquantity') + $this->request->getVar('quantitycount'),
+            "item_quantity" => intval($this->request->getVar('updatedquantity') + $this->request->getVar('quantitycount')),
             "item_name" => $this->request->getVar('itemnameupdate'),
-            "item_price" => $this->request->getVar('updatedprice'),
+            "item_price" => $price,
             "item_type" => $this->request->getVar('category')
         ];
         $db = db_connect();
-	$model = new CustomModel($db);
+	    $model = new CustomModel($db);
         $model->updateInventory($data, $updated);
         
         

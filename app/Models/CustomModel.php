@@ -30,6 +30,8 @@ class CustomModel{
 
   }
 
+
+  //LOGIN FUNCTION
   function model($data){
     $user = $this->db->table('users')
              ->where('user_login =', $data)
@@ -41,17 +43,22 @@ class CustomModel{
                      $user['last'] = $row->user_last;
                      $user['login'] = $row->user_login;
                      $user['id'] = $row->user_id;
+                     $user['access'] = $row->user_access;
              }
 
              
     return $user;
   }
 
+
+  // LOGIN LOGGER
   function loginTrack($data){
       $this->db->table('login_tracker')
               
                   ->insert($data);
   }
+
+  //UPDATE USER INFORMATION
   function update($data, $val){
     $user = $this->db->table('users')
                      ->set($data)
@@ -76,12 +83,14 @@ class CustomModel{
   }
 
   
-  
+  //INSERT NEW ITEM TO DB
   function saveItem(array $data){
     $this->db->table('items')
              ->insert($data);
   }
   
+
+  //DELETE ITEM FROM DB
     function deleteItem($data){
     $user = $this->db->table('items')
                      ->set($data)
@@ -92,6 +101,8 @@ class CustomModel{
 
   }
   
+
+  //QUERY ALL ITEMS FROM DB
   function searchItem($data){
     $item = $this->db->table('items')
              ->like('item_name', $data)
@@ -101,7 +112,7 @@ class CustomModel{
   }
   
   
-  //display order page
+  //DISPLAY ORDER PAGE
   function purchaseItem($data){
     $item = $this->db->table('items')
              ->where('item_code', $data)
@@ -110,6 +121,8 @@ class CustomModel{
     return $item;
   }
   
+
+  //INSERT ORDER TO DB
   function placeOrder($data, $stock){
     $counter = $this->db->table('sales')
                     ->countAllResults();
@@ -126,6 +139,8 @@ class CustomModel{
                      ->update();
   }
   
+
+  //DISPLAY ALL SALES DATA
   function showAllSales(){
 
                 $details = $this->db->table('members')
@@ -145,6 +160,8 @@ class CustomModel{
       return json_encode($details);
   }
   
+
+  //SEARCH BY DATE
   function searchDate($data){
          $item = $this->db->table('sales')
              ->like('sales_date', $data)
@@ -157,13 +174,13 @@ class CustomModel{
     return $item;
   }
   
-  
+  //LOGOUT LOGGER
   function logout($data){
              $this->db->table('login_tracker')
                   ->insert($data);
   }
   
-  
+  //SHOW ALL MEMBERS
   function showMembers(){
       $details = $this->db->table('members')
                       ->select('member_id, member_last, member_first, sum(sales_credit_amount) AS "totalCredit"')
@@ -176,6 +193,8 @@ class CustomModel{
       return $details;
   }
   
+
+  //LOGIN LOGGER
   function loginDetails($data){
       $details = $this->db->table('login_tracker')
                       ->select("tracker_user_id AS Id, tracker_status AS Status, tracker_date AS Date, tracker_id")
@@ -186,6 +205,8 @@ class CustomModel{
       return json_encode($details);
   }
   
+
+  //SHOW ALL MEMBER DETAILS
   function showMemberDetails($data){
       $details = $this->db->table('members')
                       ->where('member_id', $data)
@@ -199,6 +220,8 @@ class CustomModel{
       return $details;
   }
   
+
+  //SHOW MEMBER PURCHASE DATE
   function showMemberDate($data){
       $date = substr($data['now'], -2);
 
@@ -216,6 +239,8 @@ class CustomModel{
   }
   
   
+
+  //SHOW ALL MEMBER PURCHASE DATA
   function showSearchDate($data){
       $date = substr($data['now'], -2);
       
@@ -231,6 +256,8 @@ class CustomModel{
       
   }
   
+
+  //SHOW MEMBERS WHO PURCHASED
     function showMemberOrder(){
       $details = $this->db->table('members')
                       ->get()
@@ -251,6 +278,8 @@ class CustomModel{
     
   }
   
+
+  //UPDATE INVENTORY
   function updateInventory($update, $inventory){
       
       $this->db->table("inventory_transaction")

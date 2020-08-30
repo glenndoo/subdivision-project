@@ -13,7 +13,8 @@
       <?php
         $uri = service('uri');
        ?>
-      <?php if(session()->get('isLoggedIn')) : ?>
+      <?php if(session()->get('isLoggedIn') && session()->get('access') == 1) : ?>
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container">
           <a class="navbar-brand" href="/Dashboard">Home</a>
@@ -40,24 +41,40 @@
         </ul>
                 </div>
     </nav>
-      <?php else: ?>
+      <?php elseif(session()->get('isLoggedIn') && session()->get('access') == 2) : ?>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container">
+          <a class="navbar-brand" href="/Dashboard">Home</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <ul class="navbar-nav">
+          <li class="nav-item <?= ($uri->getSegment(1) == 'Dashboard' ? 'active' : null) ?> ">
+            <a class="nav-link"  href="/Dashboard">Dashboard</a>
+          </li>
+          </li>
+          <li class="nav-item <?= ($uri->getSegment(1) == 'clerk' ? 'active' : null) ?> ">
+            <a class="nav-link"  href="/clerk">Purchase</a>
+          </li>
+          <li class="nav-item <?= ($uri->getSegment(1) == 'sales' ? 'active' : null) ?> ">
+            <a class="nav-link" href="/sales">Sales</a>
+          </li>
+          <ul class="navbar-nav my-2 my-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          </ul>
+
+        </ul>
+                </div>
+    </nav>
+    <?php else :?>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container">
           <a class="navbar-brand" href="/">Home</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register">Register</a>
-          </li>
-        </ul>
-      </div>
           </div>
     </nav>
     <?php endif; ?>

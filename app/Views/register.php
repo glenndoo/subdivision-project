@@ -41,6 +41,12 @@
               <input type="password" class='form-control' name="passwordcon" value="">
             </div>
           </div>
+          <div class="col-12 col-sm-6">
+            <div class='form-group'>
+              <label for="passwordcon">Access Level</label>
+              <input type="number" class='form-control' name="access" value="">
+            </div>
+          </div>
           </div>
           <?php if(isset($validation)) : ?>
             <div class="col-12">
