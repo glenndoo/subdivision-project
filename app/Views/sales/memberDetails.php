@@ -41,7 +41,7 @@ Showing records of <i> <?= $name ?></i>
         <td><?= $row->item_name ?></td>
         <td><?= $row->sales_quantity ?></td>
         <td>Php <?= number_format($row->sales_total_amount, 2, '.', ',') ?></td>
-        <?php if($row->sales_payment_type == 'cash') : ?>
+        <?php if($row->sales_payment_type == 'Cash') : ?>
         <td>Php <?= number_format($row->sales_amount_paid, 2, '.', ',') ?></td>
         <?php else :?>
         <td>-------</td>
@@ -51,14 +51,14 @@ Showing records of <i> <?= $name ?></i>
         <?php else :?>
         <td>-------</td>
         <?php endif; ?>
-        <?php if($row->sales_payment_type == 'cash') : ?>
+        <?php if($row->sales_payment_type == 'Cash') : ?>
         <td>Cash</td>
         <?php else :?>
         <td>Credit</td>
         <?php endif; ?>
         <td><?= $row->sales_date ?></td>
         <td><?= $row->user_last ?>, <?= $row->user_first ?></td>
-         <?php if($row->sales_payment_type == 'cash') : ?>
+         <?php if($row->sales_payment_type == 'Cash') : ?>
         <?php $total += $row->sales_amount_paid ?>
         <?php else : ?>
         <?php $credit += $row->sales_credit_amount ?>

@@ -22,7 +22,6 @@
     <tr>
         <th scope="col">Member Name</th>
         <th scope="col">Credits</th>
-        <th scope="col">Make Payment</th>
     </tr>
   </thead>
   <tbody>
@@ -32,7 +31,6 @@
       <tr>
           <td><a href="<?=base_url()?>/memberPurchases?id=<?= $row->member_id ?>&name=<?= $row->member_last ?>, <?= $row->member_first ?>"><?= $row->member_last ?>, <?= $row->member_first ?></a></td>
           <td>Php <?= $row->totalCredit ?></td>
-          <td></td>
         <?php endforeach; ?>
           
       </tr>
