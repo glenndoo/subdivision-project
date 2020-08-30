@@ -216,7 +216,7 @@
         var table = $('#samples').DataTable
         ({
             "ajax": {
-            "url" : "http://whai.intelektbusiness.com/jsonData",
+            "url" : "<?=base_url()?>/jsonData",
             "dataSrc" : ""
         },"responsive": true,
             "sPaginationType": "full_numbers",
@@ -274,13 +274,13 @@
             document.getElementById("itemnameupdate").value = name;
             document.getElementById("quantitycount").value = qty;
             document.getElementById("updatedprice").value = price;
-            document.getElementById("updateAction").action = "http://whai.intelektbusiness.com/updateItem?id="+id;
+            document.getElementById("updateAction").action = "<?=base_url()?>/updateItem?id="+id;
         });
         
         $('#samples tbody').on('click', '[id*=btnRemove]', function () {
             var data = table.row($(this).parents('tr')).data();
             var id = data["Code"];
-            document.getElementById("removeAction").action = "http://whai.intelektbusiness.com/removeItem?id="+id;
+            document.getElementById("removeAction").action = "<?=base_url()?>/removeItem?id="+id;
         });
     });
 </script>

@@ -67,7 +67,7 @@
         var table = $('#samples').DataTable
         ({
             "ajax": {
-            "url" : "http://whai.intelektbusiness.com/jsonData",
+            "url" : "<?=base_url()?>/jsonData",
             "dataSrc" : ""
         },"responsive": true,
             "sPaginationType": "full_numbers",
@@ -109,7 +109,7 @@
             var name = data["Name"];
             var qty = data["Quantity"];
             var price = data["Price"];
-            window.open("http://whai.intelektbusiness.com/order?id="+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=500,width=500,height=1000");
+            window.open("<?=base_url()?>/order?id="+id, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=500,width=500,height=1000");
         });
     });
 </script>

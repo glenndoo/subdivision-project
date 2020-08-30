@@ -53,7 +53,7 @@
         ({ 
             "dom": 'l<"toolbar">frtip',
             "ajax": {
-            "url" : "http://whai.intelektbusiness.com/jsonSales",
+            "url" : "<?=base_url()?>/jsonSales",
             "dataSrc" : ""
         },"responsive": true,
             "sPaginationType": "full_numbers",
@@ -70,7 +70,7 @@
         "columnDefs" : [{
             "render": function ( data, type, row ) {
                     {
-                    return '<a href="http://whai.intelektbusiness.com/memberPurchases?id='+row['memberid']+'&name='+row['name']+'">'+data+'</a>';
+                    return '<a href="<?=base_url()?>/memberPurchases?id='+row['memberid']+'&name='+row['name']+'">'+data+'</a>';
                     }
                 },
                 "targets": 1

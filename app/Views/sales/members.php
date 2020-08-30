@@ -30,7 +30,7 @@
         <?php $total = 0 ?>
         <?php foreach($members as $row) : ?>
       <tr>
-          <td><a href="http://whai.intelektbusiness.com/memberPurchases?id=<?= $row->member_id ?>&name=<?= $row->member_last ?>, <?= $row->member_first ?>"><?= $row->member_last ?>, <?= $row->member_first ?></a></td>
+          <td><a href="<?=base_url()?>/memberPurchases?id=<?= $row->member_id ?>&name=<?= $row->member_last ?>, <?= $row->member_first ?>"><?= $row->member_last ?>, <?= $row->member_first ?></a></td>
           <td>Php <?= $row->totalCredit ?></td>
           <td></td>
         <?php endforeach; ?>

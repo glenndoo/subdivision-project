@@ -29,7 +29,7 @@
         var table = $('#records').DataTable
         ({
             "ajax": {
-            "url" : "http://whai.intelektbusiness.com/dashboard/loginRec",
+            "url" : "<?=base_url()?>/dashboard/loginRec",
             "dataSrc" : ""
         },"responsive": true,
             "sPaginationType": "full_numbers",
