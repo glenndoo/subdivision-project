@@ -141,11 +141,11 @@ class CustomModel{
   
 
   //DISPLAY ALL SALES DATA
-  function showAllSales(){
+  function showAllSales($date){
 
                 $details = $this->db->table('members')
                       ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType')                    
-                      ->where('MONTH(sales_date) = "'. date("m") .'"')
+                      ->where('DATE(sales_date) = "'. date($date) .'"')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->join('items', 'items.item_id = sales.sales_item')
                       ->join('users', 'users.user_id = sales_by')
@@ -244,7 +244,7 @@ class CustomModel{
   function showSearchDate($data){
       
                       $details = $this->db->table('members')
-                      ->where('MONTH(sales_date) = "'.date("m").'"')
+                      ->where('DATE(sales_date) = date("'.date("y-m-d").'")')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->join('items', 'items.item_id = sales.sales_item')
                       ->join('users', 'users.user_id = sales_by')

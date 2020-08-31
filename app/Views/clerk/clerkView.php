@@ -39,7 +39,7 @@
         ({ 
             "dom": 'l<"toolbar">frtip',
             "ajax": {
-            "url" : "<?=base_url()?>/jsonSales",
+            "url" : "<?=base_url()?>/jsonSales?date=<?= date("yy-m-d")?>",
             "dataSrc" : ""
         },"responsive": true,
             "sPaginationType": "full_numbers",

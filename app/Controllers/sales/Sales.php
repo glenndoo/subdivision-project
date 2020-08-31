@@ -7,18 +7,17 @@ class Sales extends BaseController{
 
 
   public function index(){
-               $data = [
-      'meta-title' => '',
-      'title' => 'Sales',
-    ];
-    
-    $data['name'] = $this->request->getGet('name');
-    $data['id'] = $this->request->getGet('id');
-    $db = db_connect();
-    $model = new CustomModel($db);
-    
-    $data['sales'] = $model->showSearchDate($data);
-    
+        $data = [
+          'meta-title' => '',
+          'title' => 'Sales',
+        ];
+
+        if($this->request->getGet("dateSelected")==null){
+          $data['dateNow'] = date("yy-m-d");
+        }else{
+          $data['dateNow'] = $this->request->getGet("dateSelected");
+        }
+
     if(session()->get('access') == 1){
       return view('sales/viewAll', $data);
     }else{
@@ -28,13 +27,13 @@ class Sales extends BaseController{
 }
 
 public function jsonSales(){
-    $data['now'] = date("yy-m-d");
-    $db = db_connect();
-    $model = new CustomModel($db);
+  $dt = $this->request->getGet('date');
+  $db = db_connect();
+  $model = new CustomModel($db);
+  
+  $info['sales'] = $model->showAllSales($dt);
     
-    $data['sales'] = $model->showAllSales($data);
-    
-    return $data['sales'];
+    return $info['sales'];
 }
 
    public function searchSales(){

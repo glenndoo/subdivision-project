@@ -6,10 +6,16 @@
 <div class="container-fluid">
 <div class="row">
     <div class="col-sm-3">
-      Displaying records for the month of <h1><i><?= date("F", strtotime(date('y-m-d'))); ?></i></h1>
+      Displaying records for <h1><i><?= $dateNow ?></i></h1>
     </div>
     <div class="col-sm-3">
       <a class="btn btn-primary" href="showMembers">Members</a>
+    </div>
+    <div class="col-sm-3">
+      <form method="get" action="/sales">
+      <input class="form-control" type="date" name="dateSelected" id="example-date-input">
+      <button class="btn btn-primary">Search by Day</button>
+      </form>
     </div>
     <div class="col-sm-3">
       <form method="get" action="searchByMonth">
@@ -61,7 +67,7 @@
         ({ 
             "dom": 'l<"toolbar">frtip',
             "ajax": {
-            "url" : "<?=base_url()?>/jsonSales",
+            "url" : "<?=base_url()?>/jsonSales?date=<?= $dateNow ?>",
             "dataSrc" : ""
         },"responsive": true,
             "sPaginationType": "full_numbers",
