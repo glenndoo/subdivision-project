@@ -17,13 +17,13 @@
         </i></h1>
     </div>
 
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <form method="get" action="/inventorySummary">
       <input class="form-control" type="date" name="dateSelected" id="example-date-input">
       <button class="btn btn-primary">Search by Day</button>
       </form>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <form method="get" action="/inventorySummary">
       <input class="form-control" type="month" name="dateSelected" id="example-month-input">
       <button class="btn btn-primary">Search by Month</button>
@@ -61,6 +61,7 @@
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.21/api/sum().js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
 
 <script type="text/javascript">
     $(function () {
@@ -70,13 +71,17 @@
             "ajax": {
             "url" : "<?=base_url()?>/jsonInventory?date=<?= $dateNow ?>",
             "dataSrc" : ""
-        },"responsive": true,
+        },
+        "responsive": true,
             "sPaginationType": "full_numbers",
         "columns": [
             {"data": "Item"},
             {"data": "Total"}
         ],
         "order" : [[1, "ASC"]],
+        "buttons": [
+            'print'
+        ],
         
         
         
