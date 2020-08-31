@@ -11,8 +11,8 @@
         the Month of <h1><i><?= date("F", mktime(0, 0, 0, $month, 10));  ?>
       <?php else : ?>
         <h1><i><?= $dateNow ?>
-      <?php endif; ?>  
         
+      <?php endif; ?>  
         
         </i></h1>
     </div>

@@ -118,7 +118,9 @@ function jsonData(){
             "item_prev_count" => $this->request->getVar('quantitycount'),
             "item_added_qty" => $this->request->getVar('updatedquantity'),
             "item_old_price" => $current,
-            "item_marked_up" => $price
+            "item_marked_up" => $price,
+            "item_current_count" => $this->request->getVar('quantitycount') + $this->request->getVar('updatedquantity'),
+            "transaction_type" => 1
         ];
         $updated = [
             "item_code" => $this->request->getGet('id'),

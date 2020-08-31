@@ -85,7 +85,7 @@
                 // this case `data: 0`.
                 "render": function ( data, type, row ) {
                     {
-                    return '<progress class="progress-bar bg-warning" role="progressbar" style="width: '+data+'%;" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100">'+data +'</td>';
+                    return '<progress class="progress-bar bg-success" role="progressbar" style="width: '+data+'%;" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100">'+data +'</td>';
                     }
                 },
                 "targets": 3

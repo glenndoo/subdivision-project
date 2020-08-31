@@ -31,7 +31,7 @@ function display() {
         <div class="row">
             <div class="col">
                 <label for="itemcode">Item Code</label>
-                <input type="text" class="form-control" name="itemcode" id="itemcode" placeholder="sample123" value='<?= $it->item_code ?>' readonly>
+                <input type="text" class="form-control" name="itemcode" id="itemcode" placeholder="sample123" value='<?= $it->item_id ?>' readonly>
             </div>
             <div class="col">
                  <label for="itemname">Item Name</label>

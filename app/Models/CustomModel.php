@@ -115,7 +115,7 @@ class CustomModel{
   //DISPLAY ORDER PAGE
   function purchaseItem($data){
     $item = $this->db->table('items')
-             ->where('item_code', $data)
+             ->where('item_id', $data)
              ->get()
              ->getResult();
     return $item;
@@ -123,7 +123,7 @@ class CustomModel{
   
 
   //INSERT ORDER TO DB
-  function placeOrder($data, $stock){
+  function placeOrder($data, $stock, $current){
     $counter = $this->db->table('sales')
                     ->countAllResults();
     
@@ -131,8 +131,18 @@ class CustomModel{
     
     $this->db->table('sales')
              ->insert($data);
-    
-    
+
+             $items = [
+              'item_code' => $data['sales_item'],
+              'item_added_qty' => intval($data['sales_quantity'])*(-1),
+              'item_prev_count' => $current,
+              'item_current_count' => $stock,
+              'transaction_type' => 0
+          ];
+
+    $this->db->table('inventory_transaction')
+            ->insert($items);
+
     $this->db->table('items')
                      ->set('item_quantity', $stock)
                      ->where('item_id =', $data['sales_item'])
@@ -291,7 +301,7 @@ class CustomModel{
   function json(){
       $items = $this->db->table("items")
          ->join('users', 'items.item_added_by = users.user_id')
-         ->select('CONCAT(users.user_last, ", ", users.user_first) AS Username, item_name AS Name, item_code as Code, item_quantity as Quantity, item_price as Price, item_type AS Category')
+         ->select('CONCAT(users.user_last, ", ", users.user_first) AS Username, item_name AS Name, item_id as Code, item_quantity as Quantity, item_price as Price, item_type AS Category')
          ->orderBy("item_name")
          ->get()
          ->getResult();
@@ -309,7 +319,7 @@ class CustomModel{
                
       $this->db->table("items")
                ->set($inventory)
-               ->where('item_code =', $inventory['item_code'])
+               ->where('item_id =', $inventory['item_code'])
                ->update();
   }
 
@@ -383,19 +393,23 @@ class CustomModel{
 
   //INVENTORY REPORT
   function inventoryReport($data){
-    if(strlen($data) == 10){
+    if(strlen($data) != null){
+      $date = substr($data, -2);
       $report = $this->db->table('items')
-      ->join('sales', "item_id = sales.sales_item")
-      ->select('sum(sales_quantity) AS Total, item_name AS Item')
-      ->where('DATE(sales_date) = "'. date($data) .'"')
+      ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
+      ->where("transaction_type = 1")
+      ->where('MONTH(transaction_date) = "'.$date.'"')
+      ->select('item_name AS Item, item_current_count as Replenish, item_quantity AS Current, ABS(item_current_count - item_quantity) AS Sold')
       ->groupBy('item_name')
       ->get()
       ->getResult();
     }else{
+      $date = substr($data, -2);
       $report = $this->db->table('items')
-      ->join('sales', "item_id = sales.sales_item")
-      ->select('sum(sales_quantity) AS Total, item_name AS Item')
-      ->where('MONTH(sales_date) = "'. date($data) .'"')
+      ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
+      ->where("transaction_type = 1")
+      ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), 2).'"')
+      ->select('item_name AS Item, item_current_count as Replenish, item_quantity AS Current, ABS(item_current_count - item_quantity) AS Sold')
       ->groupBy('item_name')
       ->get()
       ->getResult();

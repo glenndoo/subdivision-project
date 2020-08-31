@@ -96,18 +96,20 @@ class Clerk extends BaseController{
                             ];
                             if($items['sales_payment_type'] == "cash"){
                                 $stock = $this->request->getVar('stock') - $items['sales_quantity'];
+                                $current = $this->request->getVar('stock');
                                 $items['sales_credit_amount'] = 0;
                             $db = db_connect();
                                 $model = new CustomModel($db);
-                                $model->placeOrder($items, $stock);
+                                $model->placeOrder($items, $stock, $current);
                                 $session = session();
                                                         $session->setFlashData('success', 'Order placed!');
                                                         return redirect()->to('/clerk');
                             }else{
                                 $stock = $this->request->getVar('stock') - $items['sales_quantity'];
+                                $current = $this->request->getVar('stock');
                                 $items['sales_amount_paid'] = 0;
                                 $model = new CustomModel($db);
-                                $model->placeOrder($items, $stock);
+                                $model->placeOrder($items, $stock, $current);
                                 $session = session();
                                                         $session->setFlashData('success', 'Order placed!');
                                                         return redirect()->to('/clerk');

@@ -5,7 +5,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-light">
 <div class="container-fluid">
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       Displaying records for 
       <?php if(isset($month)) : ?>
         the Month of <h1><i><?= date("F", mktime(0, 0, 0, $month, 10));  ?>
@@ -18,10 +18,7 @@
     </div>
 
     <div class="col-sm-4">
-      <form method="get" action="/inventorySummary">
-      <input class="form-control" type="date" name="dateSelected" id="example-date-input">
-      <button class="btn btn-primary">Search by Day</button>
-      </form>
+
     </div>
     <div class="col-sm-4">
       <form method="get" action="/inventorySummary">
@@ -44,7 +41,9 @@
   <thead class="thead-dark">
     <tr>
         <th scope="col">Item</th>
-      <th scope="col">Quantity Sold</th>
+      <th scope="col">Replenishment Count</th>
+      <th scope="col">Current Count</th>
+      <th scope="col">Items Sold</th>
     </tr>
   </thead>
   <tbody>
@@ -76,7 +75,10 @@
             "sPaginationType": "full_numbers",
         "columns": [
             {"data": "Item"},
-            {"data": "Total"}
+            {"data": "Replenish"},
+            {"data": "Current"},
+            {"data": "Sold"}
+
         ],
         "order" : [[1, "ASC"]],
         "buttons": [
