@@ -14,7 +14,6 @@ class Sales extends BaseController{
     
     $data['name'] = $this->request->getGet('name');
     $data['id'] = $this->request->getGet('id');
-    $data['now'] = $this->request->getGet('monthSelected');
     $db = db_connect();
     $model = new CustomModel($db);
     

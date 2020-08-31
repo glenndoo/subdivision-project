@@ -29,6 +29,9 @@
           <li class="nav-item <?= ($uri->getSegment(1) == 'inventory' ? 'active' : null) ?> ">
             <a class="nav-link" href="/inventory">Inventory</a>
           </li>
+          <li class="nav-item <?= ($uri->getSegment(1) == 'inventorySummary' ? 'active' : null) ?> ">
+            <a class="nav-link" href="/inventorySummary">Inventory Summary</a>
+          </li>
           <li class="nav-item <?= ($uri->getSegment(1) == 'sales' ? 'active' : null) ?> ">
             <a class="nav-link" href="/sales">Sales</a>
           </li>

@@ -126,4 +126,10 @@ function jsonData(){
         return redirect()->to('/inventory');
 
     }
+
+    public function inventorySummary(){
+        $db = db_connect();
+        $inv = new CustomModel($db);
+        $inv->inventoryReport();
+    }
 }

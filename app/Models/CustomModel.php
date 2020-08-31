@@ -145,7 +145,7 @@ class CustomModel{
 
                 $details = $this->db->table('members')
                       ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType')                    
-                      ->where('YEAR(sales_date) = "'. date("Y/m") .'"')
+                      ->where('MONTH(sales_date) = "'. date("m") .'"')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->join('items', 'items.item_id = sales.sales_item')
                       ->join('users', 'users.user_id = sales_by')
@@ -242,9 +242,9 @@ class CustomModel{
 
   //SHOW ALL MEMBER PURCHASE DATA
   function showSearchDate($data){
-      $date = substr($data['now'], -2);
       
                       $details = $this->db->table('members')
+                      ->where('MONTH(sales_date) = "'.date("m").'"')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->join('items', 'items.item_id = sales.sales_item')
                       ->join('users', 'users.user_id = sales_by')
@@ -252,7 +252,7 @@ class CustomModel{
                       ->get()
                       ->getResult();
       
-      return $details;
+      return json_encode($details);
   }
   
 
@@ -336,6 +336,7 @@ class CustomModel{
     }else if($check == 0){
       $this->db->table("sales")
       ->set('sales_credit_amount', 0)
+      ->set('sales_payment_type', "cash")
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
@@ -352,7 +353,24 @@ class CustomModel{
     $this->db->table("sales")
                ->insert($data);
     }
+
     
+  }
+
+
+  //INVENTORY REPORT
+  function inventoryReport(){
+    $report = $this->db->table('items')
+             ->join('sales', "item_id = sales.sales_item")
+             ->select('sum(sales_quantity) AS Total, item_name')
+             ->groupBy('item_name')
+             ->get()
+             ->getResult();
+
+             foreach($report as $rep){
+               echo $rep->item_name.' QTY : '.$rep->Total;
+               echo '<br />';
+             }
 
     
   }

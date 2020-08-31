@@ -54,6 +54,7 @@ $routes->add('memberPurchases', "sales/Sales::memberPurchases", ['filter' => 'au
 $routes->add('clerkView', "sales/Sales::index", ['filter' => 'auth']);
 $routes->add('memberCredit', "sales/Sales::showMembers", ['filter' => 'auth']);
 $routes->add('payment', "sales/Sales::makePayment", ['filter' => 'auth']);
+$routes->add('inventorySummary', "inventory/Inventory::inventorySummary", ['filter' => 'auth']);
 
 /**
  * --------------------------------------------------------------------

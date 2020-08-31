@@ -3,17 +3,25 @@
 <?= $this->section('content') ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-light">
-    <div class="col-1 col-sm-2">
-    <a class="btn btn-primary" href="showMembers">Members</a>
-    <a class="btn btn-primary" href="/sales/sales/showMembers">Non Members</a>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-sm-3">
+      Displaying records for the month of <h1><i><?= date("F", strtotime(date('y-m-d'))); ?></i></h1>
     </div>
-
-    <div class="form-group col-12 col-sm-2">
+    <div class="col-sm-3">
+      <a class="btn btn-primary" href="showMembers">Members</a>
+    </div>
+    <div class="col-sm-3">
       <form method="get" action="searchByMonth">
-    <input class="form-control" type="month" name="monthSelected" id="example-month-input">
-    <button class="btn btn-primary">Search by Month</button>
+      <input class="form-control" type="month" name="monthSelected" id="example-month-input">
+      <button class="btn btn-primary">Search by Month</button>
       </form>
     </div>
+</div>
+</div>
+    
+      
+
     
     
 </nav>
