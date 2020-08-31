@@ -11,6 +11,15 @@ class Inventory extends BaseController{
                 'title' => 'Inventory',
         ];
 
+        if($this->request->getGet("dateSelected") == null){
+            $data['dateNow'] = date("yy-m-d");
+          }else if(strlen($this->request->getGet("dateSelected")) == 10){
+            $data['dateNow'] = $this->request->getGet("dateSelected");
+          }else if(strlen($this->request->getGet("dateSelected")) == 7){
+            $data['dateNow'] = substr($data['dateNow'] = $this->request->getGet("dateSelected"), -2);
+            $data['month'] = $data['dateNow'];
+          }else{
+          }
         
         return view('inventory/inventory', $data);
                 
@@ -128,8 +137,30 @@ function jsonData(){
     }
 
     public function inventorySummary(){
+        $data = [
+            'meta-title' => '',
+            'title' => 'Inventory Summary',
+          ];
+  
+          if($this->request->getGet("dateSelected") == null){
+            $data['dateNow'] = date("yy-m-d");
+          }else if(strlen($this->request->getGet("dateSelected")) == 10){
+            $data['dateNow'] = $this->request->getGet("dateSelected");
+          }else if(strlen($this->request->getGet("dateSelected")) == 7){
+            $data['dateNow'] = substr($data['dateNow'] = $this->request->getGet("dateSelected"), -2);
+            $data['month'] = $data['dateNow'];
+          }else{
+          }
+
+        return view("inventory/invSum", $data);
+    }
+
+    public function jsonInventory(){
+        $date = $this->request->getGet("date");
         $db = db_connect();
         $inv = new CustomModel($db);
-        $inv->inventoryReport();
+        $report = $inv->inventoryReport($date);
+
+        return $report;
     }
 }

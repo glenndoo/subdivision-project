@@ -142,8 +142,8 @@ class CustomModel{
 
   //DISPLAY ALL SALES DATA
   function showAllSales($date){
-
-                $details = $this->db->table('members')
+  if(strlen($date) == 10){
+    $details = $this->db->table('members')
                       ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType')                    
                       ->where('DATE(sales_date) = "'. date($date) .'"')
                       ->join('sales', 'sales.sales_member_id = member_id')
@@ -152,6 +152,29 @@ class CustomModel{
                       ->orderBy('sales_date', 'ASC')
                       ->get()
                       ->getResult();
+  }else if(strlen($date) == 2){
+    $details = $this->db->table('members')
+                      ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType')                    
+                      ->where('MONTH(sales_date) = "'. date($date) .'"')
+                      ->join('sales', 'sales.sales_member_id = member_id')
+                      ->join('items', 'items.item_id = sales.sales_item')
+                      ->join('users', 'users.user_id = sales_by')
+                      ->orderBy('sales_date', 'ASC')
+                      ->get()
+                      ->getResult();
+  }else{
+      $details = $this->db->table('members')
+      ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType')                    
+      ->where('YEAR(sales_date) = "'. date($date) .'"')
+      ->join('sales', 'sales.sales_member_id = member_id')
+      ->join('items', 'items.item_id = sales.sales_item')
+      ->join('users', 'users.user_id = sales_by')
+      ->orderBy('sales_date', 'ASC')
+      ->get()
+      ->getResult();
+    }
+  
+                
                 $dt = $this->db->table('sales')
                       ->select('SUM(sales_amount_paid) AS TotalCash')
                       ->get()
@@ -359,19 +382,27 @@ class CustomModel{
 
 
   //INVENTORY REPORT
-  function inventoryReport(){
-    $report = $this->db->table('items')
-             ->join('sales', "item_id = sales.sales_item")
-             ->select('sum(sales_quantity) AS Total, item_name')
-             ->groupBy('item_name')
-             ->get()
-             ->getResult();
+  function inventoryReport($data){
+    if(strlen($data) == 10){
+      $report = $this->db->table('items')
+      ->join('sales', "item_id = sales.sales_item")
+      ->select('sum(sales_quantity) AS Total, item_name AS Item')
+      ->where('DATE(sales_date) = "'. date($data) .'"')
+      ->groupBy('item_name')
+      ->get()
+      ->getResult();
+    }else{
+      $report = $this->db->table('items')
+      ->join('sales', "item_id = sales.sales_item")
+      ->select('sum(sales_quantity) AS Total, item_name AS Item')
+      ->where('MONTH(sales_date) = "'. date($data) .'"')
+      ->groupBy('item_name')
+      ->get()
+      ->getResult();
+    }
+    
 
-             foreach($report as $rep){
-               echo $rep->item_name.' QTY : '.$rep->Total;
-               echo '<br />';
-             }
-
+    return json_encode($report);
     
   }
 }

@@ -16,17 +16,15 @@
         
         </i></h1>
     </div>
+
     <div class="col-sm-3">
-      <a class="btn btn-primary" href="showMembers">Members</a>
-    </div>
-    <div class="col-sm-3">
-      <form method="get" action="/sales">
+      <form method="get" action="/inventorySummary">
       <input class="form-control" type="date" name="dateSelected" id="example-date-input">
       <button class="btn btn-primary">Search by Day</button>
       </form>
     </div>
     <div class="col-sm-3">
-      <form method="get" action="/sales">
+      <form method="get" action="/inventorySummary">
       <input class="form-control" type="month" name="dateSelected" id="example-month-input">
       <button class="btn btn-primary">Search by Month</button>
       </form>
@@ -45,14 +43,8 @@
 <table id="sales" class="table" id="memberRecord">
   <thead class="thead-dark">
     <tr>
-        <th scope="col">Transaction ID</th>
-      <th scope="col">Name</th>
-      <th scope="col">Item</th>
-      <th scope="col">Quantity Bought</th>
-      <th scope="col">Cash Paid</th>
-      <th scope="col">Credit</th>
-      <th scope="col">Sales Date</th>
-      <th scope="col">Sales Date</th>
+        <th scope="col">Item</th>
+      <th scope="col">Quantity Sold</th>
     </tr>
   </thead>
   <tbody>
@@ -76,49 +68,15 @@
         ({ 
             "dom": 'l<"toolbar">frtip',
             "ajax": {
-            "url" : "<?=base_url()?>/jsonSales?date=<?= $dateNow ?>",
+            "url" : "<?=base_url()?>/jsonInventory?date=<?= $dateNow ?>",
             "dataSrc" : ""
         },"responsive": true,
             "sPaginationType": "full_numbers",
         "columns": [
-            {"data": "salesid"},
-            {"data": "name"},
             {"data": "Item"},
-            {"data": "Quantity"},
-            {"data": "Paid"},
-            {"data": "Credit"},
-            {"data": "Date"},
-            {"data": "memberid"}
-        ], 
-        "columnDefs" : [{
-            "render": function ( data, type, row ) {
-                    {
-                    return '<a href="<?=base_url()?>/memberPurchases?id='+row['memberid']+'&name='+row['name']+'">'+data+'</a>';
-                    }
-                },
-                "targets": 1
-        },
-        {
-          "render": function ( data, type, row ) {
-                    {
-                    return 'PHP '+data;
-                    }
-                },
-                "targets": 5
-        },
-        {
-                "targets": [ 7 ],
-                "visible": false
-            }],
- 
-        "order" : [[6, "ASC"]],
-        
-        drawCallback: function () {
-        var sum = $('#sales').DataTable().column(4).data().sum();
-        var sumcred = $('#sales').DataTable().column(5).data().sum();
-        $('#salestotal').html("Total Sales in cash: <b>Php "+sum.toFixed(2)+"</b>");
-        $('#credittotal').html("Total Sales in credit: <b>Php "+sumcred.toFixed(2)+"</b>");
-      }	
+            {"data": "Total"}
+        ],
+        "order" : [[1, "ASC"]],
         
         
         
