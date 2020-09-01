@@ -80,10 +80,15 @@
             {"data": "Sold"}
 
         ],
-        "order" : [[1, "ASC"]],
-        "buttons": [
-            'print'
-        ],
+        "order" : [[3, "ASC"]],
+        "columnDefs" : [{
+            "render": function ( data, type, row ) {
+                    {
+                    return 'PHP '+data;
+                    }
+                },
+                "targets": 1
+        }
         
         
         

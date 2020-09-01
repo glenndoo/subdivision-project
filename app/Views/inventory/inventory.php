@@ -253,6 +253,14 @@
                     }
                 },
                 "targets": 7
+            },
+            {
+                "render": function (data, type, row) {
+                    {
+                    return 'Php '+data;
+                    }
+                },
+                "targets": 5
             }
         ],
         "order" : [[1, "asc"]],
