@@ -115,20 +115,17 @@ function jsonData(){
         }
         $data = [
             "item_code" => $this->request->getGet('id'),
-            "item_prev_count" => $this->request->getVar('quantitycount'),
-            "item_added_qty" => $this->request->getVar('updatedquantity'),
             "item_old_price" => $current,
             "item_marked_up" => $price,
-            "item_current_count" => $this->request->getVar('quantitycount') + $this->request->getVar('updatedquantity'),
             "transaction_type" => 1
         ];
         $updated = [
             "item_code" => $this->request->getGet('id'),
-            "item_quantity" => intval($this->request->getVar('updatedquantity') + $this->request->getVar('quantitycount')),
             "item_name" => $this->request->getVar('itemnameupdate'),
             "item_price" => $price,
             "item_type" => $this->request->getVar('category')
         ];
+
         $db = db_connect();
 	    $model = new CustomModel($db);
         $model->updateInventory($data, $updated);
@@ -145,7 +142,7 @@ function jsonData(){
           ];
   
           if($this->request->getGet("dateSelected") == null){
-            $data['dateNow'] = date("yy-m-d");
+            $data['dateNow'] = date("yy-m");
           }else if(strlen($this->request->getGet("dateSelected")) == 10){
             $data['dateNow'] = $this->request->getGet("dateSelected");
           }else if(strlen($this->request->getGet("dateSelected")) == 7){
@@ -164,5 +161,30 @@ function jsonData(){
         $report = $inv->inventoryReport($date);
 
         return $report;
+    }
+
+
+    public function replenish(){
+        $data = [
+
+            'item_code' => $this->request->getVar("replenishItem"),
+            'item_current_count' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
+            'item_added_qty' =>  $this->request->getVar("replenishQty"),
+            'item_prev_count' => $this->request->getVar("replenishCount")
+        ];
+        $updated = [
+
+            'item_code' => $this->request->getVar("replenishItem"),
+            'item_quantity' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
+
+        ];
+
+        $db = db_connect();
+	    $model = new CustomModel($db);
+        $model->updateInventory($data, $updated);
+        
+        
+        return redirect()->to('/inventory');
+
     }
 }

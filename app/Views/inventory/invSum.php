@@ -10,7 +10,7 @@
       <?php if(isset($month)) : ?>
         the Month of <h1><i><?= date("F", mktime(0, 0, 0, $month, 10));  ?>
       <?php else : ?>
-        <h1><i><?= $dateNow ?>
+        <h1><i><?= date("F", mktime(0, 0, 0, substr($dateNow, -2), 10));  ?>
       <?php endif; ?>  
         
         
@@ -41,7 +41,7 @@
   <thead class="thead-dark">
     <tr>
         <th scope="col">Item</th>
-      <th scope="col">Replenishment Count</th>
+      <th scope="col">Ending inventory as of <?= date("F", mktime(0, 0, 0, substr($dateNow, -2)-1, 10)); ?></th>
       <th scope="col">Current Count</th>
       <th scope="col">Items Sold</th>
     </tr>
@@ -81,14 +81,7 @@
 
         ],
         "order" : [[3, "ASC"]],
-        "columnDefs" : [{
-            "render": function ( data, type, row ) {
-                    {
-                    return 'PHP '+data;
-                    }
-                },
-                "targets": 1
-        }
+        
         
         
         

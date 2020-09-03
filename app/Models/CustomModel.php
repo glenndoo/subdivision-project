@@ -137,7 +137,7 @@ class CustomModel{
               'item_added_qty' => intval($data['sales_quantity'])*(-1),
               'item_prev_count' => $current,
               'item_current_count' => $stock,
-              'transaction_type' => 0
+              'transaction_type' => 1
           ];
 
     $this->db->table('inventory_transaction')
@@ -313,7 +313,6 @@ class CustomModel{
 
   //UPDATE INVENTORY
   function updateInventory($update, $inventory){
-      
       $this->db->table("inventory_transaction")
                ->insert($update);
                
@@ -397,19 +396,18 @@ class CustomModel{
       $date = substr($data, -2);
       $report = $this->db->table('items')
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
-      ->where("transaction_type = 1")
       ->where('MONTH(transaction_date) = "'.$date.'"')
-      ->select('item_name AS Item, item_current_count as Replenish, item_quantity AS Current, ABS(item_current_count - item_quantity) AS Sold')
+      ->where('transaction_type', 0)
+      ->select('item_name AS Item, item_prev_count as Replenish, item_quantity AS Current, ABS(item_current_count - item_quantity) AS Sold')
       ->groupBy('item_name')
       ->get()
       ->getResult();
     }else{
-      $date = substr($data, -2);
       $report = $this->db->table('items')
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
-      ->where("transaction_type = 1")
-      ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), 2).'"')
-      ->select('item_name AS Item, item_current_count as Replenish, item_quantity AS Current, ABS(item_current_count - item_quantity) AS Sold')
+      ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), -2).'"')
+      ->where('transaction_type', 0)
+      ->select('item_name AS Item, item_prev_count as Replenish, item_quantity AS Current, ABS(item_current_count - item_quantity) AS Sold')
       ->groupBy('item_name')
       ->get()
       ->getResult();

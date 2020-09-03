@@ -56,6 +56,7 @@ $routes->add('memberCredit', "sales/Sales::showMembers", ['filter' => 'auth']);
 $routes->add('payment', "sales/Sales::makePayment", ['filter' => 'auth']);
 $routes->add('inventorySummary', "inventory/Inventory::inventorySummary", ['filter' => 'auth']);
 $routes->add('jsonInventory', "inventory/Inventory::jsonInventory", ['filter' => 'auth']);
+$routes->add('replenishItem', "inventory/Inventory::replenish", ['filter' => 'auth']);
 
 /**
  * --------------------------------------------------------------------

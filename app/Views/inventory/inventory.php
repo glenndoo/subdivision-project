@@ -23,7 +23,6 @@
       <th>Item Name</th>
       <th>Category</th>
       <th>Quantity</th>
-      <th>Quantity</th>
       <th>Price</th>
       <th>Added By</th>
       <th>Options</th>
@@ -74,11 +73,11 @@
   </div>
     <div class="form-group">
     <label for="quantity">Quantity</label>
-    <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Number only">
+    <input type="number" step="0.01" class="form-control" name="quantity" id="quantity" placeholder="Number only">
   </div>
         <div class="form-group">
     <label for="price">Price</label>
-    <input type="number" class="form-control" name="price" id="quantity" placeholder="Number only">
+    <input type="number" step="0.01" class="form-control" name="price" id="quantity" placeholder="Number only">
   </div>
     
 
@@ -140,15 +139,9 @@
       <option value="7">Miscellaneous</option>
     </select>
   </div>
-    <div class="form-group">
-        <label for="quantity">Current Quantity</label>
-        <input type="number" class="form-control" name="quantitycount" id="quantitycount" readonly="readonly">
-    <label for="quantity">Quantity</label>
-    <input type="number" class="form-control" name="updatedquantity" id="updatedquantity" placeholder="Number only">
-  </div>
         <div class="form-group">
     <label for="price">Price</label>
-    <input type="number" class="form-control" name="updatedprice" id="updatedprice" placeholder="Number only">
+    <input type="number" step="0.01" class="form-control" name="updatedprice" id="updatedprice" placeholder="Number only">
   </div>
     
 
@@ -210,6 +203,61 @@
 
 </div>
 </div>
+
+<!--MODAL FOR REPLENISHING-->
+<div class="container">
+
+    <div id="replenish" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Replenish Item</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p><div class="container">
+
+    <form method="post" id="replenishAction" action="">
+  <div class="form-group">
+    <label for="itemcode">Item Code</label>
+    <input type="text" class="form-control" name="replenishItem" id="replenishItem" placeholder="sample123" value='' readonly="readonly">
+  </div>
+  <div class="form-group">
+    <label for="itemname">Item Name</label>
+    <input type="text" class="form-control" name="replenishName" id="replenishName" placeholder="Sprite">
+  </div>
+
+  <div class="form-group">
+        <label for="quantity">Current Quantity</label>
+        <input type="number" class="form-control" name="replenishCount" id="replenishCount" readonly="readonly">
+    <label for="quantity">Quantity</label>
+    <input type="number" step="0.01" class="form-control" name="replenishQty" id="replenishQty" placeholder="Number only">
+  </div>
+    
+
+    <?php if(isset($validation)) : ?>
+            <div class="col-12">
+              <div class="alert-danger" role='alert'>
+                  <?= $validation->listErrors() ?>
+              </div>
+            </div>
+          <?php endif; ?></p>
+      </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Replenish Item</button>
+          </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+</div>
      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
@@ -229,30 +277,18 @@
             {"data": "Name"},
             {"data": "Category"},
             {"data": "Quantity"},
-            {"data": "Quantity"},
             {"data": "Price"},
             {"data": "Username"}
         ],
         "columnDefs": [
-            {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case `data: 0`.
-                "render": function ( data, type, row ) {
-                    {
-                    return '<progress class="progress-bar bg-warning" role="progressbar" style="width: '+data+'%;" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100">'+data +'</td>';
-                    }
-                },
-                "targets": 4
-                
-            },
+           
             {
                 "render": function () {
                     {
-                    return '<button class="btn btn-primary" id="btnEdit" data-toggle="modal" data-target="#update">Edit</button> <button class="btn btn-danger" data-toggle="modal" data-target="#remove" id="btnRemove">Remove</button>';
+                    return '<button class="btn btn-primary" id="btnEdit" data-toggle="modal" data-target="#update">Edit</button> <button class="btn btn-warning" data-toggle="modal" data-target="#replenish" id="btnReplenish">Replenish</button> <button class="btn btn-danger" data-toggle="modal" data-target="#remove" id="btnRemove">Remove</button>';
                     }
                 },
-                "targets": 7
+                "targets": 6
             },
             {
                 "render": function (data, type, row) {
@@ -260,7 +296,7 @@
                     return 'Php '+data;
                     }
                 },
-                "targets": 5
+                "targets": 4
             }
         ],
         "order" : [[1, "asc"]],
@@ -280,11 +316,9 @@
             var data = table.row($(this).parents('tr')).data();
             var id = data["Code"];
             var name = data["Name"];
-            var qty = data["Quantity"];
             var price = data["Price"];
             document.getElementById("itemcodeupdate").value = id;
             document.getElementById("itemnameupdate").value = name;
-            document.getElementById("quantitycount").value = qty;
             document.getElementById("updatedprice").value = price;
             document.getElementById("updateAction").action = "<?=base_url()?>/updateItem?id="+id;
         });
@@ -293,6 +327,17 @@
             var data = table.row($(this).parents('tr')).data();
             var id = data["Code"];
             document.getElementById("removeAction").action = "<?=base_url()?>/removeItem?id="+id;
+        });
+
+        $('#samples tbody').on('click', '[id*=btnReplenish]', function () {
+          var data = table.row($(this).parents('tr')).data();
+            var id = data["Code"];
+            var name = data["Name"];
+            var qty = data["Quantity"];
+            document.getElementById("replenishItem").value = id;
+            document.getElementById("replenishName").value = name;
+            document.getElementById("replenishCount").value = qty;
+            document.getElementById("replenishAction").action = "<?=base_url()?>/replenishItem?id="+id;
         });
     });
 </script>
