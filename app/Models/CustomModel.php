@@ -398,7 +398,8 @@ class CustomModel{
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
       ->where('MONTH(transaction_date) = "'.$date.'"')
       ->where('transaction_type', 0)
-      ->select('item_name AS Item, item_prev_count as Replenish, item_quantity AS Current, ABS(item_current_count - item_quantity) AS Sold')
+      ->orderBy("transaction_date","ASC")
+      ->select('item_name AS Item, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold')
       ->groupBy('item_name')
       ->get()
       ->getResult();
@@ -407,7 +408,8 @@ class CustomModel{
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
       ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), -2).'"')
       ->where('transaction_type', 0)
-      ->select('item_name AS Item, item_prev_count as Replenish, item_quantity AS Current, ABS(item_current_count - item_quantity) AS Sold')
+      ->orderBy("transaction_date","ASC")
+      ->select('item_name AS Item, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold')
       ->groupBy('item_name')
       ->get()
       ->getResult();

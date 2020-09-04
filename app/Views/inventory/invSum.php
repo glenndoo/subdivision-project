@@ -42,6 +42,8 @@
     <tr>
         <th scope="col">Item</th>
       <th scope="col">Ending inventory as of <?= date("F", mktime(0, 0, 0, substr($dateNow, -2)-1, 10)); ?></th>
+      <th scope="col">Replenishment as of <?= date("F", mktime(0, 0, 0, substr($dateNow, -2), 10)); ?></th>
+      <th scope="col">Inventory Count as of Replenishment (<?= date("F", mktime(0, 0, 0, substr($dateNow, -2), 10)); ?>)</th>
       <th scope="col">Current Count</th>
       <th scope="col">Items Sold</th>
     </tr>
@@ -76,11 +78,13 @@
         "columns": [
             {"data": "Item"},
             {"data": "Replenish"},
+            {"data": "Present"},
+            {"data": "Stock"},
             {"data": "Current"},
             {"data": "Sold"}
 
         ],
-        "order" : [[3, "ASC"]],
+        "order" : [[5, "ASC"]],
         
         
         

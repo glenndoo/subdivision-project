@@ -16,7 +16,6 @@
                 <th>Item Name</th>
                 <th>Item Code</th>
                 <th>Item Quantity</th>
-                <th>Quantity Status</th>
                 <th>Item Price</th>
                 <th></th>
             </tr>
@@ -75,7 +74,6 @@
             {"data": "Name"},
             {"data": "Code"},
             {"data": "Quantity"},
-            {"data": "Quantity"},
             {"data": "Price"}
         ],
         "columnDefs": [
@@ -83,12 +81,7 @@
                 // The `data` parameter refers to the data for the cell (defined by the
                 // `data` option, which defaults to the column being worked with, in
                 // this case `data: 0`.
-                "render": function ( data, type, row ) {
-                    {
-                    return '<progress class="progress-bar bg-success" role="progressbar" style="width: '+data+'%;" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100">'+data +'</td>';
-                    }
-                },
-                "targets": 3
+                
                 
             },
             {
@@ -97,7 +90,7 @@
                     return '<button class="btn btn-primary" id="btnDetails">Buy</button>';
                     }
                 },
-                "targets": 5
+                "targets": 4
             }
         ]
         
