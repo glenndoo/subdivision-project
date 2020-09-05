@@ -13,6 +13,7 @@ class Clerk extends BaseController{
         $db = db_connect();
         $search  = new CustomModel($db);
         $data['info'] = $search->showAll();
+        $data['members'] = $search->showMemberOrder();
         
         return view('clerk/clerk', $data);
     }

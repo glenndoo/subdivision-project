@@ -1,7 +1,28 @@
 <?= $this->extend('Layouts/main') ?>
 
 <?= $this->section('content') ?>
+<script>
+function solve() {
+          //  var txtFirstNumberValue = document.getElementById('quantity').value;
+          //  var txtSecondNumberValue = document.getElementById('price').value;
+          //  var result = Number(txtFirstNumberValue) * Number(txtSecondNumberValue);
+          //  if (!isNaN(result)) {
+          //      document.getElementById('total').value = result;
+          //  }
+          document.getElementById('sellingPrice').value = document.getElementById('unitPrice').value * 1.15;
+       }
 
+       function check() {
+          //  var txtFirstNumberValue = document.getElementById('quantity').value;
+          //  var txtSecondNumberValue = document.getElementById('price').value;
+          //  var result = Number(txtFirstNumberValue) * Number(txtSecondNumberValue);
+          //  if (!isNaN(result)) {
+          //      document.getElementById('total').value = result;
+          //  }
+          document.getElementById('updateSell').value = document.getElementById('updateUnit').value * 1.15;
+       }
+       
+</script>
 
             <?php if(session()->get('success')) : ?>
               <div class="alert alert-success" role="alert">
@@ -59,25 +80,17 @@
     <label for="itemname">Item Name</label>
     <input type="text" class="form-control" name="itemname"id="itemname" placeholder="Sprite">
   </div>
-  <div class="form-group">
-    <label for="category">Category</label>
-    <select class="form-control" name="category" id="category">
-      <option value="1">Canned Goods, Detergent, Fabcon</option>
-      <option value="2">LPG</option>
-      <option value="3">Rice</option>
-      <option value="4">Meat, Fish, Chicken</option>
-      <option value="5">Sim Card, Load Card</option>
-      <option value="6">Candy</option>
-      <option value="7">Miscellaneous</option>
-    </select>
-  </div>
     <div class="form-group">
     <label for="quantity">Quantity</label>
     <input type="number" step="0.01" class="form-control" name="quantity" id="quantity" placeholder="Number only">
   </div>
         <div class="form-group">
-    <label for="price">Price</label>
-    <input type="number" step="0.01" class="form-control" name="price" id="quantity" placeholder="Number only">
+    <label for="price">Unit Price</label>
+    <input type="number" step="0.01" class="form-control" name="unitPrice" id="unitPrice" placeholder="Number only" onkeyup="solve()">
+  </div>
+  <div class="form-group">
+    <label for="price">Selling Price</label>
+    <input type="number" step="0.01" class="form-control" name="sellingPrice" id="sellingPrice" placeholder="Number only">
   </div>
     
 
@@ -128,20 +141,12 @@
     <input type="text" class="form-control" name="itemnameupdate" id="itemnameupdate" placeholder="Sprite">
   </div>
   <div class="form-group">
-    <label for="category">Category</label>
-    <select class="form-control" name="category" id="category">
-      <option value="1">Canned Goods, Detergent, Fabcon</option>
-      <option value="2">LPG</option>
-      <option value="3">Rice</option>
-      <option value="4">Meat, Fish, Chicken</option>
-      <option value="5">Sim Card, Load Card</option>
-      <option value="6">Candy</option>
-      <option value="7">Miscellaneous</option>
-    </select>
+    <label for="price">Unit Price</label>
+    <input type="number" step="0.01" class="form-control" name="updateUnit" id="updateUnit" placeholder="Number only" onkeyup="check()">
   </div>
-        <div class="form-group">
-    <label for="price">Price</label>
-    <input type="number" step="0.01" class="form-control" name="updatedprice" id="updatedprice" placeholder="Number only">
+  <div class="form-group">
+    <label for="price">Selling Price</label>
+    <input type="number" step="0.01" class="form-control" name="updateSell" id="updateSell" placeholder="Number only">
   </div>
     
 
@@ -227,14 +232,14 @@
   </div>
   <div class="form-group">
     <label for="itemname">Item Name</label>
-    <input type="text" class="form-control" name="replenishName" id="replenishName" placeholder="Sprite">
+    <input type="text" class="form-control" name="replenishName" id="replenishName" placeholder="Sprite" readonly="readonly">
   </div>
 
   <div class="form-group">
         <label for="quantity">Current Quantity</label>
-        <input type="number" class="form-control" name="replenishCount" id="replenishCount" readonly="readonly">
+        <input type="number" class="form-control" name="replenishCount" step="0.01" id="replenishCount">
     <label for="quantity">Quantity</label>
-    <input type="number" step="0.01" class="form-control" name="replenishQty" id="replenishQty" placeholder="Number only">
+    <input type="number" step="0.01" class="form-control" name="replenishQty" id="replenishQty" value="0" placeholder="Number only">
   </div>
     
 
@@ -319,7 +324,7 @@
             var price = data["Price"];
             document.getElementById("itemcodeupdate").value = id;
             document.getElementById("itemnameupdate").value = name;
-            document.getElementById("updatedprice").value = price;
+            document.getElementById("updateUnit").value = price;
             document.getElementById("updateAction").action = "<?=base_url()?>/updateItem?id="+id;
         });
         

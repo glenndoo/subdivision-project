@@ -46,6 +46,7 @@
       <th scope="col">Inventory Count as of Replenishment (<?= date("F", mktime(0, 0, 0, substr($dateNow, -2), 10)); ?>)</th>
       <th scope="col">Current Count</th>
       <th scope="col">Items Sold</th>
+      <th scope="col">Transaction By</th>
     </tr>
   </thead>
   <tbody>
@@ -81,8 +82,8 @@
             {"data": "Present"},
             {"data": "Stock"},
             {"data": "Current"},
-            {"data": "Sold"}
-
+            {"data": "Sold"},
+            {"data": "Person"}
         ],
         "order" : [[5, "ASC"]],
         

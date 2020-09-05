@@ -39,7 +39,6 @@ class Inventory extends BaseController{
 			$rules = [
 				'itemcode' => 'required|min_length[3]|max_length[15]',
 				'itemname' => 'required|min_length[3]|max_length[255]',
-                                'category' => 'required',
 				'quantity' => 'required|min_length[1]|max_length[4]',
 			];
 
@@ -52,13 +51,23 @@ class Inventory extends BaseController{
 				$model = new CustomModel($db);
 				$newData = [
 					'item_code' => $this->request->getVar('itemcode'),
-					'item_name' => $this->request->getVar('itemname'),
-					'item_type' => $this->request->getVar('category'),
-                                        'item_quantity' => $this->request->getVar('quantity'),
-                                        'item_price' => $this->request->getVar('price'),
+                    'item_name' => $this->request->getVar('itemname'),
+                    'item_quantity' => $this->request->getVar('quantity'),
+                    'item_price' => $this->request->getVar('sellingPrice'),
 					'item_added_by' => session()->get('id')
-				];
-				$model->saveItem($newData);
+                ];
+                
+                $transaction = [
+                    'item_code' => $this->request->getVar('itemcode'),
+                    'item_old_price' => $this->request->getVar('unitPrice'),
+                    'item_marked_up' => $this->request->getVar('sellingPrice'),
+                    'item_prev_count' => $this->request->getVar('quantity'),
+                    'item_added_qty' => $this->request->getVar('quantity'),
+                    'item_current_count' => $this->request->getVar('quantity'),
+                    'transaction_by' => session()->get('id')
+
+                ];
+				$model->saveItem($newData,$transaction);
 				$session = session();
 				$session->setFlashData('success', 'Item Added!');
 				return redirect()->to('addItem');
@@ -80,50 +89,28 @@ class Inventory extends BaseController{
             return redirect()->to('/inventory');
         }
     }
-function jsonData(){
-            $db = db_connect();
-        $search  = new CustomModel($db);
-        $data['info'] = $search->json();
-        
-        return $data['info'];
-}
+    function jsonData(){
+                $db = db_connect();
+            $search  = new CustomModel($db);
+            $data['info'] = $search->json();
+            
+            return $data['info'];
+    }
 
     function updateItem(){
-        $price = 0;
-        $current = $this->request->getVar('updatedprice');
-        if($this->request->getVar('category') == 1){
-            $price = intval($current) * 1.15;            
-            echo $price;
-        }else if($this->request->getVar('category') == 2){
-            $price = intval($current)+50;    
-            echo $price;
-        }else if($this->request->getVar('category') == 3){
-            $price = intval($current)+150;    
-            echo $price;
-        }else if($this->request->getVar('category') == 4){
-            $price = intval($current)+30;    
-            echo $price;
-        }else if($this->request->getVar('category') == 5){
-            $price = intval($current) * 1.15;    
-            echo $price;
-        }else if($this->request->getVar('category') == 6){
-            $price = intval($current)+1;    
-            echo $price;
-        }else{
-            $price = intval($current)+1.2;    
-            echo $price;
-        }
+        
         $data = [
             "item_code" => $this->request->getGet('id'),
-            "item_old_price" => $current,
-            "item_marked_up" => $price,
-            "transaction_type" => 1
+            "item_old_price" => $this->request->getVar('updateUnit'),
+            "item_marked_up" => $this->request->getVar('updateSell'),
+            "transaction_type" => 1,
+            'transaction_by'  => session()->get('id')
         ];
+        
         $updated = [
             "item_code" => $this->request->getGet('id'),
             "item_name" => $this->request->getVar('itemnameupdate'),
-            "item_price" => $price,
-            "item_type" => $this->request->getVar('category')
+            "item_price" => $this->request->getVar('updateSell'),
         ];
 
         $db = db_connect();
@@ -170,7 +157,8 @@ function jsonData(){
             'item_code' => $this->request->getVar("replenishItem"),
             'item_current_count' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
             'item_added_qty' =>  $this->request->getVar("replenishQty"),
-            'item_prev_count' => $this->request->getVar("replenishCount")
+            'item_prev_count' => $this->request->getVar("replenishCount"),
+            'transaction_by'  => session()->get('id')
         ];
         $updated = [
 

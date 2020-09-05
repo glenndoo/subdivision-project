@@ -6,17 +6,16 @@
 function sum() {
            var txtFirstNumberValue = document.getElementById('quantity').value;
            var txtSecondNumberValue = document.getElementById('price').value;
-           var result = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
+           var result = Number(txtFirstNumberValue) * Number(txtSecondNumberValue);
            if (!isNaN(result)) {
                document.getElementById('total').value = result;
            }
        }
        
 function display() {
-
            var txtFirstNumberValue = document.getElementById('amount').value;
            var txtSecondNumberValue = document.getElementById('total').value;
-           var result = parseInt(txtFirstNumberValue) - parseInt(txtSecondNumberValue);
+           var result = Number(txtFirstNumberValue) - Number(txtSecondNumberValue);
            if (!isNaN(result)) {
                document.getElementById('updateTotal').value = result;
            }

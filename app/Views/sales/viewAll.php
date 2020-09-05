@@ -107,6 +107,14 @@
                 "targets": 5
         },
         {
+          "render": function ( data, type, row ) {
+                    {
+                    return 'PHP '+data;
+                    }
+                },
+                "targets": 4
+        },
+        {
                 "targets": [ 7 ],
                 "visible": false
             }],

@@ -84,15 +84,24 @@ class CustomModel{
 
   
   //INSERT NEW ITEM TO DB
-  function saveItem(array $data){
+  function saveItem($data, $transaction){
     $this->db->table('items')
              ->insert($data);
+
+    $this->db->table('inventory_transaction')
+             ->insert($transaction);
   }
   
 
   //DELETE ITEM FROM DB
     function deleteItem($data){
     $user = $this->db->table('items')
+                     ->set($data)
+                     ->where('item_code =', $data)
+                     ->delete();
+
+
+    $user = $this->db->table('inventory_transaction')
                      ->set($data)
                      ->where('item_code =', $data)
                      ->delete();
@@ -396,20 +405,22 @@ class CustomModel{
       $date = substr($data, -2);
       $report = $this->db->table('items')
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
+      ->join("users", "user_id = transaction_by", "left")
       ->where('MONTH(transaction_date) = "'.$date.'"')
       ->where('transaction_type', 0)
       ->orderBy("transaction_date","ASC")
-      ->select('item_name AS Item, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold')
+      ->select('item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold')
       ->groupBy('item_name')
       ->get()
       ->getResult();
     }else{
       $report = $this->db->table('items')
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
+      ->join("users", "user_id = transaction_by", "left")
       ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), -2).'"')
       ->where('transaction_type', 0)
       ->orderBy("transaction_date","ASC")
-      ->select('item_name AS Item, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold')
+      ->select('item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold')
       ->groupBy('item_name')
       ->get()
       ->getResult();
