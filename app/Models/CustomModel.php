@@ -430,4 +430,29 @@ class CustomModel{
     return json_encode($report);
     
   }
+
+  function cart($data){
+    foreach($data as $dt){
+      $this->db->table("cart")
+      ->insert($dt);
+    }
+    
+  }
+
+  function jsonCart(){
+    $result = $this->db->table("cart")
+             ->join("items", "cart.item_code = item_id")
+             ->join("members", "cart.member_id = members.member_id")
+             ->get()
+             ->getResult();
+
+    $resultCount = $this->db->table('cart')
+             ->countAllResults();
+
+    
+    return array(
+      'records' => $result, 
+      'counter' => $resultCount);
+
+  }
 }

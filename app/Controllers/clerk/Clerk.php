@@ -14,6 +14,11 @@ class Clerk extends BaseController{
         $search  = new CustomModel($db);
         $data['info'] = $search->showAll();
         $data['members'] = $search->showMemberOrder();
+        $data['cart'] = $search->jsonCart();
+
+
+
+
         
         return view('clerk/clerk', $data);
     }
@@ -131,6 +136,41 @@ class Clerk extends BaseController{
         
         return $data;
     }
+
+
+    function cart(){
+        $data = [
+            'member_id' => $this->request->getGet("member"),
+            'item_code' => $this->request->getGet("id")
+        ];
+        $db = db_connect();
+        $search  = new CustomModel($db);
+        $data = $search->cart($data);
+        return redirect()->to("clerk");
+    }
+
+
+    function placeOrder (){
+            $member = $this->request->getVar("member[]");
+            $price = $this->request->getVar("price[]");
+            $quantity = $this->request->getVar("quantity[]");
+
+            $values = array();
+
+            for($i = 0; $i < count($member); $i++){
+                $value[$i] = array(
+                    'member_id' => $member[$i],
+                    'quantity' => $quantity[$i],
+                    'price' => $price[$i],
+                );
+            }
+
+            print_r(json_encode($value));
+        // $db = db_connect();
+        // $search  = new CustomModel($db);
+        // $data = $search->cart($data);
+        }
+    
 }
 
 /* 
