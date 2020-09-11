@@ -61,7 +61,7 @@ function display() {
             <tr>
                 <th>Item Name</th>            
                 <th>Item Quantity</th>
-                <th>Item Price</th>
+                <th>Selling Price</th>
                 <th>Item Total Cost</th>
                 <th></th>
             </tr>
@@ -159,7 +159,8 @@ var sum = 0;
             {"data": "Code"},
             {"data": "Name"},            
             {"data": "Quantity"},
-            {"data": "Price"}
+            {"data": "Price"},
+            {"data": "Code"}
         ],
         "columnDefs": [
             {
@@ -171,9 +172,9 @@ var sum = 0;
             },
             {
                 
-                "render": function () {
+                "render": function (data, type, row) {
                     {
-                    return '<input type="number" step="0.01" id="qty" placeholder="Quantity" value="1"> <button class="btn btn-primary" id="btnBuy">Add to Cart</button>';
+                    return '<input type="number" step="0.01" id="qty'+data+'" placeholder="Quantity" value="1"> <button class="btn btn-primary" id="btnBuy">Add to Cart</button>';
                     }
                 },
                 "targets": 4
@@ -190,7 +191,7 @@ var sum = 0;
             var itemName = data["Name"];
             var price = data['Price'];
             var member = document.getElementById("member").value;
-            var qty = document.getElementById("qty").value;
+            var qty = document.getElementById("qty"+id).value;
             var totalCost = parseInt(price*qty);
             var stock = quant-qty;
                 var db = $("#cart tbody");

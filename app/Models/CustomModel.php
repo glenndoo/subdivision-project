@@ -457,6 +457,7 @@ class CustomModel{
   }
 
 
+  //SHOPPING CART
   function tryOrder($data,$items,$inv){
     
 

@@ -103,8 +103,8 @@ public function jsonSales(){
    public function makePayment(){
 
     $data = [
-        'sales_member_id' => $this->request->getVar('id'),
-        'sales_amount_paid' => $this->request->getVar('payment'),
+        'sales_member_id' => $this->request->getGet('id'),
+        'sales_amount_paid' => $this->request->getGet('payment'),
         'sales_payment_type' => "Cash",
         'sales_item' => 1213,
         'sales_quantity' => 1,

@@ -32,6 +32,8 @@
 
 
 <script type="text/javascript">
+var tag = "";
+
     $(function () {
         var table = $('#credit').DataTable
         ({ 
@@ -44,13 +46,14 @@
         "columns": [
           {"data": "Member"},
           {"data": "Name"},
+          {"data": "Total"},
           {"data": "Total"}
         ],
         "columnDefs" : [
           {
-            "render" : function () {
+            "render" : function (data, type, row) {
                     {
-                    return '<input type="number" id="payment"> <a class="btn btn-primary" id="payCredit">Make Payment</a>';
+                    return '<input type="number" id="payment'+data+'" step="0.01"> <a class="btn btn-primary" id="payCredit'+data+'">Make Payment</a>';
                     }
                 },
                 "targets" : 3
@@ -60,10 +63,13 @@
 
         });  
 
-
         $('#credit tbody').on('click', '[id*=payCredit]', function () {
             var data = table.row($(this).parents('tr')).data();
-            console.log(document.getElementById("payment").value);
+            var id = data['Member'];
+            var tot = data['Total'];
+            var payment = document.getElementById("payment"+tot).value;
+            document.getElementById("payCredit"+tot).href = "payment/?id="+id+"&payment="+payment;
+           
         });
     });
 
