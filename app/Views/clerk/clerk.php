@@ -55,7 +55,7 @@ function display() {
       </div>
       <div class="modal-body">
         <div class="container">
-        <form method="POST" action="placeOrder">
+        <form method="POST" action="purchase">
         <table id="cart">
         <thead>
             <tr>
@@ -73,9 +73,17 @@ function display() {
         <tfoot>
         </tfoot>
         </table>
+        <hr>
         <p id="cont">
         Total: 
         </p>
+        <hr>
+        <p>
+        <label for="paymentType">Payment Type</label>
+        <select name="paymentType">
+            <option value="cash">Cash</option>
+            <option value="credit">Credit</option>
+        </select></p>
       <div class="modal-footer">
           <button type="submit" class="btn btn-success">Purchase</button>
           </form>
@@ -165,7 +173,7 @@ var sum = 0;
                 
                 "render": function () {
                     {
-                    return '<input type="number" step="0.01" id="qty" placeholder="Quantity"  value="1"> <button class="btn btn-primary" id="btnBuy">Add to Cart</button>';
+                    return '<input type="number" step="0.01" id="qty" placeholder="Quantity" value="1"> <button class="btn btn-primary" id="btnBuy">Add to Cart</button>';
                     }
                 },
                 "targets": 4
@@ -178,13 +186,15 @@ var sum = 0;
         $('#samples tbody').on('click', '[id*=btnBuy]', function (e) {
             var data = table.row($(this).parents('tr')).data();
             var id = data["Code"];
+            var quant = data["Quantity"];
             var itemName = data["Name"];
             var price = data['Price'];
             var member = document.getElementById("member").value;
             var qty = document.getElementById("qty").value;
             var totalCost = parseInt(price*qty);
+            var stock = quant-qty;
                 var db = $("#cart tbody");
-                db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' name='quantity[]' value='"+qty+"' readonly='readonly'></td><td><input class='form-control' type='number' step='0.01' id='sumPrice' value='"+price+"' name='price[]' readonly='readonly'><td><input class='form-control' type='number' readonly='readonly'  value='"+totalCost+"'><input type='hidden' name='code[]' value='"+id+"'></td><td><input type='hidden' name='member[]' value='"+member+"'></td></td></tr>");
+                db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' name='quantity[]' value='"+qty+"' readonly='readonly'></td><td><input class='form-control' type='number' step='0.01' id='sumPrice' value='"+price+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
                 total.push(price);
                 sum += parseInt(totalCost);
                 

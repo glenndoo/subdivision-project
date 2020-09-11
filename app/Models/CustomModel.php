@@ -225,14 +225,14 @@ class CustomModel{
   //SHOW ALL MEMBERS
   function showMembers(){
       $details = $this->db->table('members')
-                      ->select('member_id, member_last, member_first, sum(sales_credit_amount) AS "totalCredit"')
+                      ->select('member_id AS Member, CONCAT(member_last, ", ",  member_first) AS Name, sum(sales_credit_amount) AS Total')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->orderBy('member_last')
                       ->groupBy('sales.sales_member_id')
                       ->get()
                       ->getResult();
       
-      return $details;
+      return json_encode($details);
   }
   
 
@@ -453,6 +453,40 @@ class CustomModel{
     return array(
       'records' => $result, 
       'counter' => $resultCount);
+
+  }
+
+
+  function tryOrder($data,$items,$inv){
+    
+
+    foreach($data as $dt){
+      $counter = $this->db->table('sales')
+                    ->countAllResults();
+      $dt['sales_id'] = 'WHAI00'.($counter+1);
+      $this->db->table('sales')
+      ->insert($dt);
+    }
+    
+
+
+
+
+    foreach($items as $it){
+      $this->db->table('inventory_transaction')
+               ->insert($it);
+    }
+
+    
+    foreach($inv as $in){
+      $this->db->table('items')
+      ->set('item_quantity', $in['item_quantity'])
+      ->where('item_id =', $in['item_id'])
+      ->update();
+    }
+      
+    
+
 
   }
 }

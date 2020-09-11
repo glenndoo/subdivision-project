@@ -58,74 +58,129 @@ class Clerk extends BaseController{
     }
     
     public function purchase(){
-        helper('form');
             $item = $this->request->getGet('id');
     $data = [
             'meta-title' => '',
             'title' => 'Order'
         ];
-    $db = db_connect();
-        $model = new CustomModel($db);
-        $data['info'] = $model->purchaseItem($item); 
+
+        
         if($this->request->getMethod() == 'post'){
-			$rules = [
-				'quantity' => [
-                                    'rules' => 'required|min_length[1]|max_length[4]|validateQuantity[quantity,stock]',
-                                    'label' => 'Quantity',
-                                    'errors' => [
-                                                    'validateQuantity' => 'Quantity is less than stock'
-						]
-                                 ],
-				'amount' => [
-                                    'rules' =>'required|min_length[1]|max_length[4]|validatePrice[amount,stock,price]',
-                                    'label' => 'Amount',
-                                    'errors' => [
-                                                    'validatePrice' => 'Amount to be paid less than total amount'
-						]
-                                ]
-                            
-			];
-                        
-			if(! $this->validate($rules)){
-				$data['validation'] = $this->validator;
-			}else{
-                            $totalAmount = $this->request->getVar('quantity') * $this->request->getVar('price');
-                            $items = [
-                                'sales_item' => $this->request->getGet('id'),
-                                'sales_quantity' => $this->request->getVar('quantity'),
-                                'sales_by' => session()->get('id'),
-                                'sales_amount_paid' => $this->request->getVar('total'),
-                                'sales_total_amount' =>  $totalAmount,
-                                'sales_member_id' => $this->request->getVar('member'),
-                                'sales_payment_type' => $this->request->getVar('paymentType'),
-                                'sales_credit_amount' => $totalAmount
-                            ];
-                            if($items['sales_payment_type'] == "cash"){
-                                $stock = $this->request->getVar('stock') - $items['sales_quantity'];
-                                $current = $this->request->getVar('stock');
-                                $items['sales_credit_amount'] = 0;
-                            $db = db_connect();
+			$member = $this->request->getVar("member[]");
+            $code = $this->request->getVar("code[]");
+            $quantity = $this->request->getVar("quantity[]");
+            $price = $this->request->getVar("price[]");
+            $paymentType = $this->request->getVar('paymentType');
+            $total = $this->request->getVar("total[]");
+            $stock = $this->request->getVar("stock[]");
+            $current = $this->request->getVar("current[]");
+            $items = array();
+            $transaction = array();
+            $inv = array();
+
+            if($paymentType == "cash"){
+                for($i = 0; $i < count($member); $i++){
+                    $items[$i] = array(
+                        'sales_item' => $code[$i],
+                    'sales_quantity' => $quantity[$i],
+                    'sales_by' => session()->get('id'),
+                    'sales_amount_paid' => $total[$i],
+                    'sales_total_amount' => $quantity[$i]*$price[$i],
+                    'sales_member_id' => $member[$i],                   
+                    'sales_payment_type' => $paymentType,
+                    'sales_credit_amount' => 0, 
+                    );
+
+                    $transaction[$i]  = array(
+                        'item_code' => $code[$i],
+                        'item_added_qty' => 0,
+                        'item_prev_count' => $current[$i],
+                        'item_current_count' => $stock[$i],
+                        'transaction_type' => 1,
+                        'transaction_by' => session()->get('id')
+                    );
+                    $inv[$i]  = array(
+                        'item_id' => $code[$i],
+                        'item_quantity' => $stock[$i]
+                    );
+                }
+                    $db = db_connect();
                                 $model = new CustomModel($db);
-                                $model->placeOrder($items, $stock, $current);
+                                $model->tryOrder($items,$transaction,$inv);
                                 $session = session();
-                                                        $session->setFlashData('success', 'Order placed!');
-                                                        return redirect()->to('/clerk');
-                            }else{
-                                $stock = $this->request->getVar('stock') - $items['sales_quantity'];
-                                $current = $this->request->getVar('stock');
-                                $items['sales_amount_paid'] = 0;
+                                $session->setFlashData('success', 'Order placed!');
+                                return redirect()->to('/clerk');
+            }else{
+                for($i = 0; $i < count($member); $i++){
+                    $items[$i] = array(
+                        'sales_item' => $code[$i],
+                        'sales_quantity' => $quantity[$i],
+                        'sales_by' => session()->get('id'),
+                        'sales_amount_paid' => $total[$i],
+                        'sales_total_amount' => 0,
+                        'sales_member_id' => $member[$i],                   
+                        'sales_payment_type' => $paymentType,
+                        'sales_credit_amount' => $quantity[$i]*$price[$i], 
+                    );
+                    $transaction[$i]  = array(
+                        'item_code' => $code[$i],
+                        'item_added_qty' => 0,
+                        'item_prev_count' => $current[$i],
+                        'item_current_count' => $stock[$i],
+                        'transaction_type' => 1,
+                        'transaction_by' => session()->get('id')
+                    );
+                    $inv[$i]  = array(
+                        'item_id' => $code[$i],
+                        'item_quantity' => $stock[$i]
+                    );
+
+                    
+                }
+                $db = db_connect();
                                 $model = new CustomModel($db);
-                                $model->placeOrder($items, $stock, $current);
+                                $model->tryOrder($items,$transaction,$inv);
                                 $session = session();
-                                                        $session->setFlashData('success', 'Order placed!');
-                                                        return redirect()->to('/clerk');
-                            }
+                                $session->setFlashData('success', 'Order placed!');
+                                return redirect()->to('/clerk');
+            }
+                            // $totalAmount = $this->request->getVar('quantity') * $this->request->getVar('price');
+                            // $items = [
+                            //     'sales_item' => $this->request->getGet('id'),
+                            //     'sales_quantity' => $this->request->getVar('quantity'),
+                            //     'sales_by' => session()->get('id'),
+                            //     'sales_amount_paid' => $this->request->getVar('total'),
+                            //     'sales_total_amount' =>  $totalAmount,
+                            //     'sales_member_id' => $this->request->getVar('member'),
+                            //     'sales_payment_type' => $this->request->getVar('paymentType'),
+                            //     'sales_credit_amount' => $totalAmount
+                            // ];
+                            // if($items['sales_payment_type'] == "cash"){
+                            //     $stock = $this->request->getVar('stock') - $items['sales_quantity'];
+                            //     $current = $this->request->getVar('stock');
+                            //     $items['sales_credit_amount'] = 0;
+                                // $db = db_connect();
+                                // $model = new CustomModel($db);
+                                // $model->placeOrder($items, $stock, $current);
+                                // $session = session();
+                                //                         $session->setFlashData('success', 'Order placed!');
+                                //                         return redirect()->to('/clerk');
+                            // }else{
+                            //     $stock = $this->request->getVar('stock') - $items['sales_quantity'];
+                            //     $current = $this->request->getVar('stock');
+                            //     $items['sales_amount_paid'] = 0;
+                            //     $model = new CustomModel($db);
+                            //     $model->placeOrder($items, $stock, $current);
+                            //     $session = session();
+                            //                             $session->setFlashData('success', 'Order placed!');
+                            //                             return redirect()->to('/clerk');
+                            // }
                             
                             
    
-			}
+			
 		}
-       return view('clerk/order', $data);
+    //    return view('clerk/order', $data);
     }
     
     
@@ -152,24 +207,24 @@ class Clerk extends BaseController{
 
     function placeOrder (){
             $member = $this->request->getVar("member[]");
-            $price = $this->request->getVar("price[]");
+            $price = $this->request->getVar("code[]");
             $quantity = $this->request->getVar("quantity[]");
 
             $values = array();
 
             for($i = 0; $i < count($member); $i++){
-                $value[$i] = array(
+                $values[$i] = array(
                     'member_id' => $member[$i],
-                    'quantity' => $quantity[$i],
-                    'price' => $price[$i],
+                    'item_code' => $quantity[$i]
                 );
             }
-
-            print_r(json_encode($value));
-        // $db = db_connect();
-        // $search  = new CustomModel($db);
-        // $data = $search->cart($data);
+        $db = db_connect();
+        $search  = new CustomModel($db);
+        $data = $search->cart($values);
+        return redirect()->to("clerk");
         }
+
+        
     
 }
 

@@ -55,9 +55,7 @@ public function jsonSales(){
       'meta-title' => '',
       'title' => 'Members',
     ];
-    $db = db_connect();
-    $model = new CustomModel($db);
-    $data['members'] = $model->showMembers();
+
     
     if(session()->get('access') == 1){
       return view('sales/members', $data);
@@ -118,5 +116,13 @@ public function jsonSales(){
     $pay = new CustomModel($db);
     $res = $pay->makePayment($data);
     return redirect()->to('/showMembers');
+   }
+
+
+   function jsonCredit(){
+    $db = db_connect();
+    $model = new CustomModel($db);
+    $credit = $model->showMembers();
+    return $credit;
    }
    }

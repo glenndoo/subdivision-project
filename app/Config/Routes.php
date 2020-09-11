@@ -60,6 +60,7 @@ $routes->add('replenishItem', "inventory/Inventory::replenish", ['filter' => 'au
 $routes->add('cart', "clerk/clerk::cart");
 $routes->add('jsonCart', "clerk/clerk::cartDetails");
 $routes->add('placeOrder', "clerk/clerk::placeOrder");
+$routes->add('jsonCredit', "sales/Sales::jsonCredit");
 /**
  * --------------------------------------------------------------------
  * Additional Routing
