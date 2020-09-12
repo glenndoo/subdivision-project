@@ -403,6 +403,9 @@ var sum = 0;
             var qty = document.getElementById("qty"+id).value;
             var totalCost = parseInt(price*qty);
             var stock = quant-qty;
+            if(quant < qty){
+                alert("Kulang na stock ng item. Please contact admin");
+            }else{
                 var db = $("#cart tbody");
                 db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' name='quantity[]' value='"+qty+"' readonly='readonly'></td><td><input class='form-control' type='number' step='0.01' id='sumPrice' value='"+price+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
                 total.push(price);
@@ -413,6 +416,8 @@ var sum = 0;
                 
                 $("#cont").text("TOTAL: PHP "+sum);              
                 ntf++;
+            }
+                
         });
         
     });
