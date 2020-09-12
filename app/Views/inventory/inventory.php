@@ -331,7 +331,7 @@ function solve() {
         $('#samples tbody').on('click', '[id*=btnRemove]', function () {
             var data = table.row($(this).parents('tr')).data();
             var id = data["Code"];
-            document.getElementById("removeAction").action = "<?=base_url()?>/removeItem?id="+id;
+            document.getElementById("removeAction").action = "/removeItem?id="+id;
         });
 
         $('#samples tbody').on('click', '[id*=btnReplenish]', function () {

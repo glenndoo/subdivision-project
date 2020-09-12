@@ -31,9 +31,6 @@ class Inventory extends BaseController{
                 'meta-title' => '',
                 'title' => 'Add Item',
         ];
-        $db = db_connect();
-        $search  = new CustomModel($db);
-        $data['info'] = $search->showAll();
         
         if($this->request->getMethod() == 'post'){
 			$rules = [
@@ -80,7 +77,7 @@ class Inventory extends BaseController{
     function removeItem(){
         $id = $this->request->getGet('id');
         $db = db_connect();
-	$model = new CustomModel($db);
+	    $model = new CustomModel($db);
         $rem = $model->deleteItem($id);
         
         if($rem){
@@ -111,6 +108,7 @@ class Inventory extends BaseController{
             "item_code" => $this->request->getGet('id'),
             "item_name" => $this->request->getVar('itemnameupdate'),
             "item_price" => $this->request->getVar('updateSell'),
+            "item_unit_price" => $this->request->getVar('updateUnit')
         ];
 
         $db = db_connect();

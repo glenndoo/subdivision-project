@@ -46,6 +46,8 @@
       <th scope="col">Inventory Count as of Replenishment (<?= date("F", mktime(0, 0, 0, substr($dateNow, -2), 10)); ?>)</th>
       <th scope="col">Current Count</th>
       <th scope="col">Items Sold</th>
+      <th scope="col">Unit Price</th>
+      <th scope="col">Total</th>
       <th scope="col">Transaction By</th>
     </tr>
   </thead>
@@ -83,13 +85,19 @@
             {"data": "Stock"},
             {"data": "Current"},
             {"data": "Sold"},
+            {"data": "Price"},
+            {"data": "Tot"},
             {"data": "Person"}
+            
+            
         ],
         "order" : [[5, "ASC"]],
+
         
-        
-        
-        
+        drawCallback: function () {
+        var sum = $('#sales').DataTable().column(7).data().sum();
+        $('#salestotal').html("Total Sales: <b>Php "+sum.toFixed(2)+"</b>");
+      }	
         
         
         } );

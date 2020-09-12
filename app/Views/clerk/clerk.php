@@ -7,24 +7,42 @@
             <?= session()->get('success') ?>
           </div>
               <?php endif; ?>
-              <script>
-function sum() {
-           var txtFirstNumberValue = document.getElementById('quantity').value;
-           var txtSecondNumberValue = document.getElementById('price').value;
-           var result = Number(txtFirstNumberValue) * Number(txtSecondNumberValue);
+<script>
+function load() {
+           var txtFirstNumberValue = document.getElementById('loadQuantity').value;
+           var txtSecondNumberValue = document.getElementById('loadPrice').value;
+           var result = (Number(txtFirstNumberValue) * Number(txtSecondNumberValue)+ 2);
            if (!isNaN(result)) {
-               document.getElementById('total').value = result;
+               document.getElementById('loadTotal').value = result;
            }
        }
        
 function display() {
-           var txtFirstNumberValue = document.getElementById('amount').value;
-           var txtSecondNumberValue = document.getElementById('total').value;
+           var txtFirstNumberValue = document.getElementById('loadPrice').value;
+           var txtSecondNumberValue = document.getElementById('loadTotal').value;
            var result = Number(txtFirstNumberValue) - Number(txtSecondNumberValue);
            if (!isNaN(result)) {
                document.getElementById('updateTotal').value = result;
            }
        }
+
+function smartLoad() {
+           var txtFirstNumberValue = document.getElementById('smartQuantity').value;
+           var txtSecondNumberValue = document.getElementById('smartPrice').value;
+           var result = (Number(txtFirstNumberValue) * Number(txtSecondNumberValue)+ 2);
+           if (!isNaN(result)) {
+               document.getElementById('smartTotal').value = result;
+           }
+       }
+       
+function smartDisplay() {
+           var txtFirstNumberValue = document.getElementById('smartAmount').value;
+           var txtSecondNumberValue = document.getElementById('smartTotal').value;
+           var result = Number(txtFirstNumberValue) - Number(txtSecondNumberValue);
+           if (!isNaN(result)) {
+               document.getElementById('updateSmartTotal').value = result;
+           }
+       }       
 </script>
 
 <div class="container">
@@ -37,11 +55,17 @@ function display() {
               </select>
               </form>
               <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-success openBtn" data-toggle="modal" data-target="#cart">Cart
+<button type="button" class="btn btn-warning openBtn" data-toggle="modal" data-target="#cart">Cart
 <span class="badge badge-danger" id="notif">
 
 </span>
 </button>
+
+<button type="button" class="btn btn-success " data-toggle="modal" data-target="#smart">Smart/TNT Load
+</button>
+<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#globe">Globe/TM Load
+</button>
+
 
 <!-- Modal -->
 <div class="modal fade" id="cart" role="dialog">
@@ -139,6 +163,191 @@ function display() {
 
 </div>
 </div>
+
+
+
+<!-- LOAD MODAL -->
+<div class="modal fade" id="globe" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Prepaid Load</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+        <?php foreach($globe as $it) :?>
+    <form method="post" action="globeLoad">
+        
+        <div class="container">
+        <div class="row">
+            <div class="col">
+                <label for="itemcode">Item Code</label>
+                <input type="text" class="form-control" name="loadCode" id="loadCode" placeholder="sample123" value='<?= $it->item_id ?>' readonly>
+            </div>
+            <div class="col">
+                 <label for="itemname">Item Name</label>
+                <input type="text" class="form-control" name="loadName" id="loadName" placeholder="sample123" value='<?= $it->item_name ?>' readonly>
+            </div>
+                
+            
+        </div>
+        <div class="row">
+            <div class='col'>
+            <label for="itemname">Stock</label>
+            <input type="text" class="form-control" name="loadStock" id="loadStock" placeholder="sample123" value='<?= $it->item_quantity ?>' readonly>
+            </div>
+        <div class="col">
+            <label for="price">Price</label>
+            <input type="text" class="form-control" name="loadPrice" id="loadPrice" placeholder="sample123" value='<?= number_format($it->item_price, 2, '.', ',') ?>' readonly>
+        </div>
+        </div>
+        <?php endforeach; ?>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" name="loadQuantity" id="loadQuantity" placeholder="00" value='' onkeyup="load()">
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+            <label for="total">Total Amount</label>
+            <input type="number" class="form-control" name="loadTotal" id="loadTotal" readonly>
+            </div>
+        <div class="col">
+            <label for="amount">Payment Amount</label>
+            <input type="number" class="form-control" name="loadAmount" id="loadAmount" placeholder="00" value="" onkeyup="display()">
+        </div>
+        </div>
+            <div class="form-group">
+              <label for="sel1">Members:</label>
+              <select class="form-control" id="loadMember" name="loadMember">
+                                <?php foreach($members as $row) : ?>
+                  <option value="<?= $row->member_id ?>"><?= $row->member_last ?>, <?= $row->member_first ?></option>
+                              <?php endforeach; ?>
+              </select>
+        </div>
+        <div class="form-group">
+              <label for="sel1">Payment Type</label>
+              <select class="form-control" id="loadType" name="loadType">
+                  <option value="cash">Cash</option>
+                  <option value="credit">Credit</option>
+              </select>
+        </div>
+        <div class="form-group">
+            <label for="updateTotal">Change</label>
+            <input type="text" class="form-control" name="updateTotal" id="updateTotal" readonly>
+        </div>
+        
+</form>
+        
+      <div class="modal-footer">
+      <button type="submit" class="btn btn-success">Load</button>
+          </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+</div>
+  </div>
+</div>
+
+</div>
+</div>
+<!-- LOAD MODAL -->
+<div class="modal fade" id="smart" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Prepaid Load</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+        <?php foreach($smart as $it) :?>
+            <form method="post" action="globeLoad">
+        
+        <div class="container">
+        <div class="row">
+            <div class="col">
+                <label for="itemcode">Item Code</label>
+                <input type="text" class="form-control" name="loadCode" id="smartCode" placeholder="sample123" value='<?= $it->item_id ?>' readonly>
+            </div>
+            <div class="col">
+                 <label for="itemname">Item Name</label>
+                <input type="text" class="form-control" name="loadName" id="smartName" placeholder="sample123" value='<?= $it->item_name ?>' readonly>
+            </div>
+                
+            
+        </div>
+        <div class="row">
+            <div class='col'>
+            <label for="itemname">Stock</label>
+            <input type="text" class="form-control" name="loadStock" id="smartStock" placeholder="sample123" value='<?= $it->item_quantity ?>' readonly>
+            </div>
+        <div class="col">
+            <label for="price">Price</label>
+            <input type="text" class="form-control" name="loadPrice" id="smartPrice" placeholder="sample123" value='<?= number_format($it->item_price, 2, '.', ',') ?>' readonly>
+        </div>
+        </div>
+        <?php endforeach; ?>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" name="loadQuantity" id="smartQuantity" placeholder="00" value='' onkeyup="smartLoad()">
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+            <label for="total">Total Amount</label>
+            <input type="number" class="form-control" name="loadTotal" id="smartTotal" readonly>
+            </div>
+        <div class="col">
+            <label for="amount">Payment Amount</label>
+            <input type="number" class="form-control" name="loadAmount" id="smartAmount" placeholder="00" value="" onkeyup="smartDisplay()">
+        </div>
+        </div>
+            <div class="form-group">
+              <label for="sel1">Members:</label>
+              <select class="form-control" id="smartMember" name="loadMember">
+                                <?php foreach($members as $row) : ?>
+                  <option value="<?= $row->member_id ?>"><?= $row->member_last ?>, <?= $row->member_first ?></option>
+                              <?php endforeach; ?>
+              </select>
+        </div>
+        <div class="form-group">
+              <label for="sel1">Payment Type</label>
+              <select class="form-control" id="smartPayment" name="loadType">
+                  <option value="cash">Cash</option>
+                  <option value="credit">Credit</option>
+              </select>
+        </div>
+        <div class="form-group">
+            <label for="updateTotal">Change</label>
+            <input type="text" class="form-control" name="updateSmartTotal" id="updateSmartTotal" readonly>
+        </div>
+        
+</form>
+        
+      <div class="modal-footer">
+      <button type="submit" class="btn btn-success">Load</button>
+          </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+    
+
+
+
+
       <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
@@ -198,7 +407,7 @@ var sum = 0;
                 db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' name='quantity[]' value='"+qty+"' readonly='readonly'></td><td><input class='form-control' type='number' step='0.01' id='sumPrice' value='"+price+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
                 total.push(price);
                 sum += parseInt(totalCost);
-                
+            alert("Added to cart!");
                 
 
                 

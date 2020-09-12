@@ -61,6 +61,8 @@ $routes->add('cart', "clerk/clerk::cart");
 $routes->add('jsonCart', "clerk/clerk::cartDetails");
 $routes->add('placeOrder', "clerk/clerk::placeOrder");
 $routes->add('jsonCredit', "sales/Sales::jsonCredit");
+$routes->add('globeLoad', "clerk/Clerk::globeLoad");
+$routes->add('smartLoad', "clerk/Clerk::smartLoad");
 /**
  * --------------------------------------------------------------------
  * Additional Routing

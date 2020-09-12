@@ -70,15 +70,27 @@ class CustomModel{
   }
 
   
-    //SHOW ALL ITEMS IN INVENTORY
-  function showAll(){
+    //SHOW SMART LOAD
+  function showSmart(){
     $items = $this->db->table("items")
-         ->join('users', 'items.item_added_by = users.user_id')
-         ->select('item_code AS Code, item_name AS Name, item_type AS Category, item_price AS Price, users.user_last AS Username, item_quantity AS Quantity')
+         ->where("item_type", 10)
+         ->where("item_id", 1054)
          ->get()
          ->getResult();
     
-    return json_encode($items);
+    return $items;
+    
+  }
+
+   //SHOW GLOBE LOAD
+  function showGlobe(){
+    $items = $this->db->table("items")
+         ->where("item_type", 10)
+         ->where("item_id", 536)
+         ->get()
+         ->getResult();
+    
+    return $items;
     
   }
 
@@ -97,7 +109,7 @@ class CustomModel{
     function deleteItem($data){
     $user = $this->db->table('items')
                      ->set($data)
-                     ->where('item_code =', $data)
+                     ->where('item_id =', $data)
                      ->delete();
 
 
@@ -141,19 +153,19 @@ class CustomModel{
     $this->db->table('sales')
              ->insert($data);
 
-             $items = [
-              'item_code' => $data['sales_item'],
-              'item_added_qty' => intval($data['sales_quantity'])*(-1),
-              'item_prev_count' => $current,
-              'item_current_count' => $stock,
-              'transaction_type' => 1
-          ];
+          //    $items = [
+          //     'item_code' => $data['sales_item'],
+          //     'item_added_qty' => intval($data['sales_quantity'])*(-1),
+          //     'item_prev_count' => $current['item_quantity'],
+          //     'item_current_count' => $stock,
+          //     'transaction_type' => 1
+          // ];
 
     $this->db->table('inventory_transaction')
-            ->insert($items);
+            ->insert($stock);
 
     $this->db->table('items')
-                     ->set('item_quantity', $stock)
+                     ->set('item_quantity', $stock['item_current_count'])
                      ->where('item_id =', $data['sales_item'])
                      ->update();
   }
@@ -409,7 +421,7 @@ class CustomModel{
       ->where('MONTH(transaction_date) = "'.$date.'"')
       ->where('transaction_type', 0)
       ->orderBy("transaction_date","ASC")
-      ->select('item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold')
+      ->select('item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price,  ((item_prev_count + sum(item_added_qty) - item_quantity)* item_unit_price) AS Tot')
       ->groupBy('item_name')
       ->get()
       ->getResult();
@@ -418,9 +430,9 @@ class CustomModel{
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
       ->join("users", "user_id = transaction_by", "left")
       ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), -2).'"')
-      ->where('transaction_type', 0)
+      ->where('transaction_type', 1)
       ->orderBy("transaction_date","ASC")
-      ->select('item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold')
+      ->select('item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price, ((item_prev_count + sum(item_added_qty) - item_quantity)* item_unit_price) AS Tot')
       ->groupBy('item_name')
       ->get()
       ->getResult();

@@ -12,7 +12,8 @@ class Clerk extends BaseController{
         
         $db = db_connect();
         $search  = new CustomModel($db);
-        $data['info'] = $search->showAll();
+        $data['smart'] = $search->showSmart();
+        $data['globe'] = $search->showGlobe();
         $data['members'] = $search->showMemberOrder();
         $data['cart'] = $search->jsonCart();
 
@@ -81,7 +82,7 @@ class Clerk extends BaseController{
             if($paymentType == "cash"){
                 for($i = 0; $i < count($member); $i++){
                     $items[$i] = array(
-                        'sales_item' => $code[$i],
+                    'sales_item' => $code[$i],
                     'sales_quantity' => $quantity[$i],
                     'sales_by' => session()->get('id'),
                     'sales_amount_paid' => $total[$i],
@@ -93,15 +94,15 @@ class Clerk extends BaseController{
 
                     $transaction[$i]  = array(
                         'item_code' => $code[$i],
-                        'item_added_qty' => 0,
+                        'item_added_qty' => $quantity[$i]*-1,
                         'item_prev_count' => $current[$i],
-                        'item_current_count' => $stock[$i],
+                        'item_current_count' => $current[$i]-$quantity[$i],
                         'transaction_type' => 1,
                         'transaction_by' => session()->get('id')
                     );
                     $inv[$i]  = array(
                         'item_id' => $code[$i],
-                        'item_quantity' => $stock[$i]
+                        'item_quantity' => $current[$i]-$quantity[$i]
                     );
                 }
                     $db = db_connect();
@@ -124,15 +125,15 @@ class Clerk extends BaseController{
                     );
                     $transaction[$i]  = array(
                         'item_code' => $code[$i],
-                        'item_added_qty' => 0,
+                        'item_added_qty' => $quantity[$i]*-1,
                         'item_prev_count' => $current[$i],
-                        'item_current_count' => $stock[$i],
+                        'item_current_count' => $current[$i]-$quantity[$i],
                         'transaction_type' => 1,
                         'transaction_by' => session()->get('id')
                     );
                     $inv[$i]  = array(
                         'item_id' => $code[$i],
-                        'item_quantity' => $stock[$i]
+                        'item_quantity' => $current[$i]-$quantity[$i]
                     );
 
                     
@@ -223,8 +224,89 @@ class Clerk extends BaseController{
         $data = $search->cart($values);
         return redirect()->to("clerk");
         }
+    
 
+
+    function globeLoad(){
+    $type = $this->request->getVar("loadType");
+    if($type == "cash"){
+        $data = [
+            'sales_item' => $this->request->getVar("loadCode"),
+            'sales_quantity' => $this->request->getVar("loadQuantity"),
+            'sales_by' => session()->get('id'),
+            'sales_amount_paid' => $this->request->getVar("loadTotal"),
+            'sales_total_amount' => $this->request->getVar("loadTotal"),
+            'sales_member_id' => $this->request->getVar("loadMember"),                   
+            'sales_payment_type' => $this->request->getVar("loadType"),
+            'sales_credit_amount' => 0, 
+        ];
+
+        $transact = [
+            'item_code' => $this->request->getVar("loadCode"),
+            'item_added_qty' => $this->request->getVar("loadQuantity")*-1,
+            'item_prev_count' => $this->request->getVar("loadStock"),
+            'item_current_count' => $this->request->getVar("loadStock")-$this->request->getVar("loadQuantity"),
+            'transaction_type' => 1,
+            'transaction_by' => session()->get('id')
+        ];
+
+        $inventory = [
+            'item_id' => $this->request->getVar("loadCode"),
+            'item_quantity' => $this->request->getVar("loadStock")-$this->request->getVar("loadQuantity")
+        ];
         
+        $db = db_connect();
+        $model = new CustomModel($db);
+        $model->placeOrder($data,$transact,$inventory);
+        $session = session();
+        $session->setFlashData('success', 'Order placed!');
+        return redirect()->to('/clerk');      
+        
+
+
+    }else{
+        $data = [
+            'sales_item' => $this->request->getVar("loadCode"),
+            'sales_quantity' => $this->request->getVar("loadQuantity"),
+            'sales_by' => session()->get('id'),
+            'sales_amount_paid' => 0,
+            'sales_total_amount' => $this->request->getVar("loadTotal"),
+            'sales_member_id' => $this->request->getVar("loadMember"),                   
+            'sales_payment_type' => $this->request->getVar("loadType"),
+            'sales_credit_amount' => $this->request->getVar("loadTotal"), 
+        ];
+
+        $transact = [
+            'item_code' => $this->request->getVar("loadCode"),
+            'item_added_qty' => $this->request->getVar("loadQuantity")*-1,
+            'item_prev_count' => $this->request->getVar("loadStock"),
+            'item_current_count' => $this->request->getVar("loadStock")-$this->request->getVar("loadQuantity"),
+            'transaction_type' => 1,
+            'transaction_by' => session()->get('id')
+        ];
+
+        $inventory = [
+            'item_id' => $this->request->getVar("loadCode"),
+            'item_quantity' => $this->request->getVar("loadStock")-$this->request->getVar("loadQuantity")
+        ];
+
+
+        $db = db_connect();
+        $model = new CustomModel($db);
+        $model->placeOrder($data,$transact,$inventory);
+        $session = session();
+        $session->setFlashData('success', 'Order placed!');
+        return redirect()->to('/clerk'); 
+    }
+        
+        
+    }       
+    
+    
+    
+            
+            
+         
     
 }
 
