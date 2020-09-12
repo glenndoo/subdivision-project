@@ -56,6 +56,9 @@ public function jsonSales(){
       'title' => 'Members',
     ];
 
+    $db = db_connect();
+    $pay = new CustomModel($db);
+    $data['members'] = $pay->allMembers();
     
     if(session()->get('access') == 1){
       return view('sales/members', $data);

@@ -247,6 +247,17 @@ class CustomModel{
       return json_encode($details);
   }
   
+  function allMembers(){
+    $details = $this->db->table('members')
+                      ->select('member_id AS Member, CONCAT(member_last, ", ",  member_first) AS Name, sum(sales_credit_amount) AS Total')
+                      ->join('sales', 'sales.sales_member_id = member_id')
+                      ->orderBy('member_last')
+                      ->groupBy('sales.sales_member_id')
+                      ->get()
+                      ->getResult();
+      
+      return $details;
+  }
 
   //LOGIN LOGGER
   function loginDetails($data){

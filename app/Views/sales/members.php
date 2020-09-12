@@ -29,8 +29,8 @@
         <?php $total = 0 ?>
         <?php foreach($members as $row) : ?>
       <tr>
-          <td><a href="<?=base_url()?>/memberPurchases?id=<?= $row->member_id ?>&name=<?= $row->member_last ?>, <?= $row->member_first ?>"><?= $row->member_last ?>, <?= $row->member_first ?></a></td>
-          <td>Php <?= $row->totalCredit ?></td>
+          <td><a href="<?=base_url()?>/memberPurchases?id=<?= $row->Member ?>&name=<?= $row->Name?>"><?= $row->Name ?></a></td>
+          <td>Php <?= $row->Total ?></td>
         <?php endforeach; ?>
           
       </tr>
