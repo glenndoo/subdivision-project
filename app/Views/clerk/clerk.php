@@ -18,7 +18,7 @@ function load() {
        }
        
 function display() {
-           var txtFirstNumberValue = document.getElementById('loadPrice').value;
+           var txtFirstNumberValue = document.getElementById('loadAmount').value;
            var txtSecondNumberValue = document.getElementById('loadTotal').value;
            var result = Number(txtFirstNumberValue) - Number(txtSecondNumberValue);
            if (!isNaN(result)) {
@@ -403,7 +403,7 @@ var sum = 0;
             var qty = document.getElementById("qty"+id).value;
             var totalCost = parseInt(price*qty);
             var stock = quant-qty;
-            if(quant < qty){
+            if(Number(quant) < Number(qty)){
                 alert("Kulang na stock ng item. Please contact admin");
             }else{
                 var db = $("#cart tbody");

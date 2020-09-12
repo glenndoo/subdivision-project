@@ -105,7 +105,7 @@ public function jsonSales(){
     $data = [
         'sales_member_id' => $this->request->getGet('id'),
         'sales_amount_paid' => $this->request->getGet('payment'),
-        'sales_payment_type' => "Cash",
+        'sales_payment_type' => "cash",
         'sales_item' => 1213,
         'sales_quantity' => 1,
         'sales_by' => session()->get('id'),
