@@ -48,6 +48,7 @@ function smartDisplay() {
 <div class="container">
               <label for="sel1">Members:</label>
               <select class="form-control" id="member" name="member">
+              <option value="null"></option>
               
                                 <?php foreach($members as $row) : ?>
                   <option value="<?= $row->member_id ?>"><?= $row->member_last ?>, <?= $row->member_first ?></option>
@@ -209,6 +210,10 @@ function smartDisplay() {
             <label for="quantity">Quantity</label>
             <input type="number" class="form-control" name="loadQuantity" id="loadQuantity" placeholder="00" value='' onkeyup="load()">
         </div>
+        <div class="form-group">
+            <label for="quantity">Actual Quantity</label>
+            <input type="number" class="form-control" name="loadActual" id="loadActual" placeholder="00" value='' step="0.01">
+        </div>
         <hr>
         <div class="row">
             <div class="col">
@@ -217,7 +222,7 @@ function smartDisplay() {
             </div>
         <div class="col">
             <label for="amount">Payment Amount</label>
-            <input type="number" class="form-control" name="loadAmount" id="loadAmount" placeholder="00" value="" onkeyup="display()">
+            <input type="number" class="form-control" name="loadAmount" id="loadAmount" placeholder="00" value="" step="0.01" onkeyup="display()">
         </div>
         </div>
             <div class="form-group">
@@ -294,19 +299,23 @@ function smartDisplay() {
         </div>
         <?php endforeach; ?>
         <div class="form-group">
+            <label for="quantity">Actual Quantity</label>
+            <input type="number" class="form-control" name="loadActual" id="loadActual" placeholder="00" value='' step="0.01">
+        </div>
+        <div class="form-group">
             <label for="quantity">Quantity</label>
             <input type="number" class="form-control" name="loadQuantity" id="smartQuantity" placeholder="00" value='' onkeyup="smartLoad()">
         </div>
         <hr>
+        <div class="col">
+            <label for="amount">Payment Amount</label>
+            <input type="number" class="form-control" name="loadAmount" id="smartAmount" placeholder="00" value="" step="0.01"  onkeyup="smartDisplay()">
+        </div>
         <div class="row">
             <div class="col">
             <label for="total">Total Amount</label>
             <input type="number" class="form-control" name="loadTotal" id="smartTotal" readonly>
             </div>
-        <div class="col">
-            <label for="amount">Payment Amount</label>
-            <input type="number" class="form-control" name="loadAmount" id="smartAmount" placeholder="00" value="" onkeyup="smartDisplay()">
-        </div>
         </div>
             <div class="form-group">
               <label for="sel1">Members:</label>
@@ -401,9 +410,10 @@ var sum = 0;
             var price = data['Price'];
             var member = document.getElementById("member").value;
             var qty = document.getElementById("qty"+id).value;
-            var totalCost = parseInt(price*qty);
+            var totalCost = Number(price*qty);
             var stock = quant-qty;
-            if(Number(quant) < Number(qty)){
+            if(member != "null"){
+                if(Number(quant) < Number(qty)){
                 alert("Kulang na stock ng item. Please contact admin");
             }else{
                 var db = $("#cart tbody");
@@ -417,6 +427,10 @@ var sum = 0;
                 $("#cont").text("TOTAL: PHP "+sum);              
                 ntf++;
             }
+            }else{
+                alert("No member selected");
+            }
+            
                 
         });
         

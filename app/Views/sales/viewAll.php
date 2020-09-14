@@ -45,7 +45,7 @@
 <table id="sales" class="table" id="memberRecord">
   <thead class="thead-dark">
     <tr>
-        <th scope="col">Transaction ID</th>
+        <th scope="col">Rceipt Number</th>
       <th scope="col">Name</th>
       <th scope="col">Item</th>
       <th scope="col">Quantity Bought</th>
@@ -97,6 +97,14 @@
                     }
                 },
                 "targets": 1
+        },
+        {
+            "render": function ( data, type, row ) {
+                    {
+                    return '<a href="<?=base_url()?>/memberPurchases?receipt='+row['salesid']+'">'+data+'</a>';
+                    }
+                },
+                "targets": 0
         },
         {
           "render": function ( data, type, row ) {

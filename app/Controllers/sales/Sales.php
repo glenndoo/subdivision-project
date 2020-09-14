@@ -73,7 +73,18 @@ public function jsonSales(){
       'meta-title' => '',
       'title' => 'Member Details',
     ];
-    $db = db_connect();
+
+    if($this->request->getGet("receipt") != null){
+      $db = db_connect();
+      $model = new CustomModel($db);
+      $userId = $this->request->getGet('receipt');
+      $data['userId'] = $userId;
+      $data['name'] = "Receipt #: ".$userId;
+      $data['members'] = $model->showMemberDetails($userId);
+      
+      return view('sales/memberDetails', $data);
+    }else{
+      $db = db_connect();
     $model = new CustomModel($db);
     $userId = $this->request->getGet('id');
     $data['userId'] = $userId;
@@ -81,6 +92,10 @@ public function jsonSales(){
     $data['members'] = $model->showMemberDetails($userId);
     
     return view('sales/memberDetails', $data);
+
+   }
+    
+    
    
    }
    

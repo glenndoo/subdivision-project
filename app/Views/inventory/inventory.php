@@ -44,7 +44,8 @@ function solve() {
       <th>Item Name</th>
       <th>Category</th>
       <th>Quantity</th>
-      <th>Price</th>
+      <th>Selling Price</th>
+      <th>Unit Price</th>
       <th>Added By</th>
       <th>Options</th>
     </tr>
@@ -72,10 +73,7 @@ function solve() {
         <p><div class="container">
 
     <form method="post" action="<?= base_url() ?>/addItem">
-  <div class="form-group">
-    <label for="itemcode">Item Code</label>
-    <input type="text" class="form-control" name="itemcode" id="itemcode" placeholder="sample123" value=''>
-  </div>
+
     <div class="form-group">
     <label for="itemname">Item Name</label>
     <input type="text" class="form-control" name="itemname"id="itemname" placeholder="Sprite">
@@ -283,6 +281,7 @@ function solve() {
             {"data": "Category"},
             {"data": "Quantity"},
             {"data": "Price"},
+            {"data": "Old"},
             {"data": "Username"}
         ],
         "columnDefs": [
@@ -293,7 +292,7 @@ function solve() {
                     return '<button class="btn btn-primary" id="btnEdit" data-toggle="modal" data-target="#update">Edit</button> <button class="btn btn-warning" data-toggle="modal" data-target="#replenish" id="btnReplenish">Replenish</button> <button class="btn btn-danger" data-toggle="modal" data-target="#remove" id="btnRemove">Remove</button>';
                     }
                 },
-                "targets": 6
+                "targets": 7
             },
             {
                 "render": function (data, type, row) {
@@ -302,6 +301,14 @@ function solve() {
                     }
                 },
                 "targets": 4
+            },
+            {
+                "render": function (data, type, row) {
+                    {
+                    return 'Php '+data;
+                    }
+                },
+                "targets": 5
             }
         ],
         "order" : [[1, "asc"]],
@@ -321,7 +328,7 @@ function solve() {
             var data = table.row($(this).parents('tr')).data();
             var id = data["Code"];
             var name = data["Name"];
-            var price = data["Price"];
+            var price = data["Old"];
             document.getElementById("itemcodeupdate").value = id;
             document.getElementById("itemnameupdate").value = name;
             document.getElementById("updateUnit").value = price;

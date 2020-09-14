@@ -34,7 +34,6 @@ class Inventory extends BaseController{
         
         if($this->request->getMethod() == 'post'){
 			$rules = [
-				'itemcode' => 'required|min_length[3]|max_length[15]',
 				'itemname' => 'required|min_length[3]|max_length[255]',
 				'quantity' => 'required|min_length[1]|max_length[4]',
 			];
@@ -47,15 +46,14 @@ class Inventory extends BaseController{
                             $db = db_connect();
 				$model = new CustomModel($db);
 				$newData = [
-					'item_code' => $this->request->getVar('itemcode'),
                     'item_name' => $this->request->getVar('itemname'),
                     'item_quantity' => $this->request->getVar('quantity'),
                     'item_price' => $this->request->getVar('sellingPrice'),
+                    'item_unit_price' => $this->request->getVar('unitPrice'),
 					'item_added_by' => session()->get('id')
                 ];
                 
                 $transaction = [
-                    'item_code' => $this->request->getVar('itemcode'),
                     'item_old_price' => $this->request->getVar('unitPrice'),
                     'item_marked_up' => $this->request->getVar('sellingPrice'),
                     'item_prev_count' => $this->request->getVar('quantity'),

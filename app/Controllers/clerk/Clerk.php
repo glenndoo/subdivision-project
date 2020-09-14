@@ -232,7 +232,7 @@ class Clerk extends BaseController{
     if($type == "cash"){
         $data = [
             'sales_item' => $this->request->getVar("loadCode"),
-            'sales_quantity' => $this->request->getVar("loadQuantity"),
+            'sales_quantity' => $this->request->getVar("loadActual"),
             'sales_by' => session()->get('id'),
             'sales_amount_paid' => $this->request->getVar("loadTotal"),
             'sales_total_amount' => $this->request->getVar("loadTotal"),
@@ -243,16 +243,16 @@ class Clerk extends BaseController{
 
         $transact = [
             'item_code' => $this->request->getVar("loadCode"),
-            'item_added_qty' => $this->request->getVar("loadQuantity")*-1,
+            'item_added_qty' => $this->request->getVar("loadActual")*-1,
             'item_prev_count' => $this->request->getVar("loadStock"),
-            'item_current_count' => $this->request->getVar("loadStock")-$this->request->getVar("loadQuantity"),
+            'item_current_count' => $this->request->getVar("loadStock")-$this->request->getVar("loadActual"),
             'transaction_type' => 1,
             'transaction_by' => session()->get('id')
         ];
 
         $inventory = [
             'item_id' => $this->request->getVar("loadCode"),
-            'item_quantity' => $this->request->getVar("loadStock")-$this->request->getVar("loadQuantity")
+            'item_quantity' => $this->request->getVar("loadStock")-$this->request->getVar("loadActual")
         ];
         
         $db = db_connect();
@@ -267,7 +267,7 @@ class Clerk extends BaseController{
     }else{
         $data = [
             'sales_item' => $this->request->getVar("loadCode"),
-            'sales_quantity' => $this->request->getVar("loadQuantity"),
+            'sales_quantity' => $this->request->getVar("loadActual"),
             'sales_by' => session()->get('id'),
             'sales_amount_paid' => 0,
             'sales_total_amount' => $this->request->getVar("loadTotal"),
@@ -278,16 +278,16 @@ class Clerk extends BaseController{
 
         $transact = [
             'item_code' => $this->request->getVar("loadCode"),
-            'item_added_qty' => $this->request->getVar("loadQuantity")*-1,
+            'item_added_qty' => $this->request->getVar("loadActual")*-1,
             'item_prev_count' => $this->request->getVar("loadStock"),
-            'item_current_count' => $this->request->getVar("loadStock")-$this->request->getVar("loadQuantity"),
+            'item_current_count' => $this->request->getVar("loadStock")-$this->request->getVar("loadActual"),
             'transaction_type' => 1,
             'transaction_by' => session()->get('id')
         ];
 
         $inventory = [
             'item_id' => $this->request->getVar("loadCode"),
-            'item_quantity' => $this->request->getVar("loadStock")-$this->request->getVar("loadQuantity")
+            'item_quantity' => $this->request->getVar("loadStock")-$this->request->getVar("loadActual")
         ];
 
 
