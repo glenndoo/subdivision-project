@@ -19,7 +19,7 @@ Showing records of <i> <?= $name ?></i>
 <table class="table">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Transaction ID</th>
+      <th scope="col">Receipt #</th>
       <th scope="col">Item Code</th>
       <th scope="col">Item Name</th>
       <th scope="col">Quantity Bought</th>
@@ -36,7 +36,7 @@ Showing records of <i> <?= $name ?></i>
         <?php $total = 0; $credit = 0 ?>
         <?php foreach($members as $row) : ?>
       <tr>
-          <th scope="row"><?= $row->sales_id ?></th>
+          <th scope="row"><?= $row->sales_receipt ?></th>
         <td><?= $row->item_code ?></td>
         <td><?= $row->item_name ?></td>
         <td><?= $row->sales_quantity ?></td>

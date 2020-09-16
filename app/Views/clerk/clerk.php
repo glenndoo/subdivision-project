@@ -365,6 +365,7 @@ function smartDisplay() {
 var total = new Array();
 var sum = 0;
     var ntf = 0;
+    var ordered = new Array();
     $(function () {
         var table = $('#samples').DataTable
         ({
@@ -417,7 +418,16 @@ var sum = 0;
                 alert("Kulang na stock ng item. Please contact admin");
             }else{
                 var db = $("#cart tbody");
-                db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' name='quantity[]' value='"+qty+"' readonly='readonly'></td><td><input class='form-control' type='number' step='0.01' id='sumPrice' value='"+price+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
+                ordered.push("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' name='quantity[]' value='"+qty+"'></td><td><input class='form-control' type='number' step='0.01' id='sumPrice' value='"+price+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
+                
+                ordered.forEach(myEach);
+
+                function myEach(item, index){
+                    db.append(item);
+                }
+                    
+                
+                
                 total.push(price);
                 sum += parseInt(totalCost);
             alert("Added to cart!");
@@ -435,6 +445,12 @@ var sum = 0;
         });
         
     });
+
+
+    function removeMe(){
+        alert(ordered[0]);
+        
+    }
 
     $(document).ready(function() {
         

@@ -148,7 +148,7 @@ class CustomModel{
     $counter = $this->db->table('sales')
                     ->countAllResults();
     
-                    $dt['sales_receipt'] = 'GMD00'.($counter);
+                    $data['sales_receipt'] = 'GMD00'.($counter);
     
     $this->db->table('sales')
              ->insert($data);

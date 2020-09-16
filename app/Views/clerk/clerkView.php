@@ -17,6 +17,9 @@
         </i></h1>
     </div>
     <div class="col-sm-3">
+      <a class="btn btn-primary" href="showMembers">Members</a>
+    </div>
+    <div class="col-sm-3">
       <form method="get" action="/sales">
       <input class="form-control" type="date" name="dateSelected" id="example-date-input">
       <button class="btn btn-primary">Search by Day</button>
@@ -38,11 +41,11 @@
     
 </nav>
 
-<div>
+
 <table id="sales" class="table" id="memberRecord">
   <thead class="thead-dark">
     <tr>
-        <th scope="col">Receipt Number</th>
+        <th scope="col">Rceipt Number</th>
       <th scope="col">Name</th>
       <th scope="col">Item</th>
       <th scope="col">Quantity Bought</th>
@@ -56,7 +59,6 @@
   <h3><span class="badge badge-pill badge-success ml-1" id="salestotal"></span>
 <span class="badge badge-pill badge-warning" id="credittotal"></span></h3>
     </tbody></table>
-    </div>
      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
@@ -88,7 +90,22 @@
             {"data": "Date"},
             {"data": "memberid"}
         ], 
-        "columnDefs" : [
+        "columnDefs" : [{
+            "render": function ( data, type, row ) {
+                    {
+                    return '<a href="<?=base_url()?>/memberPurchases?id='+row['memberid']+'&name='+row['name']+'">'+data+'</a>';
+                    }
+                },
+                "targets": 1
+        },
+        {
+            "render": function ( data, type, row ) {
+                    {
+                    return '<a href="<?=base_url()?>/memberPurchases?receipt='+row['salesid']+'">'+data+'</a>';
+                    }
+                },
+                "targets": 0
+        },
         {
           "render": function ( data, type, row ) {
                     {
