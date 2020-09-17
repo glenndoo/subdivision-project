@@ -366,6 +366,7 @@ var total = new Array();
 var sum = 0;
     var ntf = 0;
     var ordered = new Array();
+    var totalCost = 0;
     $(function () {
         var table = $('#samples').DataTable
         ({
@@ -411,21 +412,21 @@ var sum = 0;
             var price = data['Price'];
             var member = document.getElementById("member").value;
             var qty = document.getElementById("qty"+id).value;
-            var totalCost = Number(price*qty);
+            totalCost = Number(price*qty);
             var stock = quant-qty;
             if(member != "null"){
                 if(Number(quant) < Number(qty)){
                 alert("Kulang na stock ng item. Please contact admin");
             }else{
                 var db = $("#cart tbody");
-                db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' name='quantity[]' value='"+qty+"'></td><td><input class='form-control' type='number' step='0.01' id='sumPrice' value='"+price+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
+                db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' id='qt"+id+"' name='quantity[]' value='"+qty+"' onkeyup='totalMe("+id+")'></td><td><input class='form-control' type='number' step='0.01' value='"+price+"' id='price"+id+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"' id='"+id+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
                 
 
 
                 
                 
                 total.push(price);
-                sum += parseInt(totalCost);
+                sum += Number(totalCost);
             alert("Added to cart!");
                 
 
@@ -443,8 +444,27 @@ var sum = 0;
     });
 
 
-    function removeMe(){
-        alert(ordered[0]);
+    function totalMe(data){
+        var val = document.getElementById("qt"+data).value;
+        var tot = document.getElementById(data).value;
+        var pr = document.getElementById("price"+data).value;
+        var final = Number(val*pr);
+        document.getElementById(data).value = final;
+        var g = Number(document.getElementById(data).value);
+        
+        if(final > tot){
+            alert("real value = "+ Number(final-tot));
+            sum += Number(final-tot);
+            $("#cont").text("TOTAL: PHP "+sum);     
+        }else{
+            alert("real value = "+ Number(tot-final));
+            sum -= Number(tot-final);
+            $("#cont").text("TOTAL: PHP "+sum); 
+        }
+        
+        
+
+
         
     }
 
