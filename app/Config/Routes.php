@@ -63,6 +63,7 @@ $routes->add('placeOrder', "clerk/clerk::placeOrder");
 $routes->add('jsonCredit', "sales/Sales::jsonCredit");
 $routes->add('globeLoad', "clerk/Clerk::globeLoad");
 $routes->add('smartLoad', "clerk/Clerk::smartLoad");
+$routes->add('removeSales', "sales/Sales::removeSalesEntry");
 /**
  * --------------------------------------------------------------------
  * Additional Routing

@@ -175,7 +175,7 @@ class CustomModel{
   function showAllSales($date){
   if(strlen($date) == 10){
     $details = $this->db->table('members')
-                      ->select('sales_receipt AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType')                    
+                      ->select('sales_receipt AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
                       ->where('DATE(sales_date) = "'. date($date) .'"')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->join('items', 'items.item_id = sales.sales_item')
@@ -185,7 +185,7 @@ class CustomModel{
                       ->getResult();
   }else if(strlen($date) == 2){
     $details = $this->db->table('members')
-                      ->select('sales_receipt AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType')                    
+                      ->select('sales_receipt AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
                       ->where('MONTH(sales_date) = "'. date($date) .'"')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->join('items', 'items.item_id = sales.sales_item')
@@ -195,7 +195,7 @@ class CustomModel{
                       ->getResult();
   }else{
       $details = $this->db->table('members')
-      ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType')                    
+      ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
       ->where('YEAR(sales_date) = "'. date($date) .'"')
       ->join('sales', 'sales.sales_member_id = member_id')
       ->join('items', 'items.item_id = sales.sales_item')
@@ -506,23 +506,22 @@ return $details;
 
   //SHOPPING CART
   function tryOrder($data,$items,$inv){
-    $receipt = array();
     $counter = $this->db->table('sales')
-                    ->countAllResults();
+                    ->select("DISTINCT(sales_receipt)")
+                    ->get()
+                    ->getResult();
 
     foreach($data as $dt){
       
 
-      $dt['sales_receipt'] = 'GMD00'.($counter);
-      $receipt['receipt_number'] = $dt['sales_receipt'];
+      $dt['sales_receipt'] = 'GMD00'.count($counter);
       $this->db->table('sales')
       ->insert($dt);
       
     }
     
 
-    $this->db->table("receipts")
-               ->insert($receipt);
+
 
 
     foreach($items as $it){
@@ -540,6 +539,22 @@ return $details;
       
     
 
+
+  }
+
+  function removeSale($remove, $add, $update){
+
+    foreach($remove as $rm){
+      echo $rm."<pre>";
+    }
+
+    foreach($add as $ad){
+      echo $ad."<pre>";
+    }
+
+    foreach($update as $up){
+      echo $up."<pre>";
+    }
 
   }
 }

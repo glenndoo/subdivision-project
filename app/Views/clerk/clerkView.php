@@ -53,6 +53,8 @@
       <th scope="col">Credit</th>
       <th scope="col">Sales Date</th>
       <th scope="col">Sales Date</th>
+      <th scope="col">Options</th>
+      <th scope="col">Hide</th>
     </tr>
   </thead>
   <tbody>
@@ -72,7 +74,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $('#sales').DataTable
+        var table = $('#sales').DataTable
         ({ 
             "dom": 'l<"toolbar">frtip',
             "ajax": {
@@ -88,7 +90,9 @@
             {"data": "Paid"},
             {"data": "Credit"},
             {"data": "Date"},
-            {"data": "memberid"}
+            {"data": "memberid"},
+            {"data": "sId"},
+            {"data": "itemId"}
         ], 
         "columnDefs" : [{
             "render": function ( data, type, row ) {
@@ -123,7 +127,15 @@
                 "targets": 4
         },
         {
-                "targets": [ 7 ],
+            "render": function ( data, type, row ) {
+                    {
+                    return '<a class="btn btn-danger" id="removeMe">Remove</a>';
+                    }
+                },
+                "targets": 8
+        },
+        {
+                "targets": [ 7, 9 ],
                 "visible": false
             }],
  
@@ -141,6 +153,14 @@
         
         
         } );
+
+        $('#sales tbody').on('click', '[id*=removeMe]', function () {
+            var data = table.row($(this).parents('tr')).data();
+            var id = data["sId"];
+            var item = data["itemId"];
+            var qty = data["Quantity"];
+            document.getElementById("removeMe").href = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty;
+        });
         
     });
 

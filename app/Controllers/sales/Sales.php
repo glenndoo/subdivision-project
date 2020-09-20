@@ -143,4 +143,25 @@ public function jsonSales(){
     $credit = $model->showMembers();
     return $credit;
    }
+
+
+   function removeSalesEntry(){
+    $data = [
+      'sales_id' => $this->request->getVar('id'),
+    ];
+
+    $details = [
+      'item_added_qty' => $this->request->getVar('qty'),
+      'item_code' => $this->request->getVar('item')
+    ];
+
+    $item = [
+      'item_quantity' => $this->request->getVar('item')
+    ];
+
+    $db = db_connect();
+    $model = new CustomModel($db);
+    $credit = $model->removeSale($data, $details, $item);
+
+   }
    }

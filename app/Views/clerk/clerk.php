@@ -453,11 +453,9 @@ var sum = 0;
         var g = Number(document.getElementById(data).value);
         
         if(final > tot){
-            alert("real value = "+ Number(final-tot));
             sum += Number(final-tot);
             $("#cont").text("TOTAL: PHP "+sum);     
         }else{
-            alert("real value = "+ Number(tot-final));
             sum -= Number(tot-final);
             $("#cont").text("TOTAL: PHP "+sum); 
         }
