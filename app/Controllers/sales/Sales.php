@@ -156,7 +156,7 @@ public function jsonSales(){
     ];
 
     $item = [
-      'item_quantity' => $this->request->getVar('item')
+      'item_quantity' => $this->request->getVar('qty')
     ];
 
     $db = db_connect();

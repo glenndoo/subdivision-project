@@ -544,17 +544,30 @@ return $details;
 
   function removeSale($remove, $add, $update){
 
-    foreach($remove as $rm){
-      echo $rm."<pre>";
+    $this->db->table('sales')
+            ->set($remove)
+            ->where('sales_id =', $remove)
+            ->delete();
+
+    $current = $this->db->table('items')
+             ->select('item_quantity')
+             ->where('item_id', $add['item_code'])
+             ->get()
+             ->getResult();
+    
+    $num = 0;
+    foreach($current as $cr){
+      $num = $cr->item_quantity;
     }
 
-    foreach($add as $ad){
-      echo $ad."<pre>";
-    }
+    $add['item_quantity'] = $num + $update['item_quantity'];
 
-    foreach($update as $up){
-      echo $up."<pre>";
-    }
+
+ 
+    $this->db->table('items')
+            ->set('item_quantity', $add['item_quantity'])
+            ->where('item_id', $add['item_code'])
+            ->update();
 
   }
 }

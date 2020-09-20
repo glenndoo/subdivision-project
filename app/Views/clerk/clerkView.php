@@ -129,7 +129,7 @@
         {
             "render": function ( data, type, row ) {
                     {
-                    return '<a class="btn btn-danger" id="removeMe">Remove</a>';
+                    return '<a class="btn btn-danger" id="removeMe'+data+'">Remove</a>';
                     }
                 },
                 "targets": 8
@@ -159,7 +159,7 @@
             var id = data["sId"];
             var item = data["itemId"];
             var qty = data["Quantity"];
-            document.getElementById("removeMe").href = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty;
+            document.getElementById("removeMe"+id).href = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty;
         });
         
     });
