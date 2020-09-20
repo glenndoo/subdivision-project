@@ -374,8 +374,10 @@ return $details;
   //MAKE PAYMENT
   function makePayment($data){
     $amountPaid = $data['sales_amount_paid'];
-    $counter = $this->db->table('sales')
-                    ->countAllResults();
+        $counter = $this->db->table('sales')
+        ->select("DISTINCT(sales_receipt)")
+        ->get()
+        ->getResult();
       $dt = 0;
       $rows = 0;
       $deduct = $this->db->table('sales')
@@ -410,7 +412,7 @@ return $details;
       ->where('sales_payment_type', 'credit')
       ->update();
 
-      $data['sales_receipt'] = 'GMD00'.($counter);
+      $data['sales_receipt'] = 'WMPC00'.count($counter);
       $this->db->table("sales")
                ->insert($data);
 
@@ -424,22 +426,22 @@ return $details;
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
-      $data['sales_receipt'] = 'GMD00'.($counter);
+      $data['sales_receipt'] = 'WMPC00'.count($counter);
     $this->db->table("sales")
                ->insert($data);
-               $this->db->table("receipts")
-               ->insert($data['sales_receipt']);
+              //  $this->db->table("receipts")
+              //  ->insert($data['sales_receipt']);
     }else{
       $this->db->table("sales")
       ->set('sales_credit_amount', $check/$rows)
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
-      $data['sales_receipt'] = 'GMD00'.($counter);
+      $data['sales_receipt'] = 'WMPC00'.count($counter);
     $this->db->table("sales")
                ->insert($data);
-               $this->db->table("receipts")
-               ->insert($data['sales_receipt']);
+              //  $this->db->table("receipts")
+              //  ->insert($data['sales_receipt']);
     }
 
     
@@ -514,7 +516,7 @@ return $details;
     foreach($data as $dt){
       
 
-      $dt['sales_receipt'] = 'GMD00'.count($counter);
+      $dt['sales_receipt'] = 'WMPC00'.count($counter);
       $this->db->table('sales')
       ->insert($dt);
       
