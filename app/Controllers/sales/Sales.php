@@ -163,5 +163,6 @@ public function jsonSales(){
     $model = new CustomModel($db);
     $credit = $model->removeSale($data, $details, $item);
 
+    return redirect()->to("/sales");
    }
    }

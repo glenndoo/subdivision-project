@@ -40,7 +40,43 @@
     
     
 </nav>
+<!--MODAL FOR REMOVING-->
+<div class="container">
 
+    <div id="remove" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Remove Item</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        
+      </div>
+      <div class="modal-body">
+        <p><div class="container">
+    This action cannot be undone
+    <?php if(isset($validation)) : ?>
+            <div class="col-12">
+              <div class="alert-danger" role='alert'>
+                  <?= $validation->listErrors() ?>
+              </div>
+            </div>
+          <?php endif; ?></p>
+      </div>
+      <div class="modal-footer">
+          <form action="" id="removeAction" method="post">
+         <button type="submit" class="btn btn-danger">Remove Item</button>
+          </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+</div>
 
 <table id="sales" class="table" id="memberRecord">
   <thead class="thead-dark">
@@ -129,7 +165,7 @@
         {
             "render": function ( data, type, row ) {
                     {
-                    return '<a class="btn btn-danger" id="removeMe'+data+'">Remove</a>';
+                    return '<btn class="btn btn-danger" id="removeMe'+data+'" data-toggle="modal" data-target="#remove">Remove</a>';
                     }
                 },
                 "targets": 8
@@ -159,7 +195,7 @@
             var id = data["sId"];
             var item = data["itemId"];
             var qty = data["Quantity"];
-            document.getElementById("removeMe"+id).href = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty;
+            document.getElementById("removeAction").action = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty;
         });
         
     });
