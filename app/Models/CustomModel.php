@@ -412,7 +412,7 @@ return $details;
       ->where('sales_payment_type', 'credit')
       ->update();
 
-      $data['sales_receipt'] = 'WMPC00'.count($counter);
+      $data['sales_receipt'] = 'WMPC00'.intval(count($counter)+1);
       $this->db->table("sales")
                ->insert($data);
 
@@ -426,7 +426,7 @@ return $details;
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
-      $data['sales_receipt'] = 'WMPC00'.count($counter);
+      $data['sales_receipt'] = 'WMPC00'.intval(count($counter)+1);
     $this->db->table("sales")
                ->insert($data);
               //  $this->db->table("receipts")
@@ -437,7 +437,7 @@ return $details;
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
-      $data['sales_receipt'] = 'WMPC00'.count($counter);
+      $data['sales_receipt'] = 'WMPC00'.intval(count($counter)+1);
     $this->db->table("sales")
                ->insert($data);
               //  $this->db->table("receipts")
@@ -516,7 +516,7 @@ return $details;
     foreach($data as $dt){
       
 
-      $dt['sales_receipt'] = 'WMPC00'.count($counter);
+      $dt['sales_receipt'] = 'WMPC00'.intval(count($counter)+1);
       $this->db->table('sales')
       ->insert($dt);
       

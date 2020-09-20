@@ -45,6 +45,9 @@ function smartDisplay() {
        }       
 </script>
 
+
+
+
 <div class="container">
               <label for="sel1">Members:</label>
               <select class="form-control" id="member" name="member">
@@ -80,7 +83,7 @@ function smartDisplay() {
       </div>
       <div class="modal-body">
         <div class="container">
-        <form method="POST" action="purchase">
+        <form method="POST" action="/purchase">
         <table id="cart">
         <thead>
             <tr>
@@ -110,7 +113,7 @@ function smartDisplay() {
             <option value="credit">Credit</option>
         </select></p>
       <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Purchase</button>
+          <button type="submit" class="btn btn-success" onclick="cf()">Purchase</button>
           </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
@@ -153,7 +156,7 @@ function smartDisplay() {
         
 </div>
       <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Purchase</button>
+          <button type="button" class="btn btn-success">Purchase</button>
           </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
@@ -474,7 +477,9 @@ var sum = 0;
             
 
             });
-
+    function cf(){
+        confirm("Sigurado ka na ba? Baka credit yung cash mo.");
+    }
 </script>
 
 
