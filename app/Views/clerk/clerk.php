@@ -477,9 +477,7 @@ var sum = 0;
             
 
             });
-    function cf(){
-        confirm("Sigurado ka na ba? Baka credit yung cash mo.");
-    }
+
 </script>
 
 
