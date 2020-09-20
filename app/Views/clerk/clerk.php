@@ -113,7 +113,7 @@ function smartDisplay() {
             <option value="credit">Credit</option>
         </select></p>
       <div class="modal-footer">
-          <button type="submit" class="btn btn-success" onclick="cf()">Purchase</button>
+          <button type="submit" class="btn btn-success">Purchase</button>
           </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
