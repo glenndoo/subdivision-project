@@ -40,7 +40,8 @@
 <table id="sales" class="table" id="memberRecord">
   <thead class="thead-dark">
     <tr>
-        <th scope="col">Item</th>
+      <th scope="col">Item ID</th>
+      <th scope="col">Item Name</th>
       <th scope="col">Ending inventory as of <?= date("F", mktime(0, 0, 0, substr($dateNow, -2)-1, 10)); ?></th>
       <th scope="col">Replenishment as of <?= date("F", mktime(0, 0, 0, substr($dateNow, -2), 10)); ?></th>
       <th scope="col">Inventory Count as of Replenishment (<?= date("F", mktime(0, 0, 0, substr($dateNow, -2), 10)); ?>)</th>
@@ -79,6 +80,7 @@
         "responsive": true,
             "sPaginationType": "full_numbers",
         "columns": [
+            {"data": "id"},
             {"data": "Item"},
             {"data": "Replenish"},
             {"data": "Present"},
@@ -98,20 +100,13 @@
                 // this case `data: 0`.
                 "render": function (data, type, row) {
                     {
-                    return '<a href="">'+data+'</button>';
+                    return '<a href="/showSummary?id='+data+'">'+data+'</button>';
                     }
                 },
                 "targets": 0
                 
-            },
-            {
-              "render": function (data, type, row) {
-                {
-                  return '<a href="">'+data+'</a>';
-                }
-              },
-              "targets": 1
-            }],
+            }
+            ],
         "order" : [[5, "ASC"]],
 
         drawCallback: function () {

@@ -64,6 +64,8 @@ $routes->add('jsonCredit', "sales/Sales::jsonCredit");
 $routes->add('globeLoad', "clerk/Clerk::globeLoad");
 $routes->add('smartLoad', "clerk/Clerk::smartLoad");
 $routes->add('removeSales', "sales/Sales::removeSalesEntry");
+$routes->add('showSummary', "inventory/Inventory::showSummary");
+$routes->add('invDetails', "inventory/Inventory::invDetails");
 /**
  * --------------------------------------------------------------------
  * Additional Routing

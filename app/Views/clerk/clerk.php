@@ -8,6 +8,11 @@
           </div>
               <?php endif; ?>
 <script>
+function check(){
+    var ck = document.getElementById("").value;
+}
+
+
 function load() {
            var txtFirstNumberValue = document.getElementById('loadQuantity').value;
            var txtSecondNumberValue = document.getElementById('loadPrice').value;
@@ -215,7 +220,7 @@ function smartDisplay() {
         </div>
         <div class="form-group">
             <label for="quantity">Actual Quantity</label>
-            <input type="number" class="form-control" name="loadActual" id="loadActual" placeholder="00" value='' step="0.01">
+            <input type="number" class="form-control" name="loadActual" id="loadActual" placeholder="00" value='' step="0.01" onkeyup="check()">
         </div>
         <hr>
         <div class="row">

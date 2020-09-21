@@ -466,7 +466,7 @@ return $details;
       ->where('MONTH(transaction_date) = "'.$date.'"')
       ->where('transaction_type', 0)
       ->orderBy("transaction_date","ASC")
-      ->select('item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price,  ((item_quantity)* item_unit_price) AS Tot')
+      ->select('item_id AS id, item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price,  ((item_quantity)* item_unit_price) AS Tot')
       ->groupBy('item_name')
       ->get()
       ->getResult();
@@ -477,7 +477,7 @@ return $details;
       ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), -2).'"')
       ->where('transaction_type', 1)
       ->orderBy("transaction_date","ASC")
-      ->select('item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price, ((item_quantity)* item_unit_price) AS Tot')
+      ->select('item_id AS id, item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price, ((item_quantity)* item_unit_price) AS Tot')
       ->groupBy('item_name')
       ->get()
       ->getResult();
@@ -628,5 +628,16 @@ return $details;
 
     
 
+  }
+
+
+  function itemSummary($item){
+    $result = $this->db->table("inventory_transaction")
+                       ->select("item_prev_count AS prev, item_added_qty AS added, transaction_date AS date, transaction_type AS type, transaction_by AS trans")
+                       ->where("item_code", $item)
+                       ->get()
+                       ->getResult();
+
+    return json_encode($result);
   }
 }

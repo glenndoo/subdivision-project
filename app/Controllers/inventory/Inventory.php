@@ -171,4 +171,21 @@ class Inventory extends BaseController{
         return redirect()->to('/inventory');
 
     }
+
+    function showSummary(){
+        $data = [
+            'meta-title' => '',
+            'title' => 'Item Summary',
+            'id' => $this->request->getVar("id")
+        ];
+        return view("inventory/itemSummary", $data);
+    }
+    function invDetails(){
+        $itemId = $this->request->getVar("id");
+        $db = db_connect();
+	    $model = new CustomModel($db);
+        $res = $model->itemSummary($itemId);
+
+        return $res;
+    }
 }
