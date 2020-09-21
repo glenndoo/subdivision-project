@@ -145,11 +145,20 @@ class CustomModel{
 
   //INSERT ORDER TO DB
   function placeOrder($data, $stock, $current){
-    $counter = $this->db->table('sales')
-                    ->countAllResults();
+    $counter = $this->db->table('receipts')
+        ->select("DISTINCT(receipt_number)")
+        ->get()
+        ->getResult();
     
-                    $data['sales_receipt'] = 'GMD00'.($counter);
+                    $data['sales_receipt'] = 'WMPC00'.count($counter);
     
+    $dt = [
+      'receipt_number' => $data['sales_receipt']
+    ];
+
+    $this->db->table("receipts")
+             ->insert($dt);
+
     $this->db->table('sales')
              ->insert($data);
 
@@ -175,7 +184,7 @@ class CustomModel{
   function showAllSales($date){
   if(strlen($date) == 10){
     $details = $this->db->table('members')
-                      ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
+                      ->select('sales_receipt AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
                       ->where('DATE(sales_date) = "'. date($date) .'"')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->join('items', 'items.item_id = sales.sales_item')
@@ -185,7 +194,7 @@ class CustomModel{
                       ->getResult();
   }else if(strlen($date) == 2){
     $details = $this->db->table('members')
-                      ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
+                      ->select('sales_receipt AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
                       ->where('MONTH(sales_date) = "'. date($date) .'"')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->join('items', 'items.item_id = sales.sales_item')
@@ -195,7 +204,7 @@ class CustomModel{
                       ->getResult();
   }else{
       $details = $this->db->table('members')
-      ->select('sales_id AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
+      ->select('sales_receipt AS salesid, sales_date AS Date, CONCAT(member_last, ", ", member_first) AS name,sales_member_id AS memberid, item_name as Item, sales_quantity as Quantity, sales_amount_paid AS Paid, sales_credit_amount as Credit, sales_payment_type as PaymentType, sales_id AS sId, sales_item AS itemId')                    
       ->where('YEAR(sales_date) = "'. date($date) .'"')
       ->join('sales', 'sales.sales_member_id = member_id')
       ->join('items', 'items.item_id = sales.sales_item')
@@ -374,8 +383,8 @@ return $details;
   //MAKE PAYMENT
   function makePayment($data){
     $amountPaid = $data['sales_amount_paid'];
-        $counter = $this->db->table('sales')
-        ->select("DISTINCT(sales_receipt)")
+        $counter = $this->db->table('receipts')
+        ->select("DISTINCT(receipt_number)")
         ->get()
         ->getResult();
       $dt = 0;
@@ -412,7 +421,7 @@ return $details;
       ->where('sales_payment_type', 'credit')
       ->update();
 
-      $data['sales_receipt'] = 'WMPC00'.intval(count($counter)+1);
+      $data['sales_receipt'] = 'WMPC00'.intval(count($counter));
       $this->db->table("sales")
                ->insert($data);
 
@@ -425,7 +434,7 @@ return $details;
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
-      $data['sales_receipt'] = 'WMPC00'.intval(count($counter)+1);
+      $data['sales_receipt'] = 'WMPC00'.intval(count($counter));
     $this->db->table("sales")
                ->insert($data);
               //  $this->db->table("receipts")
@@ -507,21 +516,25 @@ return $details;
 
   //SHOPPING CART
   function tryOrder($data,$items,$inv){
-    $counter = $this->db->table('sales')
-                    ->select("DISTINCT(sales_receipt)")
+    $counter = $this->db->table('receipts')
+                    ->select("DISTINCT(receipt_number)")
                     ->get()
                     ->getResult();
+    $dt['receipt_number'] = "WMPC00".count($counter);
+
+    $this->db->table('receipts')
+              ->insert($dt);
+
 
     foreach($data as $dt){
-      
-
-      $dt['sales_receipt'] = 'WMPC00'.intval(count($counter)+1);
+      $dt['sales_receipt'] = "WMPC00".count($counter);
       $this->db->table('sales')
       ->insert($dt);
       
     }
     
 
+    
 
 
 
@@ -544,11 +557,26 @@ return $details;
   }
 
   function removeSale($remove, $add, $update){
+    $check = $this->db->table("sales")
+                      ->where("sales_receipt", $remove['sales_receipt'])
+                      ->get()
+                      ->getResult();
 
-    $this->db->table('sales')
+    if(count($check) == 1){
+      $this->db->table('sales')
             ->set($remove)
-            ->where('sales_id =', $remove)
+            ->where('sales_id', $remove['sales_id'])
             ->delete();
+
+      $dt = [
+          'receipt_number' => $remove['sales_receipt']
+      ];
+
+
+      $this->db->table("receipts")
+               ->set($dt)
+               ->where("receipt_number", $dt)
+               ->delete();
 
     $current = $this->db->table('items')
              ->select('item_quantity')
@@ -569,6 +597,36 @@ return $details;
             ->set('item_quantity', $add['item_quantity'])
             ->where('item_id', $add['item_code'])
             ->update();
+    }else{
+      $this->db->table('sales')
+            ->set($remove)
+            ->where('sales_id', $remove['sales_id'])
+            ->delete();
+
+    
+
+    $current = $this->db->table('items')
+             ->select('item_quantity')
+             ->where('item_id', $add['item_code'])
+             ->get()
+             ->getResult();
+    
+    $num = 0;
+    foreach($current as $cr){
+      $num = $cr->item_quantity;
+    }
+
+    $add['item_quantity'] = $num + $update['item_quantity'];
+
+
+ 
+    $this->db->table('items')
+            ->set('item_quantity', $add['item_quantity'])
+            ->where('item_id', $add['item_code'])
+            ->update();
+    }
+
+    
 
   }
 }

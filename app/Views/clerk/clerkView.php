@@ -195,7 +195,8 @@
             var id = data["sId"];
             var item = data["itemId"];
             var qty = data["Quantity"];
-            document.getElementById("removeAction").action = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty;
+            var rcpt = data["salesid"];
+            document.getElementById("removeAction").action = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty+"&rcpt="+rcpt;
         });
         
     });

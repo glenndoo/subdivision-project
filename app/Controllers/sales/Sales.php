@@ -148,6 +148,7 @@ public function jsonSales(){
    function removeSalesEntry(){
     $data = [
       'sales_id' => $this->request->getVar('id'),
+      'sales_receipt' => $this->request->getVar('rcpt')
     ];
 
     $details = [
