@@ -416,8 +416,7 @@ return $details;
       $this->db->table("sales")
                ->insert($data);
 
-      $this->db->table("receipts")
-               ->insert($data['sales_receipt']);
+
 
     }else if($check == 0){
       $this->db->table("sales")
@@ -509,7 +508,7 @@ return $details;
   //SHOPPING CART
   function tryOrder($data,$items,$inv){
     $counter = $this->db->table('sales')
-                    ->select("COUNT(DISTINCT(sales_receipt))")
+                    ->select("DISTINCT(sales_receipt)")
                     ->get()
                     ->getResult();
 
