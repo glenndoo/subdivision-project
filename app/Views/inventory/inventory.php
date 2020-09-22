@@ -35,9 +35,7 @@ function solve() {
 </div>
                     
 <table id="samples" class="table bg-light">
-    <div class="float-xl-right mt-1 ml-1 mb-1">
-                                  <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Item</button>
-                    </div>
+    
   <thead class="thead-dark">
     <tr>
       <th>Item Code</th>
@@ -50,7 +48,9 @@ function solve() {
       <th>Options</th>
     </tr>
   </thead>
-
+  <div class="float-xl-right mt-1 ml-1 mb-1">
+                                  <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Item</button>
+                    </div>
 </table>
 
 

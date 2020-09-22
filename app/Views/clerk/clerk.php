@@ -8,9 +8,7 @@
           </div>
               <?php endif; ?>
 <script>
-function check(){
-    var ck = document.getElementById("").value;
-}
+
 
 
 function load() {
@@ -118,7 +116,7 @@ function smartDisplay() {
             <option value="credit">Credit</option>
         </select></p>
       <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Purchase</button>
+          <button type="submit" class="btn btn-success" id="purchase">Purchase</button>
           </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
@@ -220,7 +218,7 @@ function smartDisplay() {
         </div>
         <div class="form-group">
             <label for="quantity">Actual Quantity</label>
-            <input type="number" class="form-control" name="loadActual" id="loadActual" placeholder="00" value='' step="0.01" onkeyup="check()">
+            <input type="number" class="form-control" name="loadActual" id="loadActual" placeholder="00" value='' step="0.01">
         </div>
         <hr>
         <div class="row">
@@ -427,7 +425,7 @@ var sum = 0;
                 alert("Kulang na stock ng item. Please contact admin");
             }else{
                 var db = $("#cart tbody");
-                db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' id='qt"+id+"' name='quantity[]' value='"+qty+"' onkeyup='totalMe("+id+")'></td><td><input class='form-control' type='number' step='0.01' value='"+price+"' id='price"+id+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"' id='"+id+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
+                db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' id='qt"+id+"' name='quantity[]' value='"+qty+"' onkeyup='totalMe("+id+", "+quant+")'></td><td><input class='form-control' type='number' step='0.01' value='"+price+"' id='price"+id+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"' id='"+id+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
                 
 
 
@@ -452,28 +450,49 @@ var sum = 0;
     });
 
 
-    function totalMe(data){
+    function totalMe(data, dt){
         var val = document.getElementById("qt"+data).value;
         var tot = document.getElementById(data).value;
+        var actual = dt;
         var pr = document.getElementById("price"+data).value;
         var final = Number(val*pr);
         document.getElementById(data).value = final;
         var g = Number(document.getElementById(data).value);
         
-        if(final > tot){
+
+        if(val <= actual){
+            if(final > tot){
             sum += Number(final-tot);
-            $("#cont").text("TOTAL: PHP "+sum);     
+            $("#cont").text("TOTAL: PHP "+sum); 
+            document.getElementById("purchase").disabled = false;    
         }else{
             sum -= Number(tot-final);
             $("#cont").text("TOTAL: PHP "+sum); 
+            document.getElementById("purchase").disabled = false;
         }
+        }else{
+            alert("Kulang na stock sa inventory");
+            if(final > tot){
+            sum += Number(final-tot);
+            $("#cont").text("TOTAL: PHP "+sum); 
+            document.getElementById("purchase").disabled = true;    
+            }else{
+                sum -= Number(tot-final);
+                $("#cont").text("TOTAL: PHP "+sum); 
+                document.getElementById("purchase").disabled = true;
+            }
+        }
+        
         
         
 
 
         
     }
-
+    function check(data){
+    var ck = document.getElementById("qt"+data).value;
+    alert(ck);
+    }
     $(document).ready(function() {
         
         setInterval(function(){

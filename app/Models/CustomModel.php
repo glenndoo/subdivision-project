@@ -399,31 +399,33 @@ return $details;
         $dt = $dd->credit;
       }
 
-      $count = $this->db->table('sales')
-      ->where('sales_member_id', $data['sales_member_id'])
-      ->where('sales_payment_type', "credit")
-      ->get()
-      ->getResult();
+      $count = $this->db->table('receipts')
+                    ->select("DISTINCT(receipt_number)")
+                    ->get()
+                    ->getResult();
+    $rt = [
+      'receipt_number' => "WMPC00".count($count)
+    ];
 
+    $this->db->table('receipts')
+              ->insert($rt);
 
-
-    foreach($count as $ct){
-      $rows += 1;
-    }
 
     $check =  $dt - $amountPaid;
     
     if($check >= 1){
 
       $this->db->table("sales")
-      ->set('sales_credit_amount',$check/$rows)
+      ->set('sales_credit_amount',$check/count($count))
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
 
-      $data['sales_receipt'] = 'WMPC00'.intval(count($counter));
+      $data['sales_receipt'] = 'WMPC00'.intval(count($count));
       $this->db->table("sales")
                ->insert($data);
+
+
 
 
 
@@ -434,19 +436,19 @@ return $details;
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
-      $data['sales_receipt'] = 'WMPC00'.intval(count($counter));
+      $data['sales_receipt'] = 'WMPC00'.intval(count($count));
     $this->db->table("sales")
                ->insert($data);
               //  $this->db->table("receipts")
               //  ->insert($data['sales_receipt']);
     }else{
       $this->db->table("sales")
-      ->set('sales_credit_amount', $check/$rows)
+      ->set('sales_credit_amount',$check/count($count))
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
-      $data['sales_receipt'] = 'WMPC00'.intval(count($counter)+1);
-    $this->db->table("sales")
+      $data['sales_receipt'] = 'WMPC00'.intval(count($count));
+      $this->db->table("sales")
                ->insert($data);
               //  $this->db->table("receipts")
               //  ->insert($data['sales_receipt']);
@@ -463,10 +465,11 @@ return $details;
       $report = $this->db->table('items')
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
       ->join("users", "user_id = transaction_by", "left")
+      ->join("replenishment", "replenishment_item = item_id", "left")
       ->where('MONTH(transaction_date) = "'.$date.'"')
       ->where('transaction_type', 0)
       ->orderBy("transaction_date","ASC")
-      ->select('item_id AS id, item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price,  ((item_quantity)* item_unit_price) AS Tot')
+      ->select('item_id AS id, item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, replenishment_last_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + replenishment_last_count) AS Stock, item_quantity AS Current, (replenishment_last_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price,  ((item_quantity)* item_unit_price) AS Tot')
       ->groupBy('item_name')
       ->get()
       ->getResult();
@@ -477,7 +480,7 @@ return $details;
       ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), -2).'"')
       ->where('transaction_type', 1)
       ->orderBy("transaction_date","ASC")
-      ->select('item_id AS id, item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, item_prev_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + item_prev_count) AS Stock, item_quantity AS Current, (item_prev_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price, ((item_quantity)* item_unit_price) AS Tot')
+      ->select('item_id AS id, item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, replenishment_last_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + replenishment_last_count) AS Stock, item_quantity AS Current, (replenishment_last_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price, ((item_quantity)* item_unit_price) AS Tot')
       ->groupBy('item_name')
       ->get()
       ->getResult();
@@ -576,7 +579,7 @@ return $details;
       $this->db->table("receipts")
                ->set($dt)
                ->where("receipt_number", $dt)
-               ->delete();
+               ->update();
 
     $current = $this->db->table('items')
              ->select('item_quantity')
