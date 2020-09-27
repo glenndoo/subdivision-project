@@ -481,10 +481,13 @@ return $details;
       ->get()
       ->getResult();
     }else{
+      $current = substr(date("yy-m"), -2);
+      $actual = $current - 1;
       $report = $this->db->table('items')
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
       ->join("users", "user_id = transaction_by", "left")
-      ->where('MONTH(transaction_date) = "'.substr(date("yy-m"), -2).'"')
+      ->where('MONTH(transaction_date) = "'.$current.'"')
+      ->where('MONTH(replenishment_date) = "'.$actual.'"')
       ->where('transaction_type', 1)
       ->orderBy("transaction_date","ASC")
       ->select('item_id AS id, item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, replenishment_last_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + replenishment_last_count) AS Stock, item_quantity AS Current, (replenishment_last_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price, ((item_quantity)* item_unit_price) AS Tot')
@@ -492,10 +495,7 @@ return $details;
       ->get()
       ->getResult();
     }
-    
-
     return json_encode($report);
-    
   }
 
   function cart($data){
@@ -503,7 +503,6 @@ return $details;
       $this->db->table("cart")
       ->insert($dt);
     }
-    
   }
 
   function jsonCart(){
@@ -512,15 +511,11 @@ return $details;
              ->join("members", "cart.member_id = members.member_id")
              ->get()
              ->getResult();
-
     $resultCount = $this->db->table('cart')
              ->countAllResults();
-
-    
     return array(
       'records' => $result, 
       'counter' => $resultCount);
-
   }
 
 
@@ -653,7 +648,33 @@ return $details;
 
 
   function stampInv(){
-    // $this->db->table('replenishment')
-    //          ->
+    $result = $this->db->table('items')
+             ->select('item_id AS replenishment_item, item_quantity AS replenishment_last_count')
+             ->where('item_quantity <> ', 0)
+             ->get()
+             ->getResult();
+    
+    // $data = [];
+
+    //     foreach($result as $res){
+    //     $data['replenishment_item'] = $res->item_id;
+    //     $data['replenishment_last_count'] = $res->item_quantity;
+    //     }
+
+        foreach($result as $rs){
+          $data = [
+            'replenishment_item' => $rs->replenishment_item,
+            'replenishment_last_count' => $rs->replenishment_last_count
+          ];
+          $this->db->table('replenishment')
+          ->insert($data); 
+        }
+
+        echo json_encode($data);
+        // for($x = 0; $x <= count($data); $x++){
+
+        // }
+          
+    
   }
 }

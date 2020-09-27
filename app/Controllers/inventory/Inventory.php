@@ -201,5 +201,7 @@ class Inventory extends BaseController{
         $db = db_connect();
 	    $model = new CustomModel($db);
         $res = $model->stampInv();
+
+        // return view("inventory/invSum");
     }
 }
