@@ -57,15 +57,16 @@ $routes->add('payment', "sales/Sales::makePayment", ['filter' => 'auth']);
 $routes->add('inventorySummary', "inventory/Inventory::inventorySummary", ['filter' => 'auth']);
 $routes->add('jsonInventory', "inventory/Inventory::jsonInventory", ['filter' => 'auth']);
 $routes->add('replenishItem', "inventory/Inventory::replenish", ['filter' => 'auth']);
-$routes->add('cart', "clerk/clerk::cart");
-$routes->add('jsonCart', "clerk/clerk::cartDetails");
-$routes->add('placeOrder', "clerk/clerk::placeOrder");
-$routes->add('jsonCredit', "sales/Sales::jsonCredit");
-$routes->add('globeLoad', "clerk/Clerk::globeLoad");
-$routes->add('smartLoad', "clerk/Clerk::smartLoad");
-$routes->add('removeSales', "sales/Sales::removeSalesEntry");
-$routes->add('showSummary', "inventory/Inventory::showSummary");
-$routes->add('invDetails', "inventory/Inventory::invDetails");
+$routes->add('cart', "clerk/clerk::cart", ['filter' => 'auth']);
+$routes->add('jsonCart', "clerk/clerk::cartDetails", ['filter' => 'auth']);
+$routes->add('placeOrder', "clerk/clerk::placeOrder", ['filter' => 'auth']);
+$routes->add('jsonCredit', "sales/Sales::jsonCredit", ['filter' => 'auth']);
+$routes->add('globeLoad', "clerk/Clerk::globeLoad", ['filter' => 'auth']);
+$routes->add('smartLoad', "clerk/Clerk::smartLoad", ['filter' => 'auth']);
+$routes->add('removeSales', "sales/Sales::removeSalesEntry", ['filter' => 'auth']);
+$routes->add('showSummary', "inventory/Inventory::showSummary", ['filter' => 'auth']);
+$routes->add('invDetails', "inventory/Inventory::invDetails", ['filter' => 'auth']);
+$routes->add('stamp', "inventory/Inventory::stampInventory", ['filter' => 'auth']);
 /**
  * --------------------------------------------------------------------
  * Additional Routing

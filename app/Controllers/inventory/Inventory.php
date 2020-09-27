@@ -101,7 +101,7 @@ class Inventory extends BaseController{
             "transaction_type" => 1,
             'transaction_by'  => session()->get('id')
         ];
-        
+
         $updated = [
             "item_code" => $this->request->getGet('id'),
             "item_name" => $this->request->getVar('itemnameupdate'),
@@ -148,24 +148,31 @@ class Inventory extends BaseController{
 
 
     public function replenish(){
+        // $data = [
+
+        //     'item_code' => $this->request->getVar("replenishItem"),
+        //     'item_current_count' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
+        //     'item_added_qty' =>  $this->request->getVar("replenishQty"),
+        //     'item_prev_count' => $this->request->getVar("replenishCount"),
+        //     'transaction_by'  => session()->get('id')
+        // ];
+        // $updated = [
+
+        //     'item_code' => $this->request->getVar("replenishItem"),
+        //     'item_quantity' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
+
+        // ];
+
         $data = [
-
-            'item_code' => $this->request->getVar("replenishItem"),
-            'item_current_count' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
-            'item_added_qty' =>  $this->request->getVar("replenishQty"),
-            'item_prev_count' => $this->request->getVar("replenishCount"),
-            'transaction_by'  => session()->get('id')
+            'replenishment_item' => $this->request->getVar('replenishItem'),
+            'replenishment_last_count' => $this->request->getVar('replenishCount')
         ];
-        $updated = [
 
-            'item_code' => $this->request->getVar("replenishItem"),
-            'item_quantity' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
 
-        ];
 
         $db = db_connect();
 	    $model = new CustomModel($db);
-        $model->updateInventory($data, $updated);
+        $model->updateInventory($data);
         
         
         return redirect()->to('/inventory');
@@ -187,5 +194,12 @@ class Inventory extends BaseController{
         $res = $model->itemSummary($itemId);
 
         return $res;
+    }
+
+
+    function stampInventory(){
+        $db = db_connect();
+	    $model = new CustomModel($db);
+        $res = $model->stampInv();
     }
 }

@@ -369,14 +369,19 @@ return $details;
   
 
   //UPDATE INVENTORY
-  function updateInventory($update, $inventory){
-      $this->db->table("inventory_transaction")
-               ->insert($update);
+  function updateInventory($update){
+      // $this->db->table("inventory_transaction")
+      //          ->insert($update);
                
-      $this->db->table("items")
-               ->set($inventory)
-               ->where('item_id =', $inventory['item_code'])
-               ->update();
+      // $this->db->table("items")
+      //          ->set($inventory)
+      //          ->where('item_id =', $inventory['item_code'])
+      //          ->update();
+
+      $this->db->table('replenishment')
+              ->where('replenishment_item', $update['replenishment_item'])
+              ->set('replenishment_last_count', $update['replenishment_last_count'])
+              ->update();
   }
 
 
@@ -462,11 +467,13 @@ return $details;
   function inventoryReport($data){
     if(strlen($data) != null){
       $date = substr($data, -2);
+      $formerDate = $date - 1;
       $report = $this->db->table('items')
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
       ->join("users", "user_id = transaction_by", "left")
       ->join("replenishment", "replenishment_item = item_id", "left")
       ->where('MONTH(transaction_date) = "'.$date.'"')
+      ->where('MONTH(replenishment_date) = "'.$formerDate.'"')
       ->where('transaction_type', 0)
       ->orderBy("transaction_date","ASC")
       ->select('item_id AS id, item_name AS Item, CONCAT(user_last, ", ", user_first) AS Person, replenishment_last_count as Replenish, sum(item_added_qty) AS Present, (sum(item_added_qty) + replenishment_last_count) AS Stock, item_quantity AS Current, (replenishment_last_count + sum(item_added_qty) - item_quantity) AS Sold, item_unit_price AS Price,  ((item_quantity)* item_unit_price) AS Tot')
@@ -642,5 +649,11 @@ return $details;
                        ->getResult();
 
     return json_encode($result);
+  }
+
+
+  function stampInv(){
+    // $this->db->table('replenishment')
+    //          ->
   }
 }
