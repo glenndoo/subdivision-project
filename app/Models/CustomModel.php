@@ -670,10 +670,10 @@ return $details;
           ->insert($data); 
         }
 
-        echo json_encode($data);
-        // for($x = 0; $x <= count($data); $x++){
+        // echo json_encode($data);
+        // // for($x = 0; $x <= count($data); $x++){
 
-        // }
+        // // }
           
     
   }
