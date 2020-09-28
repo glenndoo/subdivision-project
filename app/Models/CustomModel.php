@@ -369,9 +369,9 @@ return $details;
   
 
   //UPDATE INVENTORY
-  function updateInventory($update, $inventory){
-      // $this->db->table("inventory_transaction")
-      //          ->insert($update);
+  function updateInventory($update, $inventory, $ending){
+      $this->db->table("inventory_transaction")
+               ->insert($update);
                
       $this->db->table("items")
                ->set($inventory)
@@ -379,8 +379,8 @@ return $details;
                ->update();
 
       $this->db->table('replenishment')
-              ->where('replenishment_item', $update['replenishment_item'])
-              ->set('replenishment_last_count', $update['replenishment_last_count'])
+              ->where('replenishment_item', $ending['replenishment_item'])
+              ->set('replenishment_last_count', $ending['replenishment_last_count'])
               ->update();
   }
 

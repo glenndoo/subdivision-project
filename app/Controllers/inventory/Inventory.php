@@ -148,22 +148,22 @@ class Inventory extends BaseController{
 
 
     public function replenish(){
-        // $data = [
-
-        //     'item_code' => $this->request->getVar("replenishItem"),
-        //     'item_current_count' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
-        //     'item_added_qty' =>  $this->request->getVar("replenishQty"),
-        //     'item_prev_count' => $this->request->getVar("replenishCount"),
-        //     'transaction_by'  => session()->get('id')
-        // ];
-        // $updated = [
-
-        //     'item_code' => $this->request->getVar("replenishItem"),
-        //     'item_quantity' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
-
-        // ];
-
         $data = [
+
+            'item_code' => $this->request->getVar("replenishItem"),
+            'item_current_count' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
+            'item_added_qty' =>  $this->request->getVar("replenishQty"),
+            'item_prev_count' => $this->request->getVar("replenishCount"),
+            'transaction_by'  => session()->get('id')
+        ];
+        $updated = [
+
+            'item_code' => $this->request->getVar("replenishItem"),
+            'item_quantity' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
+
+        ];
+
+        $ending = [
             'replenishment_item' => $this->request->getVar('replenishItem'),
             'replenishment_last_count' => $this->request->getVar('replenishCount')
         ];
@@ -172,7 +172,7 @@ class Inventory extends BaseController{
 
         $db = db_connect();
 	    $model = new CustomModel($db);
-        $model->updateInventory($data);
+        $model->updateInventory($data,$updated,$ending);
         
         
         return redirect()->to('/inventory');
