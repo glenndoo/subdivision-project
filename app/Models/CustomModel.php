@@ -369,7 +369,7 @@ return $details;
   
 
   //UPDATE INVENTORY
-  function updateInventory($update, $inventory, $ending){
+  function updateInventory($update, $inventory){
       $this->db->table("inventory_transaction")
                ->insert($update);
                
@@ -378,12 +378,24 @@ return $details;
                ->where('item_id =', $inventory['item_code'])
                ->update();
 
-      $this->db->table('replenishment')
-              ->where('replenishment_item', $ending['replenishment_item'])
-              ->set('replenishment_last_count', $ending['replenishment_last_count'])
-              ->update();
+
   }
 
+  //REPLENISH ITEM
+  function replenish($ending,$item,$trans){
+    $this->db->table('replenishment')
+            ->where('replenishment_item', $ending['replenishment_item'])
+            ->set('replenishment_last_count', $ending['replenishment_last_count'])
+            ->update();
+    
+    $this->db->table('items')
+            ->where('item_id', $item['item_id'])
+            ->set('item_quantity', $item['item_quantity'])
+            ->update();
+
+    $this->db->table('inventory_transaction')
+             ->insert($trans);
+  }
 
   //MAKE PAYMENT
   function makePayment($data){

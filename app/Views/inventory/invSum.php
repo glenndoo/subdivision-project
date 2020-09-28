@@ -114,10 +114,10 @@
                 
             }
             ],
-        "order" : [[5, "ASC"]],
+        "order" : [[6, "ASC"]],
 
         drawCallback: function () {
-        var sum = $('#sales').DataTable().column(7).data().sum();
+        var sum = $('#sales').DataTable().column(8).data().sum();
         $('#salestotal').html("Total Item Cost: <b>Php "+sum.toFixed(2)+"</b>");
       }
         
