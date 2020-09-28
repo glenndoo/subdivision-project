@@ -372,13 +372,11 @@ return $details;
   function updateInventory($update, $inventory){
       $this->db->table("inventory_transaction")
                ->insert($update);
-               
+      
       $this->db->table("items")
                ->set($inventory)
                ->where('item_id =', $inventory['item_code'])
                ->update();
-
-
   }
 
   //REPLENISH ITEM
@@ -395,6 +393,7 @@ return $details;
 
     $this->db->table('inventory_transaction')
              ->insert($trans);
+
   }
 
   //MAKE PAYMENT
