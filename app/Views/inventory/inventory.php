@@ -132,7 +132,7 @@ function solve() {
       </div>
       <div class="modal-body">
         <p><div class="container">
-    You are about to stamp the ending inventory. <br />
+    You are about to stamp the ending inventory. <h2>Only do this at the end of the month!</h2><br />
     This would mark the ending inventory for <b><?= date("F", mktime(0, 0, 0, substr((date("yy-m")), -2)+0, 10)); ?></b> in the inventory
       </div>
       <div class="modal-footer">

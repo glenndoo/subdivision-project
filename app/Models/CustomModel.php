@@ -369,14 +369,14 @@ return $details;
   
 
   //UPDATE INVENTORY
-  function updateInventory($update){
+  function updateInventory($update, $inventory){
       // $this->db->table("inventory_transaction")
       //          ->insert($update);
                
-      // $this->db->table("items")
-      //          ->set($inventory)
-      //          ->where('item_id =', $inventory['item_code'])
-      //          ->update();
+      $this->db->table("items")
+               ->set($inventory)
+               ->where('item_id =', $inventory['item_code'])
+               ->update();
 
       $this->db->table('replenishment')
               ->where('replenishment_item', $update['replenishment_item'])
