@@ -52,7 +52,7 @@ function solve() {
                                   <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Item</button><br /><br />
                                   <?php  $month = date("F", mktime(0, 0, 0, substr(date('yy-m'), -2)+1, 10)) ?>
 
-                                  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
+                                  
                     </div>
 </table>
 
@@ -117,37 +117,7 @@ function solve() {
 </div>
 
 
-<!-- MODAL FOR STAMPING -->
-<div class="container">
 
-    <div id="stamp" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-          <h4 class="modal-title">Stamp Inventory</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        
-      </div>
-      <div class="modal-body">
-        <p><div class="container">
-    You are about to stamp the ending inventory. <h2>Only do this at the end of the month!</h2><br />
-    This would mark the ending inventory for <b><?= date("F", mktime(0, 0, 0, substr((date("yy-m")), -2)+0, 10)); ?></b> in the inventory
-      </div>
-      <div class="modal-footer">
-          <form action="stamp" id="" method="post">
-         <button type="submit" class="btn btn-warning">Stamp Inventory</button>
-          </form>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-</div>
-</div>
 
 
 
