@@ -136,7 +136,7 @@ function solve() {
     This would mark the ending inventory for <b><?= date("F", mktime(0, 0, 0, substr((date("yy-m")), -2)+0, 10)); ?></b> in the inventory
       </div>
       <div class="modal-footer">
-          <form action="stamp" id="removeAction" method="post">
+          <form action="stamp" id="" method="post">
          <button type="submit" class="btn btn-warning">Stamp Inventory</button>
           </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -277,7 +277,7 @@ function solve() {
 
   <div class="form-group">
         <label for="quantity">Current Quantity</label>
-        <input type="number" class="form-control" name="replenishCount" step="0.01" id="replenishCount">
+        <input type="number" class="form-control" name="replenishCount" step="0.01" id="replenishCount" readonly="readonly">
     <label for="quantity">Quantity</label>
     <input type="number" step="0.01" class="form-control" name="replenishQty" id="replenishQty" value="0" placeholder="Number only">
   </div>
@@ -373,7 +373,7 @@ function solve() {
         $('#samples tbody').on('click', '[id*=btnRemove]', function () {
             var data = table.row($(this).parents('tr')).data();
             var id = data["Code"];
-            document.getElementById("removeAction").action = "/removeItem?id="+id;
+            document.getElementById("removeAction").action = "<?=base_url()?>/removeItem?id="+id;
         });
 
         $('#samples tbody').on('click', '[id*=btnReplenish]', function () {

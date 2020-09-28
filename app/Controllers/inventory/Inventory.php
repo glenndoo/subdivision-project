@@ -149,25 +149,22 @@ class Inventory extends BaseController{
 
     public function replenish(){
 
-        $ending = [
-            'replenishment_item' => $this->request->getVar('replenishItem'),
-            'replenishment_last_count' => $this->request->getVar('replenishCount')
-        ];
-
         $data = [
           'item_id' => $this->request->getVar('replenishItem'),
-          'item_quantity' => $this->request->getVar('replenishCount')
+          'item_quantity' => $this->request->getVar('replenishCount') + $this->request->getVar('replenishQty')
         ];
 
         $transact = [
           "item_code" => $this->request->getVar('replenishItem'),
+          'item_added_qty' => $this->request->getVar('replenishQty'),
+          'item_current_count' => $this->request->getVar('replenishCount') + $this->request->getVar('replenishQty'),
           "transaction_type" => 0,
           'transaction_by'  => session()->get('id')
         ];
 
         $db = db_connect();
 	      $model = new CustomModel($db);
-        $model->replenish($ending,$data,$transact);
+        $model->replenish($data,$transact);
         
         
         return redirect()->to('/inventory');

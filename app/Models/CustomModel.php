@@ -380,11 +380,8 @@ return $details;
   }
 
   //REPLENISH ITEM
-  function replenish($ending,$item,$trans){
-    $this->db->table('replenishment')
-            ->where('replenishment_item', $ending['replenishment_item'])
-            ->set('replenishment_last_count', $ending['replenishment_last_count'])
-            ->update();
+  function replenish($item,$trans){
+
     
     $this->db->table('items')
             ->where('item_id', $item['item_id'])
