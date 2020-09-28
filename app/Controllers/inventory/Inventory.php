@@ -153,7 +153,6 @@ class Inventory extends BaseController{
             'item_code' => $this->request->getVar("replenishItem"),
             'item_current_count' => $this->request->getVar("replenishCount") + $this->request->getVar("replenishQty"),
             'item_added_qty' =>  $this->request->getVar("replenishQty"),
-            'item_prev_count' => $this->request->getVar("replenishCount"),
             'transaction_by'  => session()->get('id')
         ];
         $updated = [
