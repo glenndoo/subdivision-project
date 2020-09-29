@@ -246,7 +246,7 @@ class CustomModel{
   //SHOW ALL MEMBERS
   function showMembers(){
       $details = $this->db->table('members')
-                      ->select('member_id AS Member, CONCAT(member_last, ", ",  member_first) AS Name, sum(sales_credit_amount) AS Total')
+                      ->select('member_id AS Member, CONCAT(member_last, ", ",  member_first) AS Name, member_credit AS Total')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->orderBy('member_last')
                       ->groupBy('sales.sales_member_id')
@@ -258,7 +258,7 @@ class CustomModel{
   
   function allMembers(){
     $details = $this->db->table('members')
-                      ->select('member_id AS Member, CONCAT(member_last, ", ",  member_first) AS Name, sum(sales_credit_amount) AS Total')
+                      ->select('member_id AS Member, CONCAT(member_last, ", ",  member_first) AS Name, member_credit AS Total')
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->orderBy('member_last')
                       ->groupBy('sales.sales_member_id')
@@ -402,9 +402,9 @@ return $details;
         ->getResult();
       $dt = 0;
       $rows = 0;
-      $deduct = $this->db->table('sales')
-                      ->select('SUM(sales_credit_amount) AS credit')
-                      ->where('sales_member_id', $data['sales_member_id'])
+      $deduct = $this->db->table('members')
+                      ->select('member_credit AS credit')
+                      ->where('member_id', $data['sales_member_id'])
                       ->get()
                       ->getResult();
 
@@ -428,16 +428,19 @@ return $details;
     
     if($check >= 1){
 
-      $this->db->table("sales")
-      ->set('sales_credit_amount',$check/count($count))
-      ->where('sales_member_id =', $data['sales_member_id'])
-      ->where('sales_payment_type', 'credit')
-      ->update();
+      // $this->db->table("sales")
+      // ->set('sales_credit_amount',$check/count($count))
+      // ->where('sales_member_id =', $data['sales_member_id'])
+      // ->where('sales_payment_type', 'credit')
+      // ->update();
 
       $data['sales_receipt'] = 'WMPC00'.intval(count($count));
       $this->db->table("sales")
                ->insert($data);
-
+               $this->db->table("members")
+               ->set("member_credit", $check)
+               ->where("member_id", $data['sales_member_id'])
+               ->update();
 
 
 
@@ -449,20 +452,25 @@ return $details;
       ->where('sales_member_id =', $data['sales_member_id'])
       ->where('sales_payment_type', 'credit')
       ->update();
+      $this->db->table("members")
+               ->set("member_credit", $check)
+               ->where("member_id", $data['sales_member_id'])
+               ->update();
+
       $data['sales_receipt'] = 'WMPC00'.intval(count($count));
     $this->db->table("sales")
                ->insert($data);
               //  $this->db->table("receipts")
               //  ->insert($data['sales_receipt']);
     }else{
-      $this->db->table("sales")
-      ->set('sales_credit_amount',$check/count($count))
-      ->where('sales_member_id =', $data['sales_member_id'])
-      ->where('sales_payment_type', 'credit')
-      ->update();
-      $data['sales_receipt'] = 'WMPC00'.intval(count($count));
-      $this->db->table("sales")
-               ->insert($data);
+      // $this->db->table("sales")
+      // ->set('sales_credit_amount',$check/count($count))
+      // ->where('sales_member_id =', $data['sales_member_id'])
+      // ->where('sales_payment_type', 'credit')
+      // ->update();
+      // $data['sales_receipt'] = 'WMPC00'.intval(count($count));
+      // $this->db->table("sales")
+      //          ->insert($data);
               //  $this->db->table("receipts")
               //  ->insert($data['sales_receipt']);
     }
@@ -545,12 +553,6 @@ return $details;
       ->insert($dt);
       
     }
-    
-
-    
-
-
-
     foreach($items as $it){
       $this->db->table('inventory_transaction')
                ->insert($it);
@@ -563,10 +565,30 @@ return $details;
       ->where('item_id =', $in['item_id'])
       ->update();
     }
-      
+    $num = 0;  
+    $id = "";
+    $cred = 0;
+    foreach($data as $d){
+      $id = $d['sales_member_id'];
+      $num += $d['sales_credit_amount'];
+    }
     
 
+    $crd = $this->db->table("members")
+                    ->where("member_id", $id)
+                    ->get()
+                    ->getResult();
 
+    foreach($crd as $c){
+      $cred += $c->member_credit;
+    }
+    $final = $num+$cred;
+    $credit = [
+      'member_credit' => $final
+    ];
+    $this->db->table("members")
+            ->where("member_id", $id)
+            ->update($credit);
   }
 
   function removeSale($remove, $add, $update){

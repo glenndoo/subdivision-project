@@ -53,7 +53,7 @@ var tag = "";
           {
             "render" : function (data, type, row) {
                     {
-                    return '<input type="number" id="payment'+data+'" step="0.01"> <a class="btn btn-primary" id="payCredit'+data+'">Make Payment</a>';
+                    return '<input type="number" id="payment'+data+'" step="0.01" onkeyup="checkPayment('+data+')"> <a class="btn btn-primary" id="payCredit'+data+'">Make Payment</a>';
                     }
                 },
                 "targets" : 3
@@ -68,11 +68,19 @@ var tag = "";
             var id = data['Member'];
             var tot = data['Total'];
             var payment = document.getElementById("payment"+tot).value;
-            document.getElementById("payCredit"+tot).href = "payment/?id="+id+"&payment="+payment;
+            if(payment>tot){
+              alert("Sakto dapat bayad");
+            }else{
+              document.getElementById("payCredit"+tot).href = "payment/?id="+id+"&payment="+payment;
+            }
+            
            
         });
     });
 
+
+      
+    
 </script>
 <?= $this->endSection() ?>
 

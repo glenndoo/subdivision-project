@@ -49,6 +49,7 @@ function smartDisplay() {
 </script>
 
 
+
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
 
 <div class="container">

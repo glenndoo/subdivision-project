@@ -50,9 +50,13 @@ function solve() {
   </thead>
   <div class="float-xl-right mt-1 ml-1 mb-1">
                                   <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Item</button><br /><br />
-                                  <?php  $month = date("F", mktime(0, 0, 0, substr(date('yy-m'), -2)+1, 10)) ?>
-
                                   
+                                  <?php
+                                  $date=date_create(date("Y-m-d"));
+                                  date_add($date,date_interval_create_from_date_string("0 days"));
+                                  $fin = date_format($date,"Y-m");
+                                  echo $fin;
+                                  ?>
                     </div>
 </table>
 
