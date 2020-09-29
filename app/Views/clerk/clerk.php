@@ -1,7 +1,14 @@
 <?= $this->extend('Layouts/main') ?>
 
 <?= $this->section('content') ?>
+<?php $date = date_create(date("yy-m-d"));
+  date_add($date,date_interval_create_from_date_string("1 days"));
+  $fin = substr(date_format($date,"Y-m"),-2);
+  $now = substr(date("Y-m"),-1);?>
 
+  <?php if($fin > $now) : ?>
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
+  <?php endif; ?>
 <?php if (session()->get('success')) : ?>
           <div class="alert alert-success" role='alert'>
             <?= session()->get('success') ?>
@@ -50,7 +57,7 @@ function smartDisplay() {
 
 
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
+
 
 <div class="container">
               <label for="sel1">Members:</label>

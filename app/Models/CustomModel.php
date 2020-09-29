@@ -395,6 +395,9 @@ return $details;
 
   //MAKE PAYMENT
   function makePayment($data){
+
+  
+
     $amountPaid = $data['sales_amount_paid'];
         $counter = $this->db->table('receipts')
         ->select("DISTINCT(receipt_number)")
@@ -463,14 +466,7 @@ return $details;
               //  $this->db->table("receipts")
               //  ->insert($data['sales_receipt']);
     }else{
-      // $this->db->table("sales")
-      // ->set('sales_credit_amount',$check/count($count))
-      // ->where('sales_member_id =', $data['sales_member_id'])
-      // ->where('sales_payment_type', 'credit')
-      // ->update();
-      // $data['sales_receipt'] = 'WMPC00'.intval(count($count));
-      // $this->db->table("sales")
-      //          ->insert($data);
+      // h
               //  $this->db->table("receipts")
               //  ->insert($data['sales_receipt']);
     }

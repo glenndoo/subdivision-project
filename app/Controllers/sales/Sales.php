@@ -133,7 +133,7 @@ public function jsonSales(){
     $db = db_connect();
     $pay = new CustomModel($db);
     $res = $pay->makePayment($data);
-    return redirect()->to('/showMembers');
+    // return redirect()->to('/showMembers');
    }
 
 
