@@ -195,20 +195,20 @@ class Inventory extends BaseController{
         $res = $model->stampInv();
         $data = [
             'meta-title' => '',
-            'title' => 'Inventory Summary',
+            'title' => 'Inventory Summary'
           ];
   
-          if($this->request->getGet("dateSelected") == null){
-            $data['dateNow'] = date("yy-m");
-          }else if(strlen($this->request->getGet("dateSelected")) == 10){
-            $data['dateNow'] = $this->request->getGet("dateSelected");
-          }else if(strlen($this->request->getGet("dateSelected")) == 7){
-            $data['dateNow'] = substr($data['dateNow'] = $this->request->getGet("dateSelected"), -2);
-            $data['month'] = $data['dateNow'];
-          }else{
-          }
+            if($this->request->getGet("dateSelected") == null){
+              $data['dateNow'] = date("yy-m");
+            }else if(strlen($this->request->getGet("dateSelected")) == 10){
+              $data['dateNow'] = $this->request->getGet("dateSelected");
+            }else if(strlen($this->request->getGet("dateSelected")) == 7){
+              $data['dateNow'] = substr($data['dateNow'] = $this->request->getGet("dateSelected"), -2);
+              $data['month'] = $data['dateNow'];
+            }else{
+            }
 
         return view("inventory/invSum", $data);
-        // return view("inventory/invSum");
+        
     }
 }

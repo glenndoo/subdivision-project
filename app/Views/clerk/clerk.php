@@ -7,8 +7,10 @@
   $now = substr(date("Y-m"),-1);?>
 
   <?php if($fin > $now) : ?>
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
+    <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
   <?php endif; ?>
+
+
 <?php if (session()->get('success')) : ?>
           <div class="alert alert-success" role='alert'>
             <?= session()->get('success') ?>
