@@ -420,7 +420,7 @@ return $details;
                     ->get()
                     ->getResult();
     $rt = [
-      'receipt_number' => "WMPC00".count($count)
+      'receipt_number' => $data['sales_receipt']
     ];
 
     $this->db->table('receipts')
@@ -437,14 +437,14 @@ return $details;
       // ->where('sales_payment_type', 'credit')
       // ->update();
 
-      $data['sales_receipt'] = 'WMPC00'.intval(count($count));
+      $data['sales_receipt'] = $data['sales_receipt'];
       $this->db->table("sales")
                ->insert($data);
                $this->db->table("members")
                ->set("member_credit", $check)
                ->where("member_id", $data['sales_member_id'])
                ->update();
-
+      
 
 
 
@@ -460,7 +460,7 @@ return $details;
                ->where("member_id", $data['sales_member_id'])
                ->update();
 
-      $data['sales_receipt'] = 'WMPC00'.intval(count($count));
+               $data['sales_receipt'] = $data['sales_receipt'];
     $this->db->table("sales")
                ->insert($data);
               //  $this->db->table("receipts")
