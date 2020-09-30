@@ -53,7 +53,7 @@ var tag = "";
           {
             "render" : function (data, type, row) {
                     {
-                    return '<input type="number" id="payment'+data+'" step="0.01" onkeyup="checkPayment('+data+')"><input type="text" id="receipt'+data+'" step="0.01" onkeyup="checkPayment('+data+')" placeholder="Receipt Number"> <a class="btn btn-primary" id="payCredit'+data+'">Make Payment</a>';
+                    return '<input type="number" id="payment'+data+'" step="0.01"><input type="text" id="receipt'+row['Member']+'" step="0.01" placeholder="Receipt Number"> <a class="btn btn-primary" id="payCredit'+row['Member']+'">Make Payment</a>';
                     }
                 },
                 "targets" : 3
@@ -68,13 +68,9 @@ var tag = "";
             var id = data['Member'];
             var tot = data['Total'];
             var payment = document.getElementById("payment"+tot).value;
-            var receipt = document.getElementById("receipt"+tot).value;
-            if(receipt>tot){
-              alert("Sakto dapat bayad");
-            }else{
-              document.getElementById("payCredit"+tot).href = "payment/?id="+id+"&payment="+payment+"&receipt="+receipt;
-            }
-            
+            var receipt = document.getElementById("receipt"+id).value;
+              document.getElementById("payCredit"+id).href = "payment/?id="+id+"&payment="+payment+"&receipt="+receipt;
+
            
         });
     });
