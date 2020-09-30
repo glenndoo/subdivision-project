@@ -59,23 +59,25 @@
   <h3><span class="badge badge-pill badge-success ml-1" id="salestotal"></span>
 <span class="badge badge-pill badge-warning" id="credittotal"></span></h3>
     </tbody></table>
-     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.21/api/sum().js"></script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+<link src="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"></script>
+<link src="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css"></script>
 
 <script type="text/javascript">
     $(function () {
         $('#sales').DataTable
         ({ 
-            "dom": 'l<"toolbar">frtip',
-            "ajax": {
+            "dom": 'Bfrtip',
+            "buttons": [
+            'excel'
+        ], "ajax": {
             "url" : "<?=base_url()?>/jsonSales?date=<?= $dateNow ?>",
             "dataSrc" : ""
         },"responsive": true,
