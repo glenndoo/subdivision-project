@@ -34,11 +34,6 @@
 
 </div>
 </div>
-    
-      
-
-    
-    
 </nav>
 
 
@@ -59,7 +54,7 @@
   <h3><span class="badge badge-pill badge-success ml-1" id="salestotal"></span>
 <span class="badge badge-pill badge-warning" id="credittotal"></span></h3>
     </tbody></table>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>

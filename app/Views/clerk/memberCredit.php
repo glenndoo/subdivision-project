@@ -69,7 +69,7 @@ var tag = "";
             var tot = data['Total'];
             var payment = document.getElementById("payment"+tot).value;
             var receipt = document.getElementById("receipt"+tot).value;
-            if(payment>tot){
+            if(receipt>tot){
               alert("Sakto dapat bayad");
             }else{
               document.getElementById("payCredit"+tot).href = "payment/?id="+id+"&payment="+payment+"&receipt="+receipt;
