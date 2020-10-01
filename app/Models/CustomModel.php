@@ -268,7 +268,7 @@ class CustomModel{
                       ->get()
                       ->getResult();
       
-      return $details;
+      return json_encode($details);
   }
 
   //LOGIN LOGGER

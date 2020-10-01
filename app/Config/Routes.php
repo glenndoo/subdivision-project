@@ -67,6 +67,7 @@ $routes->add('removeSales', "sales/Sales::removeSalesEntry", ['filter' => 'auth'
 $routes->add('showSummary', "inventory/Inventory::showSummary", ['filter' => 'auth']);
 $routes->add('invDetails', "inventory/Inventory::invDetails", ['filter' => 'auth']);
 $routes->add('stamp', "inventory/Inventory::stampInventory", ['filter' => 'auth']);
+$routes->add('jsonShowMembers', "sales/Sales::jsonShowMembers", ['filter' => 'auth']);
 /**
  * --------------------------------------------------------------------
  * Additional Routing

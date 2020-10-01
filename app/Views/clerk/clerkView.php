@@ -16,9 +16,9 @@
         
         </i></h1>
     </div>
-    <div class="col-sm-3">
+    <!-- <div class="col-sm-3">
       <a class="btn btn-primary" href="showMembers">Members</a>
-    </div>
+    </div> -->
     <div class="col-sm-3">
       <form method="get" action="/sales">
       <input class="form-control" type="date" name="dateSelected" id="example-date-input">

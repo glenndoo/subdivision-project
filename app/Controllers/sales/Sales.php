@@ -50,37 +50,45 @@ public function jsonSales(){
     return view('sales/sales', $data);
    }
    
+
+
+   public function jsonShowMembers(){
+      $dt = $this->request->getGet("date");
+      $db = db_connect();
+      $pay = new CustomModel($db);
+      $result = $pay->allMembers($dt);
+      return $result;
+   }
+
+
+
    public function showMembers(){
-    $data = [
-      'meta-title' => '',
-      'title' => 'Members'
+      $data = [
+        'meta-title' => '',
+        'title' => 'Members'
+          
+      ];
+      $dt = $this->request->getGet("searchDate");
+      if(!isset($dt)){
+        $data['dateNow'] = date("yy-m");
+        $dt = date("yy-m");
+      }else{
+        $data['dateNow'] = $dt;
+      }
         
-    ];
-    $dt = $this->request->getGet("searchDate");
-    if(!isset($dt)){
-      $data['dateNow'] = date("yy-m");
-      $dt = date("yy-m");
-    }else{
-      $data['dateNow'] = $dt;
-    }
-      
-    $db = db_connect();
-    $pay = new CustomModel($db);
-    $data['members'] = $pay->allMembers($dt);
-    if(isset($dt)){
-      return view('sales/members', $data);
-    }else{
-      if(session()->get('access') == 1){
+      $db = db_connect();
+      $pay = new CustomModel($db);
+      $data['members'] = $pay->allMembers($dt);
+      if(isset($dt)){
+        $data['dateNow'] = $dt;
         return view('sales/members', $data);
       }else{
-        return view('clerk/memberCredit', $data);
+        if(session()->get('access') == 1){
+          return view('sales/members', $data);
+        }else{
+          return view('clerk/memberCredit', $data);
+        }
       }
-    }
-
-    
-    
-    
-    
    }
    
    public function memberPurchases(){
