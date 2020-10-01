@@ -12,7 +12,7 @@
     </div>
 
 </nav>
-
+<?php $sum = 0 ?>
 
 <table class="table">
   <thead class="thead-dark">
@@ -21,6 +21,7 @@
         <th scope="col">Total Payment as of <?= date("F", mktime(0, 0, 0, substr(date($dateNow), -2), 10));  ?></th>
         <th scope="col">Credits</th>
     </tr>
+    
   </thead>
   <tbody>
     
@@ -30,9 +31,11 @@
           <td><a href="<?=base_url()?>/memberPurchases?id=<?= $row->Member ?>&name=<?= $row->Name?>"><?= $row->Name ?></a></td>
           <td><?= $row->Payment?></td>
           <td>Php <?= $row->Total ?></td>
+          <?php $sum += $row->Payment ?></td>
         <?php endforeach; ?>
-          
+        
       </tr>
+      <tr><td></td><td><b><?= $sum ?></b></td></tr>
 </tbody></table>
 
 <?= $this->endSection() ?>
