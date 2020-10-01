@@ -674,6 +674,10 @@ return $details;
 
 
   function stampInv(){
+    $date = date_create(date("yy-m-d"));
+    $fin = date_add($date,date_interval_create_from_date_string("1 days"));
+    $finDate = $fin->format("yy-m-d");
+    echo $finDate;
     $result = $this->db->table('items')
              ->select('item_id AS replenishment_item, item_quantity AS replenishment_last_count')
              ->where('item_quantity <> ', 0)
@@ -696,7 +700,8 @@ return $details;
             'transaction_by' => session()->get('id'),
             'item_code' => $rs->replenishment_item,
             'item_current_count' => $rs->replenishment_last_count,
-            'transaction_type' => 0
+            'transaction_type' => 0,
+            'transaction_date' => $finDate
           ];
           $this->db->table('replenishment')
           ->insert($data); 

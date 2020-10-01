@@ -8,6 +8,9 @@
 
   <?php if($fin > $now) : ?>
     <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
+    <?= date("yy-m-d") ?>
+  <?php else :?>
+  
   <?php endif; ?>
 
 

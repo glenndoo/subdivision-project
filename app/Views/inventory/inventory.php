@@ -338,9 +338,11 @@ function solve() {
             var id = data["Code"];
             var name = data["Name"];
             var price = data["Old"];
+            var sell = data['Price'];
             document.getElementById("itemcodeupdate").value = id;
             document.getElementById("itemnameupdate").value = name;
             document.getElementById("updateUnit").value = price;
+            document.getElementById("updateSell").value = sell;
             document.getElementById("updateAction").action = "<?=base_url()?>/updateItem?id="+id;
         });
         
