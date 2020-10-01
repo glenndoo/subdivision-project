@@ -69,26 +69,30 @@ public function jsonSales(){
           
       ];
       $dt = $this->request->getGet("searchDate");
-      if(!isset($dt)){
-        $data['dateNow'] = date("yy-m");
-        $dt = date("yy-m");
-      }else{
-        $data['dateNow'] = $dt;
-      }
-        
-      $db = db_connect();
-      $pay = new CustomModel($db);
-      $data['members'] = $pay->allMembers($dt);
-      if(isset($dt)){
-        $data['dateNow'] = $dt;
+      if(session()->get('access') == 1){
+        if(!isset($dt)){
+          $data['dateNow'] = date("yy-m");
+          $dt = date("yy-m");
+        }else{
+          $data['dateNow'] = $dt;
+        }
         return view('sales/members', $data);
       }else{
-        if(session()->get('access') == 1){
-          return view('sales/members', $data);
+        if(!isset($dt)){
+          $data['dateNow'] = date("yy-m");
+          $dt = date("yy-m");
         }else{
-          return view('clerk/memberCredit', $data);
+          $data['dateNow'] = $dt;
         }
+        $db = db_connect();
+        $pay = new CustomModel($db);
+        $data['members'] = $pay->allMembers($dt);
+        return view('clerk/memberCredit', $data);
       }
+      
+      
+        
+
    }
    
    public function memberPurchases(){
