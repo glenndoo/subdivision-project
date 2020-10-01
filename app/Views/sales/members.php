@@ -4,16 +4,13 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-light">
     <a href="sales" class="btn btn-primary col-1">Back</a>
-<div class="dropdown">
-  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Search By
-  </a>
+    <div class="form-control">
+    <form method="GET" action="/showMembers">
+    <input type="month" name="searchDate" />
+    <input class="btn btn-primary"type='submit' value='Search By Month' />
+    </form>
+    </div>
 
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <a class="dropdown-item" href="#">Members</a>
-    <a class="dropdown-item" href="#">Non-members</a>
-  </div>
-</div>
 </nav>
 
 
@@ -21,6 +18,7 @@
   <thead class="thead-dark">
     <tr>
         <th scope="col">Member Name</th>
+        <th scope="col">Total Payment</th>
         <th scope="col">Credits</th>
     </tr>
   </thead>
@@ -30,6 +28,7 @@
         <?php foreach($members as $row) : ?>
       <tr>
           <td><a href="<?=base_url()?>/memberPurchases?id=<?= $row->Member ?>&name=<?= $row->Name?>"><?= $row->Name ?></a></td>
+          <td><?= $row->Payment?></td>
           <td>Php <?= $row->Total ?></td>
         <?php endforeach; ?>
           

@@ -118,7 +118,7 @@
 
         drawCallback: function () {
         var sum = $('#sales').DataTable().column(8).data().sum();
-        $('#salestotal').html("Total Item Cost: <b>Php "+sum.toFixed(2)+"</b>");
+        $('#salestotal').html("Total Item Cost: <b>"+sum.toFixed(2)+"</b>");
       }
         
         

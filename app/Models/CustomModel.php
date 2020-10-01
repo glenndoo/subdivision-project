@@ -256,9 +256,12 @@ class CustomModel{
       return json_encode($details);
   }
   
-  function allMembers(){
+  function allMembers($date){
+    $dt = date($date);
+    $finDate = substr($dt, -2);
     $details = $this->db->table('members')
-                      ->select('member_id AS Member, CONCAT(member_last, ", ",  member_first) AS Name, member_credit AS Total')
+                      ->select('member_id AS Member, CONCAT(member_last, ", ",  member_first) AS Name, member_credit AS Total, SUM(sales_amount_paid) AS Payment')
+                      ->where("MONTH(sales_date) = ", $finDate)
                       ->join('sales', 'sales.sales_member_id = member_id')
                       ->orderBy('member_last')
                       ->groupBy('sales.sales_member_id')

@@ -56,15 +56,23 @@ public function jsonSales(){
       'title' => 'Members',
     ];
 
+    $dt = $this->request->getGet("searchDate");
     $db = db_connect();
     $pay = new CustomModel($db);
-    $data['members'] = $pay->allMembers();
-    
-    if(session()->get('access') == 1){
+    $data['members'] = $pay->allMembers($dt);
+    if(isset($dt)){
       return view('sales/members', $data);
     }else{
-      return view('clerk/memberCredit', $data);
+      if(session()->get('access') == 1){
+        return view('sales/members', $data);
+      }else{
+        return view('clerk/memberCredit', $data);
+      }
     }
+
+    
+    
+    
     
    }
    
