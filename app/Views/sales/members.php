@@ -18,7 +18,7 @@
   <thead class="thead-dark">
     <tr>
         <th scope="col">Member Name</th>
-        <th scope="col">Total Payment</th>
+        <th scope="col">Total Payment as of <?= date("F", mktime(0, 0, 0, substr(date($dateNow), -2), 10));  ?></th>
         <th scope="col">Credits</th>
     </tr>
   </thead>

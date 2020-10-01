@@ -51,12 +51,19 @@ public function jsonSales(){
    }
    
    public function showMembers(){
-          $data = [
+    $data = [
       'meta-title' => '',
-      'title' => 'Members',
+      'title' => 'Members'
+        
     ];
-
     $dt = $this->request->getGet("searchDate");
+    if(!isset($dt)){
+      $data['dateNow'] = date("yy-m");
+      $dt = date("yy-m");
+    }else{
+      $data['dateNow'] = $dt;
+    }
+      
     $db = db_connect();
     $pay = new CustomModel($db);
     $data['members'] = $pay->allMembers($dt);

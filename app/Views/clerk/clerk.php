@@ -7,7 +7,10 @@
   $now = substr(date("Y-m"),-1);?>
 
   <?php if($fin > $now) : ?>
-    <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
+    <?php if(substr(date("yy-m-d"),-2) != 1) :?>
+        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
+    <?php endif; ?>
+    
     <?= date("yy-m-d") ?>
   <?php else :?>
   
