@@ -692,8 +692,16 @@ return $details;
             'replenishment_item' => $rs->replenishment_item,
             'replenishment_last_count' => $rs->replenishment_last_count
           ];
+          $trans =[
+            'transaction_by' => session()->get('id'),
+            'item_code' => $rs->replenishment_item,
+            'item_current_count' => $rs->replenishment_last_count,
+            'transaction_type' => 0
+          ];
           $this->db->table('replenishment')
           ->insert($data); 
+          $this->db->table('inventory_transaction')
+          ->insert($trans);
         }
 
         // echo json_encode($data);
