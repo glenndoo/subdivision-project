@@ -106,7 +106,7 @@
         {
           "render": function ( data, type, row ) {
                     {
-                    return 'PHP '+data;
+                    return data;
                     }
                 },
                 "targets": 5
@@ -114,7 +114,7 @@
         {
           "render": function ( data, type, row ) {
                     {
-                    return 'PHP '+data;
+                    return data;
                     }
                 },
                 "targets": 4
