@@ -361,7 +361,7 @@ return $details;
   function json(){
       $items = $this->db->table("items")
          ->join('users', 'items.item_added_by = users.user_id')
-         ->select('CONCAT(users.user_last, ", ", users.user_first) AS Username, item_name AS Name, item_id as Code, item_quantity as Quantity, item_price as Price, item_type AS Category, item_unit_price AS Old')
+         ->select('CONCAT(users.user_last, ", ", users.user_first) AS Username, item_name AS Name, item_id as id, item_code as Code, item_quantity as Quantity, item_price as Price, item_type AS Category, item_unit_price AS Old')
          ->orderBy("item_name")
          ->get()
          ->getResult();
@@ -378,9 +378,15 @@ return $details;
       
       $this->db->table("items")
                ->set($inventory)
-               ->where('item_id =', $inventory['item_code'])
+               ->where('item_name =', $inventory['item_name'])
                ->update();
-  }
+
+      $trans = [
+        'item_code' => $inventory['item_id']
+      ];
+
+
+              }
 
   //REPLENISH ITEM
   function replenish($item,$trans){
@@ -667,7 +673,8 @@ return $details;
 
   function itemSummary($item){
     $result = $this->db->table("inventory_transaction")
-                       ->select("item_prev_count AS prev, item_added_qty AS added, transaction_date AS date, transaction_type AS type, transaction_by AS trans")
+                       ->join("users", "user_id = transaction_by")
+                       ->select("item_prev_count AS prev, item_added_qty AS added, transaction_date AS date, transaction_type AS type, CONCAT(user_last, ',', user_first) AS trans")
                        ->where("item_code", $item)
                        ->get()
                        ->getResult();

@@ -47,13 +47,15 @@ class Inventory extends BaseController{
 				$model = new CustomModel($db);
 				$newData = [
                     'item_name' => $this->request->getVar('itemname'),
+                    'item_id' => $this->request->getVar('itemcode'),
                     'item_quantity' => $this->request->getVar('quantity'),
                     'item_price' => $this->request->getVar('sellingPrice'),
                     'item_unit_price' => $this->request->getVar('unitPrice'),
-					'item_added_by' => session()->get('id')
+					          'item_added_by' => session()->get('id')
                 ];
                 
                 $transaction = [
+                    'item_code' => $this->request->getVar('itemcode'),
                     'item_old_price' => $this->request->getVar('unitPrice'),
                     'item_marked_up' => $this->request->getVar('sellingPrice'),
                     'item_prev_count' => $this->request->getVar('quantity'),
@@ -95,7 +97,7 @@ class Inventory extends BaseController{
     function updateItem(){
         
         $data = [
-            "item_code" => $this->request->getGet('id'),
+            "item_code" => $this->request->getVar("itemcodeupdate"),
             "item_old_price" => $this->request->getVar('updateUnit'),
             "item_marked_up" => $this->request->getVar('updateSell'),
             "transaction_type" => 1,
@@ -103,16 +105,15 @@ class Inventory extends BaseController{
         ];
 
         $updated = [
-            "item_code" => $this->request->getGet('id'),
+            "item_id" => $this->request->getVar("itemcodeupdate"),
             "item_name" => $this->request->getVar('itemnameupdate'),
             "item_price" => $this->request->getVar('updateSell'),
             "item_unit_price" => $this->request->getVar('updateUnit')
         ];
 
         $db = db_connect();
-	    $model = new CustomModel($db);
+	      $model = new CustomModel($db);
         $model->updateInventory($data, $updated);
-        
         
         return redirect()->to('/inventory');
 
@@ -133,7 +134,6 @@ class Inventory extends BaseController{
             $data['month'] = $data['dateNow'];
           }else{
           }
-
         return view("inventory/invSum", $data);
     }
 

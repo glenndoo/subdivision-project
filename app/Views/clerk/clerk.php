@@ -4,9 +4,13 @@
 <?php $date = date_create(date("yy-m-d"));
   date_add($date,date_interval_create_from_date_string("1 days"));
   $fin = substr(date_format($date,"Y-m"),-2);
-  $now = substr(date("Y-m"),-1);?>
+  $now = substr(date("Y-m"),-1);
+  $day = date_create(date("yy-m-d"));
+  date_add($day,date_interval_create_from_date_string("1 days"));
+  $finDay = substr(date_format($date,"Y-m-d"),-2);
+  $finNow = substr(date("Y-m-d"),-1);?>
 
-  <?php if($fin > $now) : ?>
+  <?php if($fin > $now && $finNow == 1) : ?>
     <?php if(substr(date("yy-m-d"),-2) != 1) :?>
         <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
     <?php endif; ?>
@@ -428,7 +432,7 @@ var sum = 0;
         },"responsive": true,
             "sPaginationType": "full_numbers",
         "columns": [
-            {"data": "Code"},
+            {"data": "id"},
             {"data": "Name"},            
             {"data": "Quantity"},
             {"data": "Price"},
@@ -446,7 +450,7 @@ var sum = 0;
                 
                 "render": function (data, type, row) {
                     {
-                    return '<input type="number" step="0.01" id="qty'+data+'" placeholder="Quantity" value="1"> <button class="btn btn-primary" id="btnBuy">Add to Cart</button>';
+                    return '<input type="number" step="0.01" id="qty'+row['id']+'" placeholder="Quantity" value="1"> <button class="btn btn-primary" id="btnBuy">Add to Cart</button>';
                     }
                 },
                 "targets": 4
@@ -458,7 +462,7 @@ var sum = 0;
         
         $('#samples tbody').on('click', '[id*=btnBuy]', function (e) {
             var data = table.row($(this).parents('tr')).data();
-            var id = data["Code"];
+            var id = data["id"];
             var quant = data["Quantity"];
             var itemName = data["Name"];
             var price = data['Price'];
@@ -471,7 +475,7 @@ var sum = 0;
                 alert("Kulang na stock ng item. Please contact admin");
             }else{
                 var db = $("#cart tbody");
-                db.append("<tr><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' id='qt"+id+"' name='quantity[]' value='"+qty+"' onkeyup='totalMe("+id+", "+quant+")'></td><td><input class='form-control' type='number' step='0.01' value='"+price+"' id='price"+id+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"' id='"+id+"'></td><input type='hidden' name='code[]' value='"+id+"'><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
+                db.append("<tr id='"+id+"'><td>"+itemName+"</td><td><input class='form-control' type='number' step='0.01' id='qt"+id+"' name='quantity[]' value='"+qty+"' onkeyup='totalMe("+id+", "+quant+")'></td><td><input class='form-control' type='number' step='0.01' value='"+price+"' id='price"+id+"' name='price[]' readonly='readonly'></td><td><input class='form-control' type='number' readonly='readonly' name='total[]' value='"+totalCost+"' id='tot"+id+"'></td><td><button class='btn btn-danger' type='button' onClick='removeItem(\""+id+"\")'>X</button></td><input type='hidden' name='code[]' value='"+id+"'></td><input type='hidden' name='member[]' value='"+member+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='stock[]' value='"+stock+"'><input type='hidden' name='current[]' value='"+quant+"'></tr>");
                 
 
 
@@ -498,11 +502,11 @@ var sum = 0;
 
     function totalMe(data, dt){
         var val = document.getElementById("qt"+data).value;
-        var tot = document.getElementById(data).value;
+        var tot = document.getElementById("tot"+data).value;
         var actual = dt;
         var pr = document.getElementById("price"+data).value;
         var final = Number(val*pr);
-        document.getElementById(data).value = final;
+        document.getElementById("tot"+data).value = final;
         var g = Number(document.getElementById(data).value);
         
 
@@ -527,12 +531,23 @@ var sum = 0;
                 $("#cont").text("TOTAL: PHP "+sum); 
                 document.getElementById("purchase").disabled = true;
             }
+        } 
+    }
+
+    function removeItem(data){
+        var item = document.getElementById(data);
+        var total = document.getElementById("tot"+data).value;
+        sum -= Number(total);
+        $("#cont").text("TOTAL: PHP "+sum); 
+        item.remove();
+        alert("Item removed");
+        ntf = ntf -1;
+        if(ntf > 0){
+            document.getElementById("purchase").disabled = false;
+        }else{
+            document.getElementById("purchase").disabled = true;
         }
         
-        
-        
-
-
         
     }
     function check(data){

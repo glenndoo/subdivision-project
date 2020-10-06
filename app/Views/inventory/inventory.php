@@ -80,7 +80,10 @@ function solve() {
         <p><div class="container">
 
     <form method="post" action="<?= base_url() ?>/addItem">
-
+    <div class="form-group">
+    <label for="itemCode">Item Code</label>
+    <input type="text" class="form-control" name="itemcode"id="itemcode" placeholder="Use Barcode Scanner">
+  </div>
     <div class="form-group">
     <label for="itemname">Item Name</label>
     <input type="text" class="form-control" name="itemname"id="itemname" placeholder="Sprite">
@@ -148,7 +151,7 @@ function solve() {
     <form method="post" id="updateAction" action="">
   <div class="form-group">
     <label for="itemcode">Item Code</label>
-    <input type="text" class="form-control" name="itemcodeupdate" id="itemcodeupdate" placeholder="sample123" value='' disabled="true">
+    <input type="text" class="form-control" name="itemcodeupdate" id="itemcodeupdate" placeholder="sample123">
   </div>
     <div class="form-group">
     <label for="itemname">Item Name</label>
@@ -292,7 +295,7 @@ function solve() {
         },"responsive": true,
             "sPaginationType": "full_numbers",
         "columns": [
-            {"data": "Code"},
+            {"data" : "id"},
             {"data": "Name"},
             {"data": "Category"},
             {"data": "Quantity"},
@@ -335,7 +338,7 @@ function solve() {
         
         $('#samples tbody').on('click', '[id*=btnEdit]', function () {
             var data = table.row($(this).parents('tr')).data();
-            var id = data["Code"];
+            var id = data["id"];
             var name = data["Name"];
             var price = data["Old"];
             var sell = data['Price'];
@@ -348,13 +351,13 @@ function solve() {
         
         $('#samples tbody').on('click', '[id*=btnRemove]', function () {
             var data = table.row($(this).parents('tr')).data();
-            var id = data["Code"];
+            var id = data["id"];
             document.getElementById("removeAction").action = "<?=base_url()?>/removeItem?id="+id;
         });
 
         $('#samples tbody').on('click', '[id*=btnReplenish]', function () {
           var data = table.row($(this).parents('tr')).data();
-            var id = data["Code"];
+            var id = data["id"];
             var name = data["Name"];
             var qty = data["Quantity"];
             document.getElementById("replenishItem").value = id;
@@ -363,6 +366,28 @@ function solve() {
             document.getElementById("replenishAction").action = "<?=base_url()?>/replenishItem?id="+id;
         });
     });
+
+          (function() {
+          var textField = document.getElementById('itemcode');
+          var updateField = document.getElementById('itemcodeupdate');
+
+          if(textField||updateField) {
+              textField.addEventListener('keydown', function(mozEvent) {
+                  var event = window.event || mozEvent;
+                  if(event.keyCode === 13) {
+                      event.preventDefault();
+                  }
+              });
+              updateField.addEventListener('keydown', function(mozEvent) {
+                  var event = window.event || mozEvent;
+                  if(event.keyCode === 13) {
+                      event.preventDefault();
+                  }
+              });
+          }
+      })
+
+();
 </script>
 
 <?= $this->endSection() ?>
