@@ -484,7 +484,7 @@ var sum = 0;
                 total.push(price);
                 sum += Number(totalCost);
             alert("Added to cart!");
-                
+            document.getElementById("purchase").disabled = false;    
 
                 
                 $("#cont").text("TOTAL: PHP "+sum);              
@@ -559,7 +559,7 @@ var sum = 0;
         setInterval(function(){
             $("#notif").text(ntf);
         }, 500);
-            
+        document.getElementById("purchase").disabled = true;        
 
             });
 
