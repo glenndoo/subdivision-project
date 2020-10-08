@@ -194,9 +194,11 @@
             var data = table.row($(this).parents('tr')).data();
             var id = data["sId"];
             var item = data["itemId"];
+            var amt = data['Credit'];
+            var mem = data['memberid'];
             var qty = data["Quantity"];
             var rcpt = data["salesid"];
-            document.getElementById("removeAction").action = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty+"&rcpt="+rcpt;
+            document.getElementById("removeAction").action = "<?= base_url() ?>/removeSales?id="+id+"&item="+item+"&qty="+qty+"&rcpt="+rcpt+"&amt="+amt+"&mem="+mem;
         });
         
     });

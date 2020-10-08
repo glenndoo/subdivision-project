@@ -188,9 +188,14 @@ public function jsonSales(){
       'item_quantity' => $this->request->getVar('qty')
     ];
 
+    $credit = [
+      'member_credit' => $this->request->getVar('amt'),
+      'member_id' => $this->request->getVar('mem')
+    ];
+
     $db = db_connect();
     $model = new CustomModel($db);
-    $credit = $model->removeSale($data, $details, $item);
+    $credit = $model->removeSale($data, $details, $item, $credit);
 
     return redirect()->to("/sales");
    }

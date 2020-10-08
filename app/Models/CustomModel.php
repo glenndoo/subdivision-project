@@ -596,7 +596,10 @@ return $details;
             ->update($credit);
   }
 
-  function removeSale($remove, $add, $update){
+
+
+  // REMOVE SALES ITEM
+  function removeSale($remove, $add, $update, $credit){
     $check = $this->db->table("sales")
                       ->where("sales_receipt", $remove['sales_receipt'])
                       ->get()
@@ -643,8 +646,6 @@ return $details;
             ->where('sales_id', $remove['sales_id'])
             ->delete();
 
-    
-
     $current = $this->db->table('items')
              ->select('item_quantity')
              ->where('item_id', $add['item_code'])
@@ -666,8 +667,20 @@ return $details;
             ->update();
     }
 
-    
-
+    $finCred = $this->db->table('members')
+                    ->select('member_credit')
+                    ->where('member_id', $credit['member_id'])
+                    ->get()
+                    ->getResult();
+    $crt = 0;              
+    foreach($finCred as $crd){
+      $crt = $crd->member_credit;
+    }
+    $removeCred = $crt - $credit['member_credit'];
+    $this->db->table('members')
+             ->set('member_credit', $removeCred)
+             ->where('member_id', $credit['member_id'])
+             ->update();
   }
 
 
