@@ -63,6 +63,8 @@
                     {
                         if(data == 1){
                             return "Sales"
+                        }else if(data == 3){
+                            return "Inventory Stamp"
                         }else{
                             return "Replenishment"
                         }

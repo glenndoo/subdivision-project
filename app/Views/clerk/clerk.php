@@ -10,7 +10,7 @@
   $finDay = substr(date_format($date,"Y-m-d"),-2);
   $finNow = substr(date("Y-m-d"),-1);?>
 
-  <?php if($fin > $now && $finNow == 1) : ?>
+  <?php if($fin > $now) : ?>
     <?php if(substr(date("yy-m-d"),-2) != 1) :?>
         <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
     <?php endif; ?>

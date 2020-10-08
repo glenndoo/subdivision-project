@@ -723,7 +723,8 @@ return $details;
             'transaction_by' => session()->get('id'),
             'item_code' => $rs->replenishment_item,
             'item_current_count' => $rs->replenishment_last_count,
-            'transaction_type' => 0,
+            'item_prev_count' => $rs->replenishment_last_count,
+            'transaction_type' => 3,
             'transaction_date' => $finDate
           ];
           $this->db->table('replenishment')
