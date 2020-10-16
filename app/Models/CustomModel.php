@@ -740,4 +740,10 @@ return $details;
           
     
   }
+
+
+  function addMem($data){
+    $this->db->table("members")
+             ->insert($data);
+  }
 }

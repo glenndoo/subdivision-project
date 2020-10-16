@@ -211,4 +211,16 @@ class Inventory extends BaseController{
         return view("inventory/invSum", $data);
         
     }
+
+    function addMember(){
+      $data = [
+        'member_last' => ucfirst($this->request->getVar("memLast")),
+        'member_first' => ucfirst($this->request->getVar("memFirst"))
+      ];
+      $db = db_connect();
+	    $model = new CustomModel($db);
+        $res = $model->addMem($data);
+
+        return redirect()->to('/inventory');
+    }
 }

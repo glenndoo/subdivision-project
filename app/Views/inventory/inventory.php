@@ -50,13 +50,8 @@ function solve() {
   </thead>
   <div class="float-xl-right mt-1 ml-1 mb-1">
                                   <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Item</button><br /><br />
+                                  <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myMember">Add New Member</button><br /><br />
                                   
-                                  <?php
-                                  $date=date_create(date("Y-m-d"));
-                                  date_add($date,date_interval_create_from_date_string("0 days"));
-                                  $fin = date_format($date,"Y-m");
-                                  echo $fin;
-                                  ?>
                     </div>
 </table>
 
@@ -272,6 +267,54 @@ function solve() {
           <button type="submit" class="btn btn-success">Replenish Item</button>
           </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+</div>
+
+<!--MODAL FOR ADD NEW MEMBER-->
+<div class="container">
+    <div id="myMember" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Add New Member</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p><div class="container">
+
+    <form method="post" action="<?= base_url() ?>/addMember">
+    <div class="form-group">
+    <label for="itemCode">Last Name</label>
+    <input type="text" class="form-control" name="memLast"id="itemcode" placeholder="Last Name">
+  </div>
+    <div class="form-group">
+    <label for="itemname">First Name</label>
+    <input type="text" class="form-control" name="memFirst"id="itemname" placeholder="First Name">
+  </div>
+
+    
+
+    <?php if(isset($validation)) : ?>
+            <div class="col-12">
+              <div class="alert-danger" role='alert'>
+                  <?= $validation->listErrors() ?>
+              </div>
+            </div>
+          <?php endif; ?></p>
+      </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Add New Member</button>
+          </form>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 
