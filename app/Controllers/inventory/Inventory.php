@@ -64,6 +64,16 @@ class Inventory extends BaseController{
                     'transaction_by' => session()->get('id')
 
                 ];
+                $dt = date_create(date("yy-m-d"));
+                date_modify($dt, "-1 month");
+                $finalDate = date_format($dt, "yy-m-d");
+
+                $replenishment = [
+                  'replenishment_item' => $this->request->getVar('itemcode'),
+                  'replenishment_last_count' => $this->request->getVar('quantity'),
+                  'replenishment_by' => session()->get('id'),
+                  'replenishment_date' => $finalDate
+                ];
 				$model->saveItem($newData,$transaction);
 				$session = session();
 				$session->setFlashData('success', 'Item Added!');

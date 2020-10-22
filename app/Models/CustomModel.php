@@ -102,6 +102,9 @@ class CustomModel{
 
     $this->db->table('inventory_transaction')
              ->insert($transaction);
+
+    $this->db->table('replenishment')
+             ->insert($replenishment);
   }
   
 
@@ -352,6 +355,7 @@ return $details;
   //SHOW MEMBERS WHO PURCHASED
     function showMemberOrder(){
       $details = $this->db->table('members')
+                      ->orderBy("member_last", "ASC")
                       ->get()
                       ->getResult();
       
