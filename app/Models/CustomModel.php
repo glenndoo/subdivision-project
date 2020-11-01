@@ -707,7 +707,7 @@ return $details;
     echo $finDate;
     $result = $this->db->table('items')
              ->select('item_id AS replenishment_item, item_quantity AS replenishment_last_count')
-             ->where('item_quantity <> ', 0)
+             ->where('item_quantity > ', 0)
              ->get()
              ->getResult();
     
@@ -728,7 +728,7 @@ return $details;
             'item_code' => $rs->replenishment_item,
             'item_current_count' => $rs->replenishment_last_count,
             'item_prev_count' => $rs->replenishment_last_count,
-            'transaction_type' => 3,
+            'transaction_type' => 0,
             'transaction_date' => $finDate
           ];
           $this->db->table('replenishment')
