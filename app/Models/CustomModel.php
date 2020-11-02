@@ -96,7 +96,7 @@ class CustomModel{
 
   
   //INSERT NEW ITEM TO DB
-  function saveItem($data, $transaction){
+  function saveItem($data, $transaction, $replenishment){
     $this->db->table('items')
              ->insert($data);
 
@@ -728,7 +728,7 @@ return $details;
             'item_code' => $rs->replenishment_item,
             'item_current_count' => $rs->replenishment_last_count,
             'item_prev_count' => $rs->replenishment_last_count,
-            'transaction_type' => 0,
+            'transaction_type' => 3,
             'transaction_date' => $finDate
           ];
           $this->db->table('replenishment')

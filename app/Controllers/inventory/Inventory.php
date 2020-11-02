@@ -74,7 +74,7 @@ class Inventory extends BaseController{
                   'replenishment_by' => session()->get('id'),
                   'replenishment_date' => $finalDate
                 ];
-				$model->saveItem($newData,$transaction);
+				$model->saveItem($newData,$transaction,$replenishment);
 				$session = session();
 				$session->setFlashData('success', 'Item Added!');
 				return redirect()->to('addItem');

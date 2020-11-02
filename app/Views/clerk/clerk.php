@@ -12,7 +12,7 @@
 
   <?php if($fin > $now) : ?>
     <?php if(substr(date("yy-m-d"),-2) != 1) :?>
-        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
+        
     <?php endif; ?>
     
     <?= date("yy-m-d") ?>
@@ -20,7 +20,7 @@
   
   <?php endif; ?>
 
-
+  <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
 <?php if (session()->get('success')) : ?>
           <div class="alert alert-success" role='alert'>
             <?= session()->get('success') ?>
