@@ -3,60 +3,63 @@
 <?= $this->section('content') ?>
 <script>
 function solve() {
-          //  var txtFirstNumberValue = document.getElementById('quantity').value;
-          //  var txtSecondNumberValue = document.getElementById('price').value;
-          //  var result = Number(txtFirstNumberValue) * Number(txtSecondNumberValue);
-          //  if (!isNaN(result)) {
-          //      document.getElementById('total').value = result;
-          //  }
-          document.getElementById('sellingPrice').value = document.getElementById('unitPrice').value * 1.15;
-       }
+  //  var txtFirstNumberValue = document.getElementById('quantity').value;
+  //  var txtSecondNumberValue = document.getElementById('price').value;
+  //  var result = Number(txtFirstNumberValue) * Number(txtSecondNumberValue);
+  //  if (!isNaN(result)) {
+  //      document.getElementById('total').value = result;
+  //  }
+  document.getElementById('sellingPrice').value = document.getElementById('unitPrice').value * 1.15;
+}
 
-       function check() {
-          //  var txtFirstNumberValue = document.getElementById('quantity').value;
-          //  var txtSecondNumberValue = document.getElementById('price').value;
-          //  var result = Number(txtFirstNumberValue) * Number(txtSecondNumberValue);
-          //  if (!isNaN(result)) {
-          //      document.getElementById('total').value = result;
-          //  }
-          document.getElementById('updateSell').value = document.getElementById('updateUnit').value * 1.15;
-       }
-       
+function check() {
+  //  var txtFirstNumberValue = document.getElementById('quantity').value;
+  //  var txtSecondNumberValue = document.getElementById('price').value;
+  //  var result = Number(txtFirstNumberValue) * Number(txtSecondNumberValue);
+  //  if (!isNaN(result)) {
+  //      document.getElementById('total').value = result;
+  //  }
+  document.getElementById('updateSell').value = document.getElementById('updateUnit').value * 1.15;
+} 
 </script>
+<!--this alert-->
+<?php if(session()->get('success')) : ?>
+	<div class="alert alert-success" role="alert">
+		Item saved!
+	</div>
 
-            <?php if(session()->get('success')) : ?>
-              <div class="alert alert-success" role="alert">
-                    Item saved!
-              <?php elseif (session()->get('remove')): ?>
-                <div class="alert alert-danger" role="alert">
-                    Item removed!
-               <?php else : ?>
-            <?php endif; ?>
+	<?php elseif (session()->get('remove')): ?>
+
+	<div class="alert alert-danger" role="alert">
+		Item removed!
+	</div>
+<?php else : ?>
+<?php endif; ?>
+<!--end alert-->
+<br/>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">  
+			<table id="samples" class="table bg-light">
+			  	<thead class="thead-dark">
+				    <tr>
+						<th>Item Code</th>
+						<th>Item Name</th>
+						<th>Category</th>
+						<th>Quantity</th>
+						<th>Selling Price</th>
+						<th>Unit Price</th>
+						<th>Added By</th>
+						<th>
+							<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">Add Item</button>
+							<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myMember">Add New Member</button>
+				      	</th>
+				    </tr>
+			  	</thead>
+			</table>
+		</div>
+	</div>
 </div>
-                    
-<table id="samples" class="table bg-light">
-    
-  <thead class="thead-dark">
-    <tr>
-      <th>Item Code</th>
-      <th>Item Name</th>
-      <th>Category</th>
-      <th>Quantity</th>
-      <th>Selling Price</th>
-      <th>Unit Price</th>
-      <th>Added By</th>
-      <th>Options</th>
-    </tr>
-  </thead>
-  <div class="float-xl-right mt-1 ml-1 mb-1">
-                                  <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Item</button><br /><br />
-                                  <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myMember">Add New Member</button><br /><br />
-                                  
-                    </div>
-</table>
-
-
-
 
 
 <!--MODAL FOR ADD ITEM-->
@@ -75,35 +78,33 @@ function solve() {
         <p><div class="container">
 
     <form method="post" action="<?= base_url() ?>/addItem">
-    <div class="form-group">
-    <label for="itemCode">Item Code</label>
-    <input type="text" class="form-control" name="itemcode"id="itemcode" placeholder="Use Barcode Scanner">
-  </div>
-    <div class="form-group">
-    <label for="itemname">Item Name</label>
-    <input type="text" class="form-control" name="itemname"id="itemname" placeholder="Sprite">
-  </div>
-    <div class="form-group">
-    <label for="quantity">Quantity</label>
-    <input type="number" step="0.01" class="form-control" name="quantity" id="quantity" placeholder="Number only">
-  </div>
-        <div class="form-group">
-    <label for="price">Unit Price</label>
-    <input type="number" step="0.01" class="form-control" name="unitPrice" id="unitPrice" placeholder="Number only" onkeyup="solve()">
-  </div>
-  <div class="form-group">
-    <label for="price">Selling Price</label>
-    <input type="number" step="0.01" class="form-control" name="sellingPrice" id="sellingPrice" placeholder="Number only">
-  </div>
-    
-
-    <?php if(isset($validation)) : ?>
+	    <div class="form-group">
+	    	<label for="itemCode">Item Code</label>
+	    	<input type="text" class="form-control" name="itemcode"id="itemcode" placeholder="Use Barcode Scanner">
+	  	</div>
+	    <div class="form-group">
+	    	<label for="itemname">Item Name</label>
+	    	<input type="text" class="form-control" name="itemname"id="itemname" placeholder="Sprite">
+	  	</div>
+	    <div class="form-group">
+	    	<label for="quantity">Quantity</label>
+	    	<input type="number" step="0.01" class="form-control" name="quantity" id="quantity" placeholder="Number only">
+	  	</div>
+		<div class="form-group">
+			<label for="price">Unit Price</label>
+			<input type="number" step="0.01" class="form-control" name="unitPrice" id="unitPrice" placeholder="Number only" onkeyup="solve()">
+		</div>
+		<div class="form-group">
+			<label for="price">Selling Price</label>
+			<input type="number" step="0.01" class="form-control" name="sellingPrice" id="sellingPrice" placeholder="Number only">
+		</div>
+    	<?php if(isset($validation)) : ?>
             <div class="col-12">
-              <div class="alert-danger" role='alert'>
+              	<div class="alert-danger" role='alert'>
                   <?= $validation->listErrors() ?>
-              </div>
+              	</div>
             </div>
-          <?php endif; ?></p>
+       	<?php endif; ?></p>
       </div>
       <div class="modal-footer">
           <button type="submit" class="btn btn-success">Add Item</button>
@@ -117,13 +118,6 @@ function solve() {
 
 </div>
 </div>
-
-
-
-
-
-
-
 
 </div>
 </div>
@@ -196,25 +190,28 @@ function solve() {
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         
       </div>
-      <div class="modal-body">
-        <p><div class="container">
-    This action cannot be undone
-    <?php if(isset($validation)) : ?>
-            <div class="col-12">
-              <div class="alert-danger" role='alert'>
-                  <?= $validation->listErrors() ?>
-              </div>
-            </div>
-          <?php endif; ?></p>
-      </div>
-      <div class="modal-footer">
-          <form action="" id="removeAction" method="post">
-         <button type="submit" class="btn btn-danger">Remove Item</button>
-          </form>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+		<div class="modal-body">
+		<p>
+		<div class="container">
+		This action cannot be undone
+			<?php if(isset($validation)) : ?>
+		    <div class="col-12">
+		      	<div class="alert-danger" role='alert'>
+		        <?= $validation->listErrors() ?>
+		      	</div>
+		    </div>
+		  	<?php endif; ?>
+		</p>
+		</div>
+      	<div class="modal-footer">
+          	<form action="" id="removeAction" method="post">
+         		<button type="submit" class="btn btn-danger">Remove Item</button>
+          	</form>
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal">
+        		Close
+        	</button>
+      	</div>
     </div>
-
   </div>
 </div>
 
