@@ -1,31 +1,7 @@
 <?= $this->extend('Layouts/main') ?>
 
 <?= $this->section('content') ?>
-<?php $date = date_create(date("yy-m-d"));
-  date_add($date,date_interval_create_from_date_string("1 days"));
-  $fin = substr(date_format($date,"Y-m"),-2);
-  $now = substr(date("Y-m"),-1);
-  $day = date_create(date("yy-m-d"));
-  date_add($day,date_interval_create_from_date_string("1 days"));
-  $finDay = substr(date_format($date,"Y-m-d"),-2);
-  $finNow = substr(date("Y-m-d"),-1);?>
 
-  <?php if($fin > $now) : ?>
-    <?php if(substr(date("yy-m-d"),-2) != 1) :?>
-        
-    <?php endif; ?>
-    
-    <?= date("yy-m-d") ?>
-  <?php else :?>
-  
-  <?php endif; ?>
-
-  <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#stamp">Stamp Inventory</button><br />
-<?php if (session()->get('success')) : ?>
-          <div class="alert alert-success" role='alert'>
-            <?= session()->get('success') ?>
-          </div>
-              <?php endif; ?>
 <script>
 
 
@@ -67,20 +43,94 @@ function smartDisplay() {
        }       
 </script>
 
+<nav class="navbar navbar-expand-lg navbar-dark navbar-survival101">
+  <div class="container-fluid">
+    <a class="navbar-brand form-inline" href="#">
 
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <div class="nav-link row">
+            <div class="form-inline">
+              <div class="form-group">
+                <div class="col-sm-12"><button type="button" class="form-control btn btn-danger" data-toggle="modal" data-target="#stamp"><b>
+                  <?php $date = date_create(date("yy-m-d"));
+                  date_add($date,date_interval_create_from_date_string("1 days"));
+                  $fin = substr(date_format($date,"Y-m"),-2);
+                  $now = substr(date("Y-m"),-1);
+                  $day = date_create(date("yy-m-d"));
+                  date_add($day,date_interval_create_from_date_string("1 days"));
+                  $finDay = substr(date_format($date,"Y-m-d"),-2);
+                  $finNow = substr(date("Y-m-d"),-1);?>
+
+                  <?php if($fin > $now) : ?>
+                    <?php if(substr(date("yy-m-d"),-2) != 1) :?>
+                        
+                    <?php endif; ?>
+                    
+                    <?= date("yy-m-d") ?>
+                  <?php else :?>
+                  
+                  <?php endif; ?>
+                  </b>Stamp Inventory</button>
+                
+                  <?php if (session()->get('success')) : ?>
+                  <div class="alert alert-success" role='alert'>
+                    <?= session()->get('success') ?>
+                  </div>
+                  <?php endif; ?>
+                </div>
+              </div>
+              
+              
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link row">
+            <form class="form-inline">
+              <div class="form-group">
+                <div class="col-sm-3">
+                <label for="sel1">Members:</label>
+              </div>
+              <div class="col-sm-9">
+                <select class="form-control" id="member" name="member">
+                  <option value="null"></option>
+                  <?php foreach($members as $row) : ?>
+                  <option value="<?= $row->member_id ?>"><?= $row->member_last ?>, <?= $row->member_first ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              </div>
+              
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
 
 
 <div class="container">
-              <label for="sel1">Members:</label>
-              <select class="form-control" id="member" name="member">
-              <option value="null"></option>
-              
-                                <?php foreach($members as $row) : ?>
-                  <option value="<?= $row->member_id ?>"><?= $row->member_last ?>, <?= $row->member_first ?></option>
-                              <?php endforeach; ?>
-              </select>
-              </form>
+        
+      <form>
+        <label for="sel1">Members:</label>
+        <select class="form-control" id="member" name="member">
+        <option value="null"></option>
+        
+                          <?php foreach($members as $row) : ?>
+            <option value="<?= $row->member_id ?>"><?= $row->member_last ?>, <?= $row->member_first ?></option>
+                        <?php endforeach; ?>
+        </select>
+      </form>
+
               <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-warning openBtn" data-toggle="modal" data-target="#cart">Cart
 <span class="badge badge-danger" id="notif">
