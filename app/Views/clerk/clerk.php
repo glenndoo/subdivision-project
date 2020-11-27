@@ -92,7 +92,7 @@ function smartDisplay() {
           </div>
         </li>
         <li class="nav-item">
-          <div class="nav-link row">
+          <div class="nav-link">
             <form class="form-inline">
               <div class="form-group">
                 <div class="col-sm-3">
@@ -111,6 +111,47 @@ function smartDisplay() {
             </form>
           </div>
         </li>
+        <li class="nav-item">
+          <div class="nav-link">
+            <div class="form-inline">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <button type="button" class="form-control btn btn-warning openBtn" data-toggle="modal" data-target="#cart">Cart
+                  <span class="badge badge-danger" id="notif">
+                  </span>
+                  </button>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link">
+            <div class="form-inline">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <button type="button" class="form-control btn btn-success " data-toggle="modal" data-target="#smart">Smart/TNT Load
+                  </button>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link">
+            <div class="form-inline">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <button type="button" class="form-control btn btn-primary " data-toggle="modal" data-target="#globe">Globe/TM Load
+                  </button>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
@@ -119,7 +160,7 @@ function smartDisplay() {
 
 
 <div class="container">
-        
+ <!--       
       <form>
         <label for="sel1">Members:</label>
         <select class="form-control" id="member" name="member">
@@ -131,18 +172,15 @@ function smartDisplay() {
         </select>
       </form>
 
-              <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-warning openBtn" data-toggle="modal" data-target="#cart">Cart
-<span class="badge badge-danger" id="notif">
-
-</span>
-</button>
-
+                  <span class="badge badge-danger" id="notif">
+                  </span>
+                  </button>
 <button type="button" class="btn btn-success " data-toggle="modal" data-target="#smart">Smart/TNT Load
 </button>
 <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#globe">Globe/TM Load
 </button>
-
+-->
 
 <!-- Modal -->
 <div class="modal fade" id="cart" role="dialog">
@@ -196,7 +234,7 @@ function smartDisplay() {
 </div>
 
 </div>
-</div>
+</div><br/>
     <table id="samples" class="table col-12 col-sm-2">
         <thead>
             <tr>
