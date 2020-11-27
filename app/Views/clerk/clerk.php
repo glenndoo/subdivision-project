@@ -234,20 +234,28 @@ function smartDisplay() {
 </div>
 
 </div>
-</div><br/>
-    <table id="samples" class="table col-12 col-sm-2">
-        <thead>
-            <tr>
-                <th>Item Code</th>
-                <th>Item Name</th>            
-                <th>Item Quantity</th>
-                <th>Item Price</th>
-                <th>Order Quantity</th>
-            </tr>
-        </thead>
-        <tfoot>
-        </tfoot>
-    </table>
+</div>
+<br/>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <table id="samples" class="table col-12 col-sm-2">
+          <thead>
+              <tr>
+                  <th>Item Code</th>
+                  <th>Item Name</th>            
+                  <th>Item Quantity</th>
+                  <th>Item Price</th>
+                  <th>Order Quantity</th>
+              </tr>
+          </thead>
+          <tfoot>
+          </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+    
     
 
 <div class="container">
