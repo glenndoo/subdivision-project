@@ -24,21 +24,31 @@ function check() {
 </script>
 <!--this alert-->
 <?php if(session()->get('success')) : ?>
-	<div class="alert alert-success" role="alert">
+	<!--<div class="alert alert-success" role="alert">
 		Item saved!
-	</div>
-
+	</div>-->
+    <div style="width: 40%; right:0rem;"class="myAlert-top alert alert-success fixed-bottom">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Item saved!</strong>
+    </div>
 	<?php elseif (session()->get('remove')): ?>
-
+  <!--
 	<div class="alert alert-danger" role="alert">
 		Item removed!
-	</div>
+	</div>-->
+    <div style="width: 40%; right:0rem;"class="myAlert-top alert alert-dark fixed-bottom">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Item removed!</strong>
+    </div>
 <?php else : ?>
 <?php endif; ?>
+
+
+
 <!--end alert-->
 <br/>
 <div class="container-fluid">
-	<div class="row">
+  <div class="row">
 		<div class="col-sm-12">  
 			<table id="samples" class="table bg-light">
 			  	<thead class="thead-dark">

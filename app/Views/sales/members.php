@@ -1,7 +1,7 @@
 <?= $this->extend('Layouts/main') ?>
 
 <?= $this->section('content') ?>
-
+<!--
 <nav class="navbar navbar-expand-lg navbar-dark bg-light">
     <a href="sales" class="btn btn-primary col-1">Back</a>
     <div class="form-control">
@@ -10,21 +10,64 @@
     <input class="btn btn-primary"type='submit' value='Search By Month' />
     </form>
     </div>
-
 </nav>
-<table id="sales" class="table">
-  <thead class="thead-dark">
-    <tr>
-        <th scope="col">Member Name</th>
-        <th scope="col">Total Payment as of <?= date("F", mktime(0, 0, 0, substr(date($dateNow), -2), 10));  ?></th>
-        <th scope="col">Credits</th>
-    </tr>
-    
-  </thead>
-  <tbody>
-    
+-->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-survival101">
+  <div class="container-fluid">
+    <a class="navbar-brand form-inline" href="#">
+          <?php if(isset($month)) : ?>
+            <p><i>the Month of <?= date("F", mktime(0, 0, 0, $month, 10));  ?>
+          <?php else : ?>
+            <b><?= date("F", mktime(0, 0, 0, substr($dateNow, -2), 10));  ?></b></i></p>
+          <?php endif; ?>  
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <div class="nav-link">
+            <form method="GET" action="/showMembers" class="form-inline">
+                <div class="form-group">
+                    <input type="month" name="searchDate" class="form-control" />
+                    <input class="btn btn-primary"type='submit' value='Search By Month' />
+                </div>
+            </form>
+          </div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link">
+            <a href="sales" class="btn btn-primary form-inline">Back to sales</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="sales" class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Member Name</th>
+                        <th scope="col">Total Payment as of <?= date("F", mktime(0, 0, 0, substr(date($dateNow), -2), 10));  ?></th>
+                        <th scope="col">Credits</th>
+                    </tr>
+                </thead>
+                <tbody>
         
-</tbody></table>
+            
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
@@ -44,7 +87,7 @@
         ({ 
             "dom": 'Bfrtip',
             "buttons": [
-            'excel'
+            {extend:'excel', className: 'btn btn-primary btn-sm excel-btn'}
         ],
             "ajax": {
             "url" : "<?=base_url()?>/jsonShowMembers?date=<?= $dateNow ?>",
