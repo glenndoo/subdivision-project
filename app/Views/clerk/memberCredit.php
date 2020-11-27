@@ -3,22 +3,27 @@
 <?= $this->section('content') ?>
 
 
-
-<div>
-<table class="table" id="credit">
-  <thead class="thead-dark">
-    <tr>
-    <th scope="col">Member ID</th>
-        <th scope="col">Member Name</th>
-        <th scope="col">Credits</th>
-        <th scope="col">Make Payment</th>
-    </tr>
-  </thead>
-  <tbody>
-    
-</tbody></table>
-
+<br/>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table" id="credit">
+        <thead class="thead-dark">
+          <tr>
+          <th scope="col">Member ID</th>
+              <th scope="col">Member Name</th>
+              <th scope="col">Credits</th>
+              <th scope="col">Make Payment</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
@@ -37,7 +42,7 @@ var tag = "";
     $(function () {
         var table = $('#credit').DataTable
         ({ 
-            "dom": 'l<"toolbar">frtip',
+            /*"dom": 'l<"toolbar">frtip',*/
             "ajax": {
             "url" : "<?=base_url()?>/jsonCredit",
             "dataSrc" : ""
@@ -53,7 +58,7 @@ var tag = "";
           {
             "render" : function (data, type, row) {
                     {
-                    return '<input type="number" id="payment'+data+'" step="0.01"><input type="text" id="receipt'+row['Member']+'" step="0.01" placeholder="Receipt Number"> <a class="btn btn-primary" id="payCredit'+row['Member']+'">Make Payment</a>';
+                    return '<div class="row"><div class="col-sm-4"><input class=" form-control" type="number" id="payment'+data+'" step="0.01" placeholder="amount"></div><div class="col-sm-4"><input class=" form-control" type="text" id="receipt'+row['Member']+'" step="0.01" placeholder="Receipt Number"></div><div class="col-sm-4"><a class=" form-control btn btn-primary" id="payCredit'+row['Member']+'">Make Payment</a></div></div>';
                     }
                 },
                 "targets" : 3

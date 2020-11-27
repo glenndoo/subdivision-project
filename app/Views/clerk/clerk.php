@@ -240,7 +240,7 @@ function smartDisplay() {
   <div class="row">
     <div class="col-sm-12">
       <table id="samples" class="table col-12 col-sm-2">
-          <thead>
+          <thead class="thead-dark">
               <tr>
                   <th>Item Code</th>
                   <th>Item Name</th>            
@@ -546,7 +546,7 @@ var sum = 0;
                 
                 "render": function (data, type, row) {
                     {
-                    return '<input type="number" step="0.01" id="qty'+row['id']+'" placeholder="Quantity" value="1"> <button class="btn btn-primary" id="btnBuy">Add to Cart</button>';
+                    return '<div class="row"><div class="col-sm-6"><input class="form-control" type="number" step="0.01" id="qty'+row['id']+'" placeholder="Quantity" value="1"></div><div class="col-sm-6"><button class="btn btn-primary" id="btnBuy">Add to Cart</button></div></div>';
                     }
                 },
                 "targets": 4
