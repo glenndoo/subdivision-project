@@ -5,8 +5,8 @@
 <div class='container'>
   <div class='row'>
     <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 mt-5 pt-3 pb-3 bg-white form-wrapper">
-      <div class="container">
-        <h3>Register</h3>
+      <div class="container card">
+        <h3>Register new account</h3>
         <hr>
         <form class="" action="/Users/register" method="post">
           <div class="row">
@@ -28,6 +28,7 @@
             <input type="text" class='form-control' name="username" value="<?= set_value('username') ?>">
           </div>
         </div>
+      </div>
         <div class="row">
           <div class="col-12 col-sm-6">
             <div class='form-group'>
@@ -41,7 +42,7 @@
               <input type="password" class='form-control' name="passwordcon" value="">
             </div>
           </div>
-          <div class="col-12 col-sm-6">
+          <div class="col-12 col-sm-12">
             <div class='form-group'>
               <label for="passwordcon">Access Level</label>
               <input type="number" class='form-control' name="access" value="">
@@ -55,14 +56,17 @@
               </div>
             </div>
           <?php endif; ?>
-            <div class="col-12 col-sm-6">
+          <div class="row">
+            <div class="col-sm-6">
               <div class="form-group">
                   <button type="submit" class="btn btn-primary">Register</button>
               </div>
             </div>
-          <div class="col-12 col-sm-8 text-right">
+          <div class="col-sm-12 text-right">
               <a href='/'>Already have an account</a>
           </div>
+          </div>
+            
         </form>
       </div>
       </div>

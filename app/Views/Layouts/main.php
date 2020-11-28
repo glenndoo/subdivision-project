@@ -102,6 +102,7 @@ $(document).ready(function(){
               <li class="nav-item dropdown" >
                     <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="logged in as <?= session()->get('login') ?>"><b><i><?= session()->get('login') ?></i></b><span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menu-right">
+                      <li><a href="/register"><center>new account</center></a></li>
                       <li><a href="/logout"><center>Logout</center></a></li>
                     </ul>
                   </li>
@@ -122,16 +123,16 @@ $(document).ready(function(){
     
 <?= $this->renderSection('content') ?>
 
-  <footer class="page-footer font-small blue pt-4">
+<footer class="page-footer font-small blue pt-4">
 
-      <hr>
-  <!-- Footer Links -->
+  <hr/>
+<!-- Footer Links -->
   <div class="container-fluid text-center text-md-left">
 
-    <!-- Grid row -->
+  <!-- Grid row -->
     <div class="row">
 
-      <!-- Grid column -->
+    <!-- Grid column -->
       <div class="col-md-6 mt-md-0 mt-3">
 
         <!-- Content -->
@@ -139,18 +140,26 @@ $(document).ready(function(){
         <p></p>
 
       </div>
-      <!-- Grid column -->
+    <!-- Grid column -->
+    </div>
 
-      
   <!-- Footer Links -->
 
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">&copy; Glenn Marlo Dumaguing 2020
+    <!-- Copyright -->
+    <center>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm">&copy; 
+            Glenn Marlo Dumaguing 2020<br/>
+          </div>
+        </div>
+      </div>
+    </center>
+    <!-- Copyright -->
   </div>
-  <!-- Copyright -->
-
+</footer>
 <!-- Footer -->
-  </body>
+</body>
 <!--css for blue search nav do not add/edit-->
 <style type="text/css">
   .container {
