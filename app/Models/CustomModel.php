@@ -497,7 +497,7 @@ return $details;
       ->join("inventory_transaction", "inventory_transaction.item_code = item_id")
       ->join("users", "user_id = transaction_by", "left")
       ->join("replenishment", "replenishment_item = item_id", "left")
-      ->where('MONTH(transaction_date) = "'.$date.'"')
+      ->where('MONTH(transaction_date) = "'.$formerDate.'"')
       ->where('MONTH(replenishment_date) = "'.$formerDate.'"')
       ->where('transaction_type', 0)
       ->orderBy("transaction_date","ASC")
@@ -707,7 +707,6 @@ return $details;
     echo $finDate;
     $result = $this->db->table('items')
              ->select('item_id AS replenishment_item, item_quantity AS replenishment_last_count')
-             ->where('item_quantity > ', 0)
              ->get()
              ->getResult();
     
