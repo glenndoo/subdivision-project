@@ -228,7 +228,8 @@ class Inventory extends BaseController
       $data['month'] = $data['dateNow'];
     } else {
     }
-
+    $session = session();
+    $session->setFlashData('success', 'Iventory Stamped!');
     return view("inventory/invSum", $data);
   }
 
